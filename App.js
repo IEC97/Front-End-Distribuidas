@@ -1,10 +1,10 @@
 import React from 'react';
-import LogIn from './src/components/LogIn.js';
+import BottomTab from './src/components/BottomTab.js';
 
 export default function App() {
   return (
 
-    <LogIn/>
+    <BottomTab/>
   )
 }
 
