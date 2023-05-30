@@ -1,34 +1,31 @@
+import React from 'react';
 import {Platform, Text, View} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Home from "../screen/Home";
 
 const Tab = createBottomTabNavigator();
-const screenOptions = {
-    tabBarShowLabel:false,
-    headerShown:false,
-    tabBarStyle: {
-        position: "absolute",
-        bottom: 0,
-        right: 0,
-        left: 0,
-        elevation: 0,
-        height: 60,
-        background: "#fff"
-    }
+const BottomTab = ()=>{
+    return (
+        <Tab.Navigator tabBarOptions={{
+            showLabel: false,
+            style: {
+                position: 'absolute',
+                bottom: 25,
+                left: 20,
+                right: 20,
+                elevation: 0,
+                backgroundColor: '#ffffff',
+                borderRadius: 15,
+                height: 90,
+            }
+        }}
+        >
+            <Tab.Screen name="Home" component={HomeScreen}/>
+        </Tab.Navigator>
+    )
 }
 
 
-export default function BottomTab() {
-    return (
-      <NavigationContainer>
-        <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-          <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    );
-  }
-
-
-
-
+export default BottomTab;
+    
