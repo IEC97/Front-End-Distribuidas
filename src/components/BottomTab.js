@@ -3,9 +3,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from './screen/Home';
-import Settings from './screen/Settings';
-import Details from './screen/Details';
+import Home from '../screen/Home';
+import Settings from '../screen/Settings';
+import Details from '../screen/Details';
 
 const homeName='Home';
 const detailsName='Details';
@@ -13,7 +13,7 @@ const settingsName='Settings';
 
 const Tab = createBottomTabNavigator();
 
-function BottomTab(){
+const BottomTab=()=>{
     return(
         <NavigationContainer>
             <Tab.Navigator 
@@ -45,5 +45,5 @@ function BottomTab(){
             </Tab.Navigator>
         </NavigationContainer>
     );
-}
+};
 export default BottomTab;
