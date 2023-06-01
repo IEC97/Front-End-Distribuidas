@@ -23,25 +23,26 @@ const BottomTab=()=>{
             <Tab.Navigator 
                 initialRouteName={homeName} 
                 screenOptions={({route}) => ({
+                    tabBarStyle: { backgroundColor: 'powderblue' },
                     tabBarIcon: ({focused, color, size}) =>{
                         let iconName;
                         let rn = route.name;
                         if (rn===homeName){
-                            iconName=focused ? 'home' : 'home-outline';
+                            iconName=focused ? 'home-sharp' : 'home-outline';
                         } else if (rn===detailsName){
                             iconName=focused ? 'bookmark' : 'bookmark-outline';
                         } else if(rn===cargarName){
-                            iconName=focused ? 'add' : 'add-circle-outline';
+                            iconName=focused ? 'add-circle' : 'add-circle-outline';
                         }else if(rn===notificacionesName){
                             iconName=focused ? 'notifications' : 'notifications-outline';
                         }else if(rn===perfilName){
-                            iconName=focused ? 'person' : 'person-circle-outline';
+                            iconName=focused ? 'person-circle' : 'person-circle-outline';
                         }
                         return <Ionicons name={iconName} size={size} color={color}/>;
                     },
             })}
             tabBarOptions={{
-                activeTintColor: 'tomato',
+                activeTintColor: '#e91e63',
                 inactiveTintColor: 'grey',
                 labelStyle: {paddingBottom: 10, fontSize: 10},
                 style: {padding: 10, height: 70}
