@@ -4,14 +4,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screen/Home';
-import Settings from '../screen/Settings';
+import Cargar from '../screen/Cargar';
 import Details from '../screen/Details';
 import Notificaciones from '../screen/Notificaciones';
 import Perfil from '../screen/Perfil';
 
 const homeName='Home';
 const detailsName='Details';
-const settingsName='Settings';
+const cargarName='Cargar';
 const notificacionesName='Notificaciones';
 const perfilName='Perfil';
 
@@ -30,7 +30,7 @@ const BottomTab=()=>{
                             iconName=focused ? 'home' : 'home-outline';
                         } else if (rn===detailsName){
                             iconName=focused ? 'bookmark' : 'bookmark-outline';
-                        } else if(rn===settingsName){
+                        } else if(rn===cargarName){
                             iconName=focused ? 'add' : 'add-circle-outline';
                         }else if(rn===notificacionesName){
                             iconName=focused ? 'notifications' : 'notifications-outline';
@@ -48,7 +48,7 @@ const BottomTab=()=>{
             }}>
             <Tab.Screen name={homeName} component={Home}/>
             <Tab.Screen name={detailsName} component={Details}/>
-            <Tab.Screen name={settingsName} component={Settings}/>
+            <Tab.Screen name={cargarName} component={Cargar}/>
             <Tab.Screen name={notificacionesName} component={Notificaciones}/>
             <Tab.Screen name={perfilName} component={Perfil}/>
 
