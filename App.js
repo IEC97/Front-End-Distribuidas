@@ -1,11 +1,11 @@
-import React from 'react';
-import LogIn from './src/components/LogIn.js';
+import * as React from 'react';
+import BottomTab from './src/components/BottomTab.js';
 
 export default function App() {
   return (
 
-    <LogIn/>
-  )
-}
+    <BottomTab/>
+  );
+};
 
 
