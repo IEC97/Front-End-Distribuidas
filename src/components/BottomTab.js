@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -19,27 +18,26 @@ const Tab = createBottomTabNavigator();
 
 const BottomTab=()=>{
     return(
-        <NavigationContainer>
-            <Tab.Navigator 
-                initialRouteName={homeName} 
-                screenOptions={({route}) => ({
-                    tabBarStyle: { backgroundColor: 'powderblue' },
-                    tabBarIcon: ({focused, color, size}) =>{
-                        let iconName;
-                        let rn = route.name;
-                        if (rn===homeName){
-                            iconName=focused ? 'home-sharp' : 'home-outline';
-                        } else if (rn===detailsName){
-                            iconName=focused ? 'bookmark' : 'bookmark-outline';
-                        } else if(rn===cargarName){
-                            iconName=focused ? 'add-circle' : 'add-circle-outline';
-                        }else if(rn===notificacionesName){
-                            iconName=focused ? 'notifications' : 'notifications-outline';
-                        }else if(rn===perfilName){
-                            iconName=focused ? 'person-circle' : 'person-circle-outline';
-                        }
-                        return <Ionicons name={iconName} size={size} color={color}/>;
-                    },
+        <Tab.Navigator 
+            initialRouteName={homeName} 
+            screenOptions={({route}) => ({
+                tabBarStyle: { backgroundColor: 'powderblue' },
+                tabBarIcon: ({focused, color, size}) =>{
+                    let iconName;
+                    let rn = route.name;
+                    if (rn===homeName){
+                        iconName=focused ? 'home-sharp' : 'home-outline';
+                    } else if (rn===detailsName){
+                        iconName=focused ? 'bookmark' : 'bookmark-outline';
+                    } else if(rn===cargarName){
+                        iconName=focused ? 'add-circle' : 'add-circle-outline';
+                    }else if(rn===notificacionesName){
+                        iconName=focused ? 'notifications' : 'notifications-outline';
+                    }else if(rn===perfilName){
+                        iconName=focused ? 'person-circle' : 'person-circle-outline';
+                    }
+                    return <Ionicons name={iconName} size={size} color={color}/>;
+                },
             })}
             tabBarOptions={{
                 activeTintColor: '#e91e63',
@@ -49,12 +47,19 @@ const BottomTab=()=>{
             }}>
             <Tab.Screen name={homeName} component={Home}/>
             <Tab.Screen name={detailsName} component={Details}/>
-            <Tab.Screen name={cargarName} component={Cargar}/>
+            <Tab.Screen name={cargarName} component={Cargar} options={{
+          tabBarItemStyle: {
+            height: 0,
+          },
+          tabBarButton: () => (
+            <AddButton opened={opened} toggleOpened={toggleOpened} />
+          ),
+        }}/>
             <Tab.Screen name={notificacionesName} component={Notificaciones}/>
             <Tab.Screen name={perfilName} component={Perfil}/>
 
-            </Tab.Navigator>
-        </NavigationContainer>
+        </Tab.Navigator>
+        
     );
 };
 export default BottomTab;
