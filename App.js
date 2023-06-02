@@ -1,10 +1,10 @@
 import * as React from 'react';
-import BottomTab from './src/components/BottomTab.js';
+import EditarRecetas from './src/screen/EditarRecetas';
 
 export default function App() {
   return (
 
-    <BottomTab/>
+    <EditarRecetas/>
   );
 };
 
