@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity}
 
 const LogIn = props => {
   return (
-    <View>
+    <View style={{flex:1}}>
         {/*container - logo */}
         <View style={{backgroundColor: '#ffffff'}}>
             <View style={{backgroundColor: '#4f5898', padding: 65, borderBottomLeftRadius: 35}}>

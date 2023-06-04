@@ -1,10 +1,16 @@
 import * as React from 'react';
-import BottomTab from './src/components/BottomTab.js';
+import {NavigationContainer} from '@react-navigation/native';
+//import EditarRecetas from './src/screen/EditarRecetas';
+import Cargar from './src/screen/Cargar';
+import BottomTab from './src/components/BottomTab';
 
 export default function App() {
   return (
-
-    <BottomTab/>
+    <Cargar/>
+    //<EditarRecetas/>
+    // <NavigationContainer>
+    //     <BottomTab/>
+    // </NavigationContainer> 
   );
 };
 
