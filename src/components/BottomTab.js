@@ -47,14 +47,7 @@ const BottomTab=()=>{
             }}>
             <Tab.Screen name={homeName} component={Home}/>
             <Tab.Screen name={detailsName} component={Details}/>
-            <Tab.Screen name={cargarName} component={Cargar} options={{
-          tabBarItemStyle: {
-            height: 0,
-          },
-          tabBarButton: () => (
-            <AddButton opened={opened} toggleOpened={toggleOpened} />
-          ),
-        }}/>
+            <Tab.Screen name={cargarName} component={Cargar} />
             <Tab.Screen name={notificacionesName} component={Notificaciones}/>
             <Tab.Screen name={perfilName} component={Perfil}/>
 
