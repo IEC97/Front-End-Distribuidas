@@ -21,7 +21,7 @@ const BottomTab=()=>{
         <Tab.Navigator 
             initialRouteName={homeName} 
             screenOptions={({route}) => ({
-                tabBarStyle: { backgroundColor: 'powderblue' },
+                tabBarStyle: { backgroundColor: '#0A5269' },
                 tabBarIcon: ({focused, color, size}) =>{
                     let iconName;
                     let rn = route.name;
@@ -40,8 +40,8 @@ const BottomTab=()=>{
                 },
             })}
             tabBarOptions={{
-                activeTintColor: '#e91e63',
-                inactiveTintColor: 'grey',
+                activeTintColor: '#59AFB5',
+                inactiveTintColor: 'white',
                 labelStyle: {paddingBottom: 10, fontSize: 10},
                 style: {padding: 10, height: 70}
             }}>
