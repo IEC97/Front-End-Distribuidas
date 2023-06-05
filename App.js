@@ -17,10 +17,10 @@ const App = () => {
   return ( 
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="RegisterStage1" component={RegisterStage1} options={{ headerShown: false}}/>
-        <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
         <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false}}/>
+        <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
         
+        <Stack.Screen name="RegisterStage1" component={RegisterStage1} options={{ headerShown: false}}/>
         <Stack.Screen name="RegisterStage2" component={RegisterStage2} options={{ headerShown: false}}/>
         <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false}}/>
 

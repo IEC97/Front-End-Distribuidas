@@ -3,23 +3,23 @@ import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity,
 import { ScrollView } from 'react-native-gesture-handler';
 
 const RegisterStage1 = ({ navigation }) => {
-  const [email, setEmail] = useState('');
+  const [mail, setmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [suggestedNicknames, setSuggestedNicknames] = useState([]);
 
   const handleRegister = async () => {
     // Realizar solicitud al backend para verificar disponibilidad de email y alias
     try {
-        //console.log('LLEGUE')
-      const response = await fetch('/usuarios/nuevousuario', {
+        console.log('LLEGUE')
+      const response = await fetch('http://localhost:8080/usuarios/nuevousuario', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, nickname }),
+        body: JSON.stringify({ mail, nickname }),
       });
       const data = await response.json();
-
+      console.log("data",data);
       if (data.success) {
             Alert.alert('Registro exitoso', 'Se envió un correo electrónico de confirmación.');
       } else if (data.error) {
@@ -62,8 +62,8 @@ const RegisterStage1 = ({ navigation }) => {
         <TextInput
             style={{fontSize: 20, textAlign: 'center',width:300, height: 40, margin: 5,
             borderRadius: 100, color:'#244f37', backgroundColor: '#e7e7e7', padding: 10}}
-            autoCapitalize='none' autoCorrect={false} value={email}
-            onChangeText={text => setEmail(text)} placeholder = {'Ingrese su email'}
+            autoCapitalize='none' autoCorrect={false} value={mail}
+            onChangeText={text => setmail(text)} placeholder = {'Ingrese su email'}
         />
     </View>
 
@@ -78,8 +78,9 @@ const RegisterStage1 = ({ navigation }) => {
     </View>
 
     <View style={{display:'flex', marginTop: 20, alignItems:'center', justifyContent:'center'}}>
-        <TouchableOpacity onPress={handleRegister} //onPress={()}=> navigation.navigate('RegisterStage2')}>
-            ><View style={{margin: 5, backgroundColor: '#244f37', borderRadius: 100, paddingVertical: 10, textAlign:'center', width:300}}>
+    <TouchableOpacity onPress={handleRegister}> 
+
+<View style={{margin: 5, backgroundColor: '#244f37', borderRadius: 100, paddingVertical: 10, textAlign:'center', width:300}}>
                 <Text style={{color: 'white', fontSize: 20}}>Continuar</Text>
             </View>
         </TouchableOpacity>
