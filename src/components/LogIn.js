@@ -111,8 +111,9 @@ const Login = () => {
                
                 <View style={{display:'flex', marginTop: 20, alignItems:'center', justifyContent:'center'}}>
                     <TouchableOpacity onPress={handleLogin}>
+
                     <View style={{margin: 5, backgroundColor: '#4f5898', borderRadius: 100, paddingVertical: 10, textAlign:'center', width:300}}>
-                        <Text style={{color: 'white', fontSize: 20}}>Login</Text>
+                        <Image source={require('./ruta/imagen.png')} />
                     </View>
                     </TouchableOpacity>
                 </View>
