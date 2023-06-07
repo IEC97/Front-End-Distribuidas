@@ -2,29 +2,6 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity, Alert, ScrollView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const ResponsiveComponent = () => {
-    const [windowDimensions, setWindowDimensions] = useState(Dimensions.get('window'));
-  
-    useEffect(() => {
-      const handleResize = () => {
-        setWindowDimensions(Dimensions.get('window'));
-      };
-  
-      Dimensions.addEventListener('change', handleResize);
-  
-      return () => {
-        Dimensions.removeEventListener('change', handleResize);
-      };
-    }, []);
-  
-    const pantallaStyle = {
-      width: windowDimensions.width < 500 ? '100%' : '50%',
-      height: windowDimensions.height < 500 ? '50%' : '100%',
-    };
-  
-    return <View style={[styles.pantalla, pantallaStyle]} />;
-  };
-
 const RegisterStage2 = () => {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -54,9 +31,6 @@ const RegisterStage2 = () => {
         Alert.alert('Muchas gracias por registrarte!');
       } else if (data.error) {
         Alert.alert('Error de registro', data.error);
-      } else if (data.suggestedNicknames) {
-        // Nicknames sugeridos
-        // setSuggestedNicknames(data.suggestedNicknames);
       } else {
         // Otro error
         Alert.alert('Error', 'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.');
@@ -79,7 +53,7 @@ const RegisterStage2 = () => {
                     <Text style={styles.goBackButton}>Volver</Text>
                 </TouchableOpacity>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ paddingLeft: 50,justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Registrar</Text>
                     <Text style={{ fontWeight: '400', fontSize: 20, color: '#ffffff', fontStyle: 'italic' }}>Solo unos datos más... ¡Ya casi!</Text>
                 </View>

@@ -1,8 +1,47 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
-const LogIn = ({ navigation }) => {
+const Login = () => {
+    const [nickname, setNickname] = useState('');
+    const [contrasenia, setContrasenia] = useState('');
+    const navigation = useNavigation();
+  
+    const handleLogin = async () => {
+      // Realizar solicitud al backend para verificar login
+      try {
+          console.log('ENTRE A LA FUNCION')
+        const response = await fetch('REEMPLAZAR CON LOGIN', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ nickname, contrasenia }),
+          
+        });
+        console.log('Nickname:', nickname);
+        console.log('Contraseña:', contrasenia);
+        const data = await response.json();
+      
+  
+        if (data.success) {
+          Alert.alert('Login exitoso', 'Se accedio correctamente al sitio.');
+        } else if (data.error) {
+          Alert.alert('Error de login', data.error);
+        }  else {
+          // Otro error
+          Alert.alert('Error', 'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.');
+        }
+        
+    } catch (error) {
+        console.log(error);
+        //Alert.alert('Error', 'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.');
+      }
+      navigation.navigate('BottomTab')
+      console.log('TERMINE EL PROCESO DE REGISTRACION')
+    };
+  
   return (
     <View style={{ flex:1}}>
     <ScrollView>
@@ -27,22 +66,56 @@ const LogIn = ({ navigation }) => {
                 
                 <View style={{marginTop: 40, textAlign: 'center', display:'flex', alignItems:'center', justifyContent:'center'}}>
                     <Text style={{fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#4f5898', padding:20}}>Username</Text>
-                    <TextInput style={{fontSize: 20,textAlign: 'center',width:300,height: 40, margin: 5, borderRadius: 100, color:'#575D8E', backgroundColor: '#e7e7e7', padding: 10}}
-                    autoCapitalize='none' autoCorrect={false} placeholder = {'Ingrese un username'}/>
+                    <TextInput
+                        style={{
+                        fontSize: 20,
+                        textAlign: 'center',
+                        width: 300,
+                        height: 40,
+                        margin: 5,
+                        borderRadius: 100,
+                        color: '#244f37',
+                        backgroundColor: '#e7e7e7',
+                        padding: 10,
+                        }}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        value={nickname}
+                        onChangeText={(text) => setNickname(text)}
+                        placeholder="Ingrese un usuario"
+                    />
                 </View>
 
                 <View style={{marginTop: 10, textAlign: 'center', display:'flex', alignItems:'center', justifyContent:'center'}}>
                     <Text style={{fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#4f5898', padding:20}}>Password</Text>
-                    <TextInput style={{textAlign: 'center',width:300, fontSize: 20, margin: 5, borderRadius: 100, color:'#575D8E', backgroundColor: '#e7e7e7', padding: 10}}
-                    autoCapitalize='none' secureTextEntry autoCorrect={false} placeholder = {'Ingrese su contraseña'}/>
+                    <TextInput
+                style={{
+                  fontSize: 20,
+                  textAlign: 'center',
+                  width: 300,
+                  height: 40,
+                  margin: 5,
+                  borderRadius: 100,
+                  color: '#244f37',
+                  backgroundColor: '#e7e7e7',
+                  padding: 10,
+                }}
+                autoCapitalize="none"
+                autoCorrect={false}
+                value={contrasenia}
+                onChangeText={(text) => setContrasenia(text)}
+                placeholder="Ingrese su contraseña"
+              />
                 </View>
 
-                <TouchableOpacity style={{display:'flex', marginTop: 20, alignItems:'center', justifyContent:'center'}} onPress={() => navigation.navigate('BottomTab')}>
+               
+                <View style={{display:'flex', marginTop: 20, alignItems:'center', justifyContent:'center'}}>
+                    <TouchableOpacity onPress={handleLogin}>
                     <View style={{margin: 5, backgroundColor: '#4f5898', borderRadius: 100, paddingVertical: 10, textAlign:'center', width:300}}>
                         <Text style={{color: 'white', fontSize: 20}}>Login</Text>
                     </View>
-                </TouchableOpacity>
-
+                    </TouchableOpacity>
+                </View>
 
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                     <TouchableOpacity onPress={() => navigation.navigate('RegisterStage1')}>
@@ -58,7 +131,7 @@ const LogIn = ({ navigation }) => {
     );
 };
 
-export default LogIn;
+export default Login;
 
 const styles = StyleSheet.create({
 
