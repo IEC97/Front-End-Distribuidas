@@ -26,7 +26,6 @@ const RegisterStage1 = () => {
 
       if (data.success) {
         Alert.alert('Registro exitoso', 'Se envió un correo electrónico de confirmación.');
-        navigation.navigate('Login');
       } else if (data.error) {
         Alert.alert('Error de registro', data.error);
       } else if (data.suggestedNicknames) {
