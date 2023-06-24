@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity, Alert} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import rodillo from '../imagen/rodillo.png';
@@ -94,13 +94,12 @@ const Login = () => {
               <View style={{ display: 'flex', marginTop: 35, alignItems: 'center', justifyContent: 'center' }}>
               <TouchableOpacity onPress={handleLogin}>
                   <Image style ={{width: 180, height: 35}} source={rodillo} />
-
               </TouchableOpacity>
               </View>     
-
+              
                 <View style={{ paddingVertical: 20, justifyContent: 'center', alignItems: 'center'}}>
                     <TouchableOpacity onPress={() => navigation.navigate('RegisterStage1')}>
-                    <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 17, color: '#713700'}}><br></br>No tienes una cuenta?</Text>
+                      <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 17, color: '#713700'}}><br></br>No tienes una cuenta?</Text>
                     </TouchableOpacity>
                 </View>
               </View> 

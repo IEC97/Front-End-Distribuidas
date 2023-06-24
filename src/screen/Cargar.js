@@ -2,10 +2,27 @@ import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
+import eliminarImg from '../imagen/eliminarImg.png';
 
 export default function SubirImagenes() {
     const [imageUris, setImageUris] = useState([]);
-    const contador = 0;
+    const [contador, setContador] = useState(1);
+    const navigation = useNavigation();
+
+    const seleccionarIngredientes = () => {
+        navigation.navigate('ListaIngredientes');
+    }
+
+    const incrementarContador = () => {
+      setContador(prevContador => prevContador + 1);
+    };
+  
+    const decrementarContador = () => {
+        if (contador > 1) {
+            setContador(prevContador => prevContador - 1);
+        }
+    };
 
     const subirImagenes = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -15,7 +32,7 @@ export default function SubirImagenes() {
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
-            multiple: true, // Habilita la selección múltiple de imágenes
+            multiple: true, // para seleccionar muchas imagenes
           });
     
           if (!result.canceled) {
@@ -31,7 +48,7 @@ export default function SubirImagenes() {
           return updatedUris;
         });
       };
-      
+
     return(
         <View style={{ flex: 1 }}>
             <ScrollView contentContainerStyle={styles.container}>
@@ -39,9 +56,14 @@ export default function SubirImagenes() {
                     <Text style={styles.titulo}>Cargar Imágenes</Text>
                 </View>
 
-                {/* Previsualización de las imágenes */}
+                {/* Vista de imagenes */}
                 {imageUris.map((uri, index) => (
-                <Image key={index} source={{ uri }} style={styles.image} resizeMode="cover" />
+                <View key={index} style={styles.imageContainer}>
+                    <Image source={{ uri }} style={styles.image} resizeMode="cover" />
+                    <TouchableOpacity onPress={() => eliminarImagen(index)}>
+                        <Image style ={{alignSelf:'center', width: 20, height: 20, marginTop: 5}} source={eliminarImg} />
+                    </TouchableOpacity>
+                </View>
                 ))}
 
                 <TouchableOpacity onPress={subirImagenes}>
@@ -50,10 +72,17 @@ export default function SubirImagenes() {
                     </View>
                 </TouchableOpacity>
             
-            
                 <View>
-                    <Text style={styles.titulo}>Ingrese el titulo de la receta</Text>
-                    <TextInput style={{height: 30, margin: 5, borderRadius: 100, backgroundColor: '#e7e7e7', padding: 10}} autoCapitalize='none' autoCorrect={false} value={''}/>
+                    <Text style={styles.titulo}>Titulo de la receta</Text>
+                    <TextInput
+                       style={{
+                        fontSize: 15, textAlign: 'center', width: 250, height: 30, margin: 5, 
+                        borderRadius: 100, color: '#703701', backgroundColor: '#FFE5A6', padding: 10
+                        }}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        placeholder="Ingrese un titulo para su receta"
+                    />
                 </View>
 
             <View>
@@ -67,32 +96,32 @@ export default function SubirImagenes() {
 
             
                 <View style={{marginTop: 20}}>
-                    <Text style={{color: 'black', fontSize: 15}}>Contador: </Text>
+                    <Text style={{
+                        fontSize: 15, textAlign: 'center', width: 130, padding: 6,
+                        borderRadius: 30, color: '#703701', backgroundColor: '#FFE5A6'}}>{contador} persona/s
+                    </Text>
                 </View>
 
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={{marginTop: 20}}>
+                <TouchableOpacity onPress={decrementarContador}>
                     <View style={styles.actionBtn}>
                         <Icon name="remove" size={20} color='white' />
                     </View>
                 </TouchableOpacity>
                 
-                <Text>Personas</Text>
-
-                <TouchableOpacity style={{marginTop: 20}}>
+                <TouchableOpacity onPress={incrementarContador}>
                     <View style={styles.actionBtn}>
                         <Icon name="add" size={20} color='white' />
                     </View>
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={{marginTop: 20}}>
-                <View style={styles.button}>
-                    <Text style={{color: 'white', fontSize: 17}}>Siguiente</Text>
-                </View>
+            <TouchableOpacity style={styles.button} onPress={seleccionarIngredientes}>
+                <Text style={styles.buttonText}>Siguiente</Text>
             </TouchableOpacity>
-            </ScrollView>
-        </View>
+
+        </ScrollView>
+    </View>
     );
 }
 
@@ -112,19 +141,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
       },
       button: {
-        marginTop: 15,
+        marginTop: 10,
         backgroundColor: '#703701',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 100,
         paddingVertical: 5,
         paddingHorizontal: 20,
-
-        //margin: 5, backgroundColor: '#4f5898', justifyContent: 'center', alignItems: 'center', borderRadius: 30, paddingVertical: 10, padding: 30
       },
       buttonText: {
         color: 'white',
-        fontSize: 17,
+        fontSize: 15,
       },
       image: {
         marginTop: 20,
@@ -132,7 +159,8 @@ const styles = StyleSheet.create({
         height: 100,
       },
       actionBtn: {
-        width: 80,
+        margin: 10,
+        width: 60,
         height: 20,
         backgroundColor: '#984C00',
         borderRadius: 30,
@@ -140,7 +168,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
       },
       buttonContainer: {
-        margin: 20,
+        alignItems: 'center',
+        margin: 10,
         flexDirection: 'row',
       },
 });
