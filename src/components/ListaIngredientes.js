@@ -97,7 +97,7 @@ const ListaIngredientes = () => {
     };
   
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.container}>
           <TouchableOpacity
             style={styles.buttonBack}
@@ -154,7 +154,7 @@ const ListaIngredientes = () => {
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ListaUnidades')}>
                 <Text style={styles.buttonText}>Continuar</Text>
             </TouchableOpacity>
-            <Text style={{paddingBottom: 20, fontSize: 12, fontStyle: 'italic'}}>Continuar con la seleccion de unidades por ingrediente.</Text>
+            <Text style={{paddingBottom: 40, fontSize: 12, fontStyle: 'italic'}}>Continuar con la seleccion de unidades por ingrediente.</Text>
         </ScrollView>
         
       </View>
@@ -169,10 +169,13 @@ const ListaIngredientes = () => {
         backgroundColor: '#FFFED3',
     },
     button: {
-        backgroundColor: '#703701',
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 20,
+      marginBottom: 10,
+      backgroundColor: '#703701',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 100,
+      paddingVertical: 5,
+      paddingHorizontal: 15,
     },
     buttonBack: {
         marginRight: 'auto',
@@ -184,7 +187,7 @@ const ListaIngredientes = () => {
     buttonText: {
         color: 'white',
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: 'semibold',
     },
     title: {
         fontSize: 24,
@@ -201,14 +204,16 @@ const ListaIngredientes = () => {
         textAlign: 'center',
     },
     ingredienteButton: {
-        backgroundColor: '#E66262',
-        padding: 10,
+        //backgroundColor: '#E66262',
+        backgroundColor: '#9e4e02',
+        padding: 5,
         borderRadius: 5,
         marginBottom: 10,
         marginRight: 10,
     },
     ingredienteButtonSelected: {
-        backgroundColor: '#FAB3B3',
+        //backgroundColor: '#FAB3B3',
+        backgroundColor: '#f7dbb2',
     },
     ingredienteText: {
         fontSize: 16,
