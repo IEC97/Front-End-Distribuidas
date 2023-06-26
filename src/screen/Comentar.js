@@ -23,29 +23,10 @@ const EditarRecetas=()=> {
                 </View>
                     {/* <TextInput style={{height: 30, margin: 5, borderRadius: 100, backgroundColor: '#e7e7e7', padding: 10}} autoCapitalize='none' autoCorrect={false} value={''}/> */}
 
-                <View style={{marginTop: 10}}>
-                    <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 17, color: 'black'}}>Ingredientes</Text>
-                    <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 14, color: '#999999'}}>Editar ingredientes</Text>
-                </View>
-                    {/* <TextInput style={{height: 30, margin: 5, borderRadius: 100, backgroundColor: '#e7e7e7', padding: 10}} autoCapitalize='none' autoCorrect={false} value={''}/> */}
-                    
-                <View style={{marginTop: 10}}>
-                    <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 17, color: 'black'}}>Preparacion</Text>
-                    <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 14, color: '#999999'}}>Presiona en un paso para verlo completo!</Text>
-                </View>
-                    {/* <TextInput style={{height: 30, margin: 5, borderRadius: 100, backgroundColor: '#e7e7e7', padding: 10}} autoCapitalize='none' autoCorrect={false} value={''}/> */}
-                    
-
-                    
+                
                 <TouchableOpacity style={{marginTop: 20}}>
                     <View style={{margin: 5, backgroundColor: '#4f5898', justifyContent: 'center', alignItems: 'center', borderRadius: 100, paddingVertical: 10}}>
-                        <Text style={{color: 'white', fontSize: 17}}>Eliminar</Text>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={{marginTop: 20}}>
-                    <View style={{margin: 5, backgroundColor: '#4f5898', justifyContent: 'center', alignItems: 'center', borderRadius: 100, paddingVertical: 10}}>
-                        <Text style={{color: 'white', fontSize: 17}}>Editar</Text>
+                        <Text style={{color: 'white', fontSize: 17}}>Enviar</Text>
                     </View>
                 </TouchableOpacity>
             </View>
