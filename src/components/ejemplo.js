@@ -20,189 +20,184 @@ const categoriasIngredientes = {
 const windowWidth = Dimensions.get('window').width;
 
 const App = () => {
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-  const [ingredientes, setIngredientes] = useState([]);
-  const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(new Set());
-
-  const mostrarIngredientes = (categoria) => {
-    setCategoriaSeleccionada(categoria);
-    setIngredientes(categoriasIngredientes[categoria]);
-  };
-
-  const seleccionarIngrediente = (ingrediente) => {
-    setIngredientesSeleccionados((prevSeleccionados) => {
-      const nuevosSeleccionados = new Set(prevSeleccionados);
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
+    const [ingredientes, setIngredientes] = useState([]);
+    const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(
+      new Set()
+    );
   
-      // Si el ingrediente ya está seleccionado, se deselecciona
-      if (nuevosSeleccionados.has(ingrediente)) {
-        nuevosSeleccionados.delete(ingrediente);
-      } else {
-        // Si el ingrediente no está seleccionado, se selecciona
-        nuevosSeleccionados.add(ingrediente);
+    const mostrarIngredientes = (categoria) => {
+      setCategoriaSeleccionada(categoria);
+      setIngredientes(categoriasIngredientes[categoria]);
+    };
+  
+    const seleccionarIngrediente = (ingrediente) => {
+      setIngredientesSeleccionados((prevSeleccionados) => {
+        const nuevosSeleccionados = new Set(prevSeleccionados);
+  
+        // Si el ingrediente ya está seleccionado, se deselecciona
+        if (nuevosSeleccionados.has(ingrediente)) {
+          nuevosSeleccionados.delete(ingrediente);
+        } else {
+          // Si el ingrediente no está seleccionado, se selecciona
+          nuevosSeleccionados.add(ingrediente);
+        }
+  
+        return nuevosSeleccionados;
+      });
+    };
+  
+    const renderizarIngredientes = ({ item }) => (
+      <TouchableOpacity
+        style={[
+          styles.ingredienteButton,
+          ingredientesSeleccionados.has(item) && styles.ingredienteButtonSelected,
+        ]}
+        onPress={() => seleccionarIngrediente(item)}
+      >
+        <Text style={styles.ingredienteText}>{item}</Text>
+      </TouchableOpacity>
+    ); 
+  
+    const renderizarCategorias = () => {
+        const categoriasOrdenadas = Object.keys(categoriasIngredientes).sort();
+        return categoriasOrdenadas.map((categoria) => (
+          <Picker.Item key={categoria} label={categoria} value={categoria} />
+        ));
+      };
+  
+    const renderizarIngredientesPorFila = ({ item }) => {
+      const ingredientesPorFila = [];
+      for (let i = 0; i < item.length; i += 2) {
+        const fila = item.slice(i, i + 2);
+        ingredientesPorFila.push(fila);
       }
   
-      return nuevosSeleccionados;
-    });
-  };
-
-  const renderizarIngredientes = ({ item }) => (
-    <TouchableOpacity
-      style={[styles.ingredienteButton, ingredientesSeleccionados.has(item) && styles.ingredienteButtonSelected]}
-      onPress={() => seleccionarIngrediente(item)}
-    >
-      <Text style={styles.ingredienteText}>{item}</Text>
-    </TouchableOpacity>
-  );
-
-  const renderizarCategorias = () => {
-    return Object.keys(categoriasIngredientes).map((categoria) => (
-      <Picker.Item key={categoria} label={categoria} value={categoria} />
-    ));
-  };
-
-  const renderizarIngredientesPorFila = ({ item }) => {
+      return (
+        <View style={styles.ingredientesContainer}>
+          {ingredientesPorFila.map((fila, index) => (
+            <View key={index} style={styles.filaContainer}>
+              {fila.map((ingrediente) => (
+                <TouchableOpacity
+                  key={ingrediente}
+                  style={[
+                    styles.ingredienteButton,
+                    ingredientesSeleccionados.has(ingrediente) &&
+                      styles.ingredienteButtonSelected,
+                  ]}
+                  onPress={() => seleccionarIngrediente(ingrediente)}
+                >
+                  <Text style={styles.ingredienteText}>{ingrediente}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          ))}
+        </View>
+      );
+    };
+  
     return (
-      <View style={styles.ingredientesContainer}>
-        {item.map((ingrediente) => (
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={styles.container}>
           <TouchableOpacity
-            key={ingrediente}
-            style={[styles.ingredienteButton, ingredientesSeleccionados.has(ingrediente) && styles.ingredienteButtonSelected]}
-            onPress={() => seleccionarIngrediente(ingrediente)}
+            style={styles.buttonBack}
+            onPress={() => navigation.goBack()}
           >
-            <Text style={styles.ingredienteText}>{ingrediente}</Text>
+            <Text style={styles.buttonText}>Volver</Text>
           </TouchableOpacity>
-        ))}
+  
+          <Text style={styles.title}>Seleccionar los ingredientes</Text>
+          <Text style={styles.label}>Selecciona una categoría:</Text>
+          <Picker
+            selectedValue={categoriaSeleccionada}
+            onValueChange={mostrarIngredientes}
+            style={styles.picker}
+          >
+            <Picker.Item label="-- Seleccionar --" value="" />
+            {renderizarCategorias()}
+          </Picker>
+  
+          <Text style={styles.title}>Ingredientes:</Text>
+          <FlatList
+            data={ingredientes}
+            keyExtractor={(item) => item}
+            renderItem={renderizarIngredientes}
+            numColumns={3}
+          />
+  
+          <Text style={styles.title}>Ingredientes seleccionados:</Text>
+          <View style={styles.ingredientesSeleccionadosContainer}>
+            <FlatList
+              data={[Array.from(ingredientesSeleccionados)]}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderizarIngredientesPorFila}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   };
-
-  return (
-    
-    <View style={{flex:1}}>
-        <ScrollView contentContainerStyle={styles.container}>
-            <TouchableOpacity style={styles.buttonBack} onPress={() => navigation.goBack()}>
-                    <Text style={styles.buttonText}>Volver</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.title}>Seleccionar los ingredientes</Text>
-            <Text style={styles.label}>Selecciona una categoría:</Text>
-            <Picker
-                selectedValue={categoriaSeleccionada}
-                onValueChange={mostrarIngredientes}
-                style={styles.picker}
-            >
-            <Picker.Item label="-- Seleccionar --" value="" />
-                {renderizarCategorias()}
-            </Picker>
-
-            <Text style={styles.title}>Ingredientes:</Text>
-            <FlatList
-                data={ingredientes}
-                keyExtractor={(item) => item}
-                renderItem={renderizarIngredientes}
-                numColumns={3}
-            />
-
-            <Text style={styles.title}>Ingredientes seleccionados:</Text>
-            <View style={styles.ingredientesSeleccionadosContainer}>
-                <FlatList
-                    data={[Array.from(ingredientesSeleccionados)]}
-                    keyExtractor={(item) => item.join()}
-                    renderItem={renderizarIngredientesPorFila}
-                    numColumns={1}
-                />
-            </View>
-           
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ListaUnidades')}>
-                    <Text style={styles.buttonText}>Continuar</Text>
-            </TouchableOpacity>
-            <Text style={{paddingTop: 10, fontSize: 12, fontStyle: 'italic'}}>Continuar con la seleccion de unidades por ingrediente.</Text>
-        </ScrollView>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: '#FFFED3',
-    flex: 1,
-    flexWrap: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    //maxWidth: windowWidth,
- 
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  label: {
-    marginBottom: 8,
-  },
-  picker: {
-    marginBottom: 16,
-  },
-  ingredientesContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  ingredienteButton: {
-    flex: 1,
-    margin: 5,
-    width: 200,
-    backgroundColor: '#FFE5A6',
-    borderRadius: 5,
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  ingredienteButtonSelected: {
-    backgroundColor: '#c2780a',
-  },
-  ingredienteText: {
-    fontSize: 14,
-  },
-
-  button: {
-    marginTop: 10,
-    backgroundColor: '#703701',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    width: 120,
-  },
-  buttonBack:{
-    marginRight: 'auto',
-    justifyContent: 'center',
-    marginTop: 10,
-    backgroundColor: '#703701',
-    alignItems: 'center',
-    borderRadius: 100,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    width: 60,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 15,
-  },
-
-
-
-  optionButton: {
-    fontSize: 15, textAlign: 'center', width: 100, height: 20, margin: 5, 
-    borderRadius: 100, color: '#703701', backgroundColor: '#FFE5A6',
-  },
-  optionButtonSelected: {
-    backgroundColor: '#c2780a',
-  },
-  optionButtonText: {
-    fontWeight: 'bold',
-  },
-});
-
-export default App;
+  
+  const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: '#FFFED3',
+    },
+    buttonBack: {
+        marginRight: 'auto',
+        backgroundColor: '#703701',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 20,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    label: {
+        fontSize: 18,
+        marginBottom: 5,
+    },
+    picker: {
+        width: windowWidth - 40,
+        marginBottom: 20,
+    },
+    ingredienteButton: {
+        backgroundColor: 'lightgray',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 10,
+        marginRight: 10,
+    },
+    ingredienteButtonSelected: {
+        backgroundColor: 'brown',
+    },
+    ingredienteText: {
+        fontSize: 16,
+        color: 'black',
+    },
+    ingredientesSeleccionadosContainer: {
+        flex: 1,
+        marginTop: 10,
+        marginBottom: 30,
+    },
+    ingredientesContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    filaContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginBottom: 10,
+    },
+  });
+  
+  export default App;
