@@ -10,8 +10,6 @@ const EditarRecetas=()=> {
                 <View style={{marginTop: 20}}>
                     <Text style={{color: 'black', fontSize: 20}}>Editar Receta</Text>
                 </View>
-                    
-
                 <View style={{marginTop: 10, alignItems:'center'}}>
                     <Image style= {{width: 120, height: 70, resizeMode: 'center',borderRadius: 100}} source={tortilla}/>
                 </View>
@@ -21,7 +19,6 @@ const EditarRecetas=()=> {
                      <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 17, color: 'black'}}>Titulo</Text>
                     <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 15, color: 'black'}}>Tortilla de Papa</Text>
                 </View>
-                    {/* <TextInput style={{height: 30, margin: 5, borderRadius: 100, backgroundColor: '#e7e7e7', padding: 10}} autoCapitalize='none' autoCorrect={false} value={''}/> */}
 
                 
                 <TouchableOpacity style={{marginTop: 20}}>

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import tortilla from '../imagen/tortilla.jpg';
-import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity} from 'react-native';
+import ModalEditar from '../components/ModalEditar'
+import { View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import { Button } from 'react-native-web';
 
 
 const EditarRecetas=()=> {
@@ -25,7 +27,7 @@ const EditarRecetas=()=> {
 
                 <View style={{marginTop: 10}}>
                     <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 17, color: 'black'}}>Ingredientes</Text>
-                    <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 14, color: '#999999'}}>Editar ingredientes</Text>
+                    <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 14, color: '#999999'}}>Editar ingredientes</Text><Button title="Open Modal"/><ModalEditar/>
                 </View>
                     {/* <TextInput style={{height: 30, margin: 5, borderRadius: 100, backgroundColor: '#e7e7e7', padding: 10}} autoCapitalize='none' autoCorrect={false} value={''}/> */}
                     
