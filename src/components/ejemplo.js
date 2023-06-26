@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Dimensions, Text, Picker, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Dimensions, FlatList, Picker, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput, Na } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const categoriasIngredientes = {
   'Verduras': ['Zanahoria', 'Cebolla', 'Tomate', 'Lechuga', 'Morron', 'Espinaca', 'Brócoli'],
@@ -20,12 +21,14 @@ const categoriasIngredientes = {
 const windowWidth = Dimensions.get('window').width;
 
 const App = () => {
+    const navigation = useNavigation();
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
     const [ingredientes, setIngredientes] = useState([]);
     const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(
       new Set()
     );
-  
+    
+
     const mostrarIngredientes = (categoria) => {
       setCategoriaSeleccionada(categoria);
       setIngredientes(categoriasIngredientes[categoria]);
@@ -48,16 +51,13 @@ const App = () => {
     };
   
     const renderizarIngredientes = ({ item }) => (
-      <TouchableOpacity
-        style={[
-          styles.ingredienteButton,
-          ingredientesSeleccionados.has(item) && styles.ingredienteButtonSelected,
-        ]}
-        onPress={() => seleccionarIngrediente(item)}
-      >
-        <Text style={styles.ingredienteText}>{item}</Text>
-      </TouchableOpacity>
-    ); 
+        <TouchableOpacity
+          style={[styles.ingredienteButton, ingredientesSeleccionados.has(item) && styles.ingredienteButtonSelected]}
+          onPress={() => seleccionarIngrediente(item)}
+        >
+          <Text style={styles.ingredienteText}>{item}</Text>
+        </TouchableOpacity>
+      );
   
     const renderizarCategorias = () => {
         const categoriasOrdenadas = Object.keys(categoriasIngredientes).sort();
@@ -68,15 +68,15 @@ const App = () => {
   
     const renderizarIngredientesPorFila = ({ item }) => {
       const ingredientesPorFila = [];
-      for (let i = 0; i < item.length; i += 2) {
-        const fila = item.slice(i, i + 2);
+      for (let i = 0; i < item.length; i += 1) {
+        const fila = item.slice(i, i + 1);
         ingredientesPorFila.push(fila);
       }
   
       return (
         <View style={styles.ingredientesContainer}>
           {ingredientesPorFila.map((fila, index) => (
-            <View key={index} style={styles.filaContainer}>
+            <View key={index} >
               {fila.map((ingrediente) => (
                 <TouchableOpacity
                   key={ingrediente}
@@ -97,7 +97,7 @@ const App = () => {
     };
   
     return (
-      <View style={{ flex: 1 }}>
+      <View>
         <ScrollView contentContainerStyle={styles.container}>
           <TouchableOpacity
             style={styles.buttonBack}
@@ -107,7 +107,7 @@ const App = () => {
           </TouchableOpacity>
   
           <Text style={styles.title}>Seleccionar los ingredientes</Text>
-          <Text style={styles.label}>Selecciona una categoría:</Text>
+          <Text style={styles.label}>Elige una categoría:</Text>
           <Picker
             selectedValue={categoriaSeleccionada}
             onValueChange={mostrarIngredientes}
@@ -133,7 +133,30 @@ const App = () => {
               renderItem={renderizarIngredientesPorFila}
             />
           </View>
+
+          <View style={{textAlign: 'center', padding: 30}}>
+                <Text style={{fontSize: 15}}>Alguno de los ingredientes que usas no está en la lista?
+                Añadilo acá!</Text>
+                    
+                <View>
+                    <TextInput
+                    style={{
+                        fontSize: 15, alignSelf: 'center',textAlign: 'center', width: 200, height: 30, margin: 5, 
+                        borderRadius: 100, color: 'black', backgroundColor: '#f7dbb2', padding: 10
+                        }}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        placeholder="Ingrese otro ingrediente"
+                    />
+                </View>
+            </View>
+
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ListaUnidades')}>
+                <Text style={styles.buttonText}>Continuar</Text>
+            </TouchableOpacity>
+            <Text style={{paddingBottom: 20, fontSize: 12, fontStyle: 'italic'}}>Continuar con la seleccion de unidades por ingrediente.</Text>
         </ScrollView>
+        
       </View>
     );
   };
@@ -144,6 +167,12 @@ const App = () => {
         alignItems: 'center',
         padding: 20,
         backgroundColor: '#FFFED3',
+    },
+    button: {
+        backgroundColor: '#703701',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 20,
     },
     buttonBack: {
         marginRight: 'auto',
@@ -169,34 +198,38 @@ const App = () => {
     picker: {
         width: windowWidth - 40,
         marginBottom: 20,
+        textAlign: 'center',
     },
     ingredienteButton: {
-        backgroundColor: 'lightgray',
+        backgroundColor: '#E66262',
         padding: 10,
         borderRadius: 5,
         marginBottom: 10,
         marginRight: 10,
     },
     ingredienteButtonSelected: {
-        backgroundColor: 'brown',
+        backgroundColor: '#FAB3B3',
     },
     ingredienteText: {
         fontSize: 16,
         color: 'black',
     },
     ingredientesSeleccionadosContainer: {
-        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginHorizontal: 35,
         marginTop: 10,
-        marginBottom: 30,
+        marginBottom: 10,
     },
     ingredientesContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
+        flex:1,
     },
     filaContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginBottom: 10,
+        marginBottom: 5,
     },
   });
   
