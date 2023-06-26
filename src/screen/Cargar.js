@@ -1,94 +1,175 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import tortilla from '../imagen/tortilla.jpg';
-import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity} from 'react-native';
-const Separator = () => <View style={styles.separator} />;
+import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
+import eliminarImg from '../imagen/eliminarImg.png';
 
-export default function Cargar({navigation}){
+export default function SubirImagenes() {
+    const [imageUris, setImageUris] = useState([]);
+    const [contador, setContador] = useState(1);
+    const navigation = useNavigation();
+
+    const seleccionarIngredientes = () => {
+        navigation.navigate('ListaIngredientes');
+    }
+
+    const incrementarContador = () => {
+      setContador(prevContador => prevContador + 1);
+    };
+  
+    const decrementarContador = () => {
+        if (contador > 1) {
+            setContador(prevContador => prevContador - 1);
+        }
+    };
+
+    const subirImagenes = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status === 'granted') {
+          const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+            multiple: true, // para seleccionar muchas imagenes
+          });
+    
+          if (!result.canceled) {
+            setImageUris(prevUris => [...prevUris, result.uri]);
+          }
+        }
+      };
+
+      const eliminarImagen = index => {
+        setImageUris(prevUris => {
+          const updatedUris = [...prevUris];
+          updatedUris.splice(index, 1);
+          return updatedUris;
+        });
+      };
+
     return(
-        // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        //     <Text style={{fontSize: 26, fontWeight: 'bold'}}>Hola</Text>
-        // </View>
-        <View style={{ flex:1}}>
-            <View style={{justifyContent: 'center', backgroundColor: '#ffffff', paddingHorizontal: 20}}>
-                <View style={{marginTop: 10}}>
-                    <Text style={{color: 'black', fontSize: 20}}>Cargar Imagen</Text>
+        <View style={{ flex: 1 }}>
+            <ScrollView contentContainerStyle={styles.container}>
+                <View>
+                    <Text style={styles.titulo}>Cargar Imágenes</Text>
                 </View>
-            </View>
-            <Separator />
+
+                {/* Vista de imagenes */}
+                {imageUris.map((uri, index) => (
+                <View key={index} style={styles.imageContainer}>
+                    <Image source={{ uri }} style={styles.image} resizeMode="cover" />
+                    <TouchableOpacity onPress={() => eliminarImagen(index)}>
+                        <Image style ={{alignSelf:'center', width: 20, height: 20, marginTop: 5}} source={eliminarImg} />
+                    </TouchableOpacity>
+                </View>
+                ))}
+
+                <TouchableOpacity onPress={subirImagenes}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>Subir</Text>
+                    </View>
+                </TouchableOpacity>
             
-            <View style={{marginTop: 10, alignItems:'center',justifyContent: 'center'}}>
-                <Image style= {{width: 120, height: 70, resizeMode: 'center',borderRadius: 100}} source={tortilla}/>
-            </View>
-            <Separator />
-
-            <View style={{justifyContent: 'center', backgroundColor: '#ffffff', paddingHorizontal: 20}}>
-                <View style={{marginTop: 10}}>
-                    <Text style={{color: 'black', fontSize: 17}}>Ingrese el titulo de la receta</Text>
+                <View>
+                    <Text style={styles.titulo}>Titulo de la receta</Text>
+                    <TextInput
+                       style={{
+                        fontSize: 15, textAlign: 'center', width: 250, height: 30, margin: 5, 
+                        borderRadius: 100, color: '#703701', backgroundColor: '#FFE5A6', padding: 10
+                        }}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        placeholder="Ingrese un titulo para su receta"
+                    />
                 </View>
-                <TextInput style={{height: 30, margin: 5, borderRadius: 100, backgroundColor: '#e7e7e7', padding: 10}} autoCapitalize='none' autoCorrect={false} value={''}/>
-            </View>
-            <Separator />
 
-            <View style={{justifyContent: 'center', backgroundColor: '#ffffff', paddingHorizontal: 20}}>
-                <View style={{marginTop: 10}}>
-                    <Text style={{color: 'black', fontSize: 17}}>Ingredientes</Text>
-                </View>
-                <View style={{marginTop: 10}}>
-                    <Text style={{color: 'black', fontSize: 15}}>Seleccione los ingredientes</Text>
-                </View>
-            </View>
-            <Separator />
-
-            <View style={{justifyContent: 'center', backgroundColor: '#ffffff', paddingHorizontal: 20}}>
-                <View style={{marginTop: 10}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 17}}>¿Para cuantas personas es tu receta?</Text>
+            <View>
+                <View>
+                    <Text style={styles.titulo}>¿Para cuantas personas es tu receta?</Text>
+                    <Text style={{fontSize: 12, textAlign:'center'}}>Indica la cantidad de personas que se pueden alimentar</Text>
+                    <Text style={{fontSize: 12, textAlign:'center'}}>con tu receta. Ajusta las cantidades con los botones!</Text>
                 </View>
             </View>
-            <Separator />
 
-            <View style={{justifyContent: 'center', backgroundColor: '#ffffff', paddingHorizontal: 20}}>
-                <View style={{marginTop: 10}}>
-                    <Text style={{color: 'black', fontSize: 17}}>3</Text>
+
+            
+                <View style={{marginTop: 20}}>
+                    <Text style={{
+                        fontSize: 15, textAlign: 'center', width: 130, padding: 6,
+                        borderRadius: 30, color: '#703701', backgroundColor: '#FFE5A6'}}>{contador} persona/s
+                    </Text>
                 </View>
-                <TouchableOpacity style={{marginTop: 20}}>
+
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={decrementarContador}>
                     <View style={styles.actionBtn}>
-                        <Icon name="remove" size={25} color='white' />
+                        <Icon name="remove" size={20} color='white' />
                     </View>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={{marginTop: 20}}>
+                <TouchableOpacity onPress={incrementarContador}>
                     <View style={styles.actionBtn}>
-                        <Icon name="add" size={25} color='white' />
+                        <Icon name="add" size={20} color='white' />
                     </View>
                 </TouchableOpacity>
             </View>
-            <Separator />
 
-            <TouchableOpacity style={{marginTop: 20}}>
-                <View style={{margin: 5, backgroundColor: '#4f5898', justifyContent: 'center', alignItems: 'center', borderRadius: 100, paddingVertical: 10}}>
-                    <Text style={{color: 'white', fontSize: 17}}>Siguiente</Text>
-                </View>
+            <TouchableOpacity style={styles.button} onPress={seleccionarIngredientes}>
+                <Text style={styles.buttonText}>Siguiente</Text>
             </TouchableOpacity>
-        </View>
+
+        </ScrollView>
+    </View>
     );
 }
 
+
 const styles = StyleSheet.create({
-    separator: {
-      marginVertical: 8,
-      borderBottomColor: '#737373',
-      borderBottomWidth: StyleSheet.hairlineWidth,
-    },
-    actionBtn: {
-        width: 80,
-        height: 30,
-        backgroundColor: '#4f5898',
+    container: {
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 20,
+        backgroundColor:'#FFFED3',
+      },
+      titulo: {
+        marginTop: 20,
+        color: 'black',
+        fontSize: 20,
+        textAlign: 'center',
+      },
+      button: {
+        marginTop: 10,
+        backgroundColor: '#703701',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        paddingVertical: 5,
+        paddingHorizontal: 20,
+      },
+      buttonText: {
+        color: 'white',
+        fontSize: 15,
+      },
+      image: {
+        marginTop: 20,
+        width: 100,
+        height: 100,
+      },
+      actionBtn: {
+        margin: 10,
+        width: 60,
+        height: 20,
+        backgroundColor: '#984C00',
         borderRadius: 30,
         paddingHorizontal: 5,
+        textAlign: 'center',
+      },
+      buttonContainer: {
+        alignItems: 'center',
+        margin: 10,
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignContent: 'center',
       },
 });
-  
