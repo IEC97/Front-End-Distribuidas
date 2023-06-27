@@ -1,10 +1,8 @@
 import * as React from 'react';
-import {Text, Modal, View, Button, Switch} from 'react-native';
+import {Text, Modal, View, Button, Switch,StyleSheet} from 'react-native';
 
-const ModalEditar=({isModalOpen, isDarkMode, setIsModalOpen})=>{
-    const [switch1, setSwitch1] = React.useState(false);
-    const [switch2, setSwitch2] = React.useState(false);
-    const [switch3, setSwitch3] = React.useState(false);
+const ModalEditar=({isModalOpen, setIsModalOpen})=>{
+  const [switch1, setSwitch1] = React.useState(false);
 
   const modalOptions = [
     {
@@ -14,12 +12,36 @@ const ModalEditar=({isModalOpen, isDarkMode, setIsModalOpen})=>{
     },
   ];
 
-  const modalContainerStyle = {
-    flex: 1,
-    justifyContent: 'flex-end',
-  };
-  const modalStyle = {
-    backgroundColor: isDarkMode ? 'black' : 'white',
+  return(
+      <Modal visible={isModalOpen} transparent={true} animationType={'slide'}>
+          <View style={styles.modalContainerStyle}>
+              <View style={styles.modalStyle}>
+                  <Text style={styles.titleStyle}>Edita Ingredientes</Text>
+                  {modalOptions.map((option, index) => {
+                  return (
+                      <View style={styles.optionContainer} key={index}>
+                      <Text style={styles.optionTextStyle}>{option.title}</Text>
+                      <Switch
+                          value={option.value}
+                          onValueChange={option.setSwitch}
+                        />
+                      </View>
+                    );
+                    })}
+                    <Button
+                    title="Close and save"
+                    onPress={() => setIsModalOpen(!setIsModalOpen)}
+                    />
+                </View>
+            </View>
+      </Modal> 
+    );
+};
+export default ModalEditar;
+
+const styles = StyleSheet.create({
+  modalStyle:({
+    backgroundColor:  'white',
     alignItems: 'center',
     margin: 20,
     borderRadius: 16,
@@ -33,47 +55,25 @@ const ModalEditar=({isModalOpen, isDarkMode, setIsModalOpen})=>{
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-  };
-  const titleStyle = {
-    color: isDarkMode ? 'white' : 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
-  };
-  const optionTextStyle = {
-    fontSize: 18,
-    fontWeight: '500',
-    color: isDarkMode ? 'white' : 'black',
-  };
-  const optionContainer = {
+  }),
+  optionContainer:{
     width: '100%',
     justifyContent: 'space-between',
     flexDirection: 'row',
     marginVertical: 10,
-  };
-    return(
-        <Modal visible={isModalOpen} transparent={true} animationType={'slide'}>
-            <View style={modalContainerStyle}>
-                <View style={modalStyle}>
-                    <Text style={titleStyle}>Edita Ingredientes</Text>
-                    {modalOptions.map((option, index) => {
-                    return (
-                        <View style={optionContainer} key={index}>
-                        <Text style={optionTextStyle}>{option.title}</Text>
-                        <Switch
-                            value={option.value}
-                            onValueChange={option.setSwitch}
-                        />
-                        </View>
-                    );
-                    })}
-                    <Button
-                    title="Close and save"
-                    onPress={() => setIsModalOpen(!setIsModalOpen)}
-                    />
-                </View>
-            </View>
-      </Modal>
-        
-    );
-};
-export default ModalEditar;
+  },
+  modalContainerStyle:({
+    flex: 1,
+    justifyContent: 'center',
+  }),
+  optionTextStyle:({
+    fontSize: 18,
+    fontWeight: '500',
+    color: 'black',
+  }),
+  titleStyle:({
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
+  }),
+});
