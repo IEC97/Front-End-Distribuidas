@@ -14,6 +14,7 @@ const EditarRecetas=({})=> {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,
+    textAlign: 'center',
     backgroundColor: isModalOpen
       ? isDarkMode
         ? '#ffffff30'
@@ -40,7 +41,9 @@ const EditarRecetas=({})=> {
       <View>
         <Text style={styles.textStyle}>Ingredientes</Text>
         <Text style={styles.textStyle2}>Editar ingredientes</Text>
-        <Button title="Aqui" onPress={() => setIsModalOpen(!isModalOpen)}/> 
+        <TouchableOpacity style={styles.buttonStyle2}  onPress={() => setIsModalOpen(!isModalOpen)}>
+          <Text style={styles.textButton}>Aqui!</Text>
+        </TouchableOpacity> 
 
         <ModalEditar  
           isModalOpen={isModalOpen}
@@ -80,8 +83,9 @@ const styles = StyleSheet.create({
     textStyle:{
       fontWeight: 'Bold', 
       paddingLeft: 5, 
-      fontSize: 17, 
+      fontSize: 18, 
       color: 'black',
+      marginTop: 10,
     },
     textStyle2:{
       fontWeight: '300', 
@@ -89,10 +93,10 @@ const styles = StyleSheet.create({
       fontSize: 14, 
       color: 'black',
     },
-    textButton:({
+    textButton:{
       color: 'white', 
       fontSize: 17,
-    }),
+    },
     buttonStyle:{
       margin: 5, 
       backgroundColor: '#703701', 
@@ -102,6 +106,17 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       paddingHorizontal: 40,
       marginTop: 20,
+    },
+    buttonStyle2:{
+      margin: 5, 
+      backgroundColor:  '#984C00',
+      fontWeight: 'white', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      borderRadius: 100, 
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      marginTop: 10,
     },
     imageStyle:{
       width: 120, 

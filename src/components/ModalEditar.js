@@ -12,6 +12,8 @@ const ModalEditar=({isModalOpen, setIsModalOpen})=>{
     },
   ];
 
+
+
   return(
       <Modal visible={isModalOpen} transparent={true} animationType={'slide'}>
           <View style={styles.modalContainerStyle}>
@@ -29,8 +31,8 @@ const ModalEditar=({isModalOpen, setIsModalOpen})=>{
                     );
                     })}
                     <Button
-                    title="Close and save"
-                    onPress={() => setIsModalOpen(!setIsModalOpen)}
+                      title="Close and save"
+                      onPress={() => setIsModalOpen(!setIsModalOpen)}
                     />
                 </View>
             </View>
