@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
 import ModalEditar from '../components/ModalEditar'
 import { View, StyleSheet, Text, Image, useColorScheme, TouchableOpacity} from 'react-native';
-import { Button } from 'react-native-web';
+//import { Button } from 'react-native-web';
 
 
 const EditarRecetas=({})=> {
@@ -11,8 +11,8 @@ const EditarRecetas=({})=> {
 
   const backgroundStyle = {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     paddingVertical: 20,
     textAlign: 'center',
     backgroundColor: isModalOpen
@@ -33,7 +33,7 @@ const EditarRecetas=({})=> {
         <Image style= {styles.imageStyle} source={tortilla}/>
       </View>
                   
-      <View>
+      <View >
         <Text style={styles.textStyle}>Titulo</Text>
         <Text style={styles.textStyle}>Tortilla de Papa</Text>
       </View>
@@ -55,17 +55,21 @@ const EditarRecetas=({})=> {
         <Text style={styles.textStyle2}>Presiona en un paso para verlo completo!</Text>
       </View>
                   
-      <TouchableOpacity style={styles.buttonStyle}>
-        <View>
-          <Text style={styles.textButton}>Eliminar</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.buttonStyle}>
+        <TouchableOpacity >
+          <View>
+            <Text style={styles.textButton}>Eliminar</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity style={styles.buttonStyle}>
-        <View>
-          <Text style={styles.textButton}>Editar</Text>
-        </View>
-      </TouchableOpacity> 
+      <View style={styles.buttonStyle}>
+        <TouchableOpacity>
+            <View>
+              <Text style={styles.textButton}>Editar</Text>
+            </View>
+        </TouchableOpacity>
+      </View> 
     </View>
   );
 }
@@ -100,8 +104,8 @@ const styles = StyleSheet.create({
     buttonStyle:{
       margin: 5, 
       backgroundColor: '#703701', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
+      //justifyContent: 'space-evenly', 
+      // alignItems: 'center', 
       borderRadius: 100, 
       paddingVertical: 10,
       paddingHorizontal: 40,
@@ -111,8 +115,8 @@ const styles = StyleSheet.create({
       margin: 5, 
       backgroundColor:  '#984C00',
       fontWeight: 'white', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
+      // justifyContent: 'center', 
+      // alignItems: 'center', 
       borderRadius: 100, 
       paddingVertical: 10,
       paddingHorizontal: 20,
