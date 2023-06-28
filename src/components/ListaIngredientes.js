@@ -28,7 +28,6 @@ const ListaIngredientes = () => {
       new Set()
     );
     
-
     const mostrarIngredientes = (categoria) => {
       setCategoriaSeleccionada(categoria);
       setIngredientes(categoriasIngredientes[categoria]);

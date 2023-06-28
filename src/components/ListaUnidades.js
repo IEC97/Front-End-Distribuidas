@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const opciones = [
@@ -28,30 +28,73 @@ const MultipleSelect = () => {
   };
 
   return (
-    <View>
-      <Text>Selecciona una o varias opciones:</Text>
-      {opciones.map((opcion) => (
+    <View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.container}>
+
         <TouchableOpacity
-          key={opcion.id}
-          onPress={() => handleSeleccionarOpcion(opcion)}
-          style={[
-            styles.optionButton,
-            opcionesSeleccionadas.some((o) => o.id === opcion.id) && styles.optionButtonSelected,
-          ]}
+          style={styles.buttonBack}
+          onPress={() => navigation.goBack()}
         >
-          <Text style={styles.optionButtonText}>{opcion.label}</Text>
+          <Text style={styles.buttonText}>Volver</Text>
         </TouchableOpacity>
-      ))}
+
+      <Text>Selecciona una o varias opciones:</Text>
+      <View style={styles.ingredientesContainer}>
+        {opciones.map((opcion) => (
+          <TouchableOpacity
+            key={opcion.id}
+            onPress={() => handleSeleccionarOpcion(opcion)}
+            style={[
+              styles.optionButton,
+              opcionesSeleccionadas.some((o) => o.id === opcion.id) && styles.optionButtonSelected,
+            ]}
+          >
+            <Text style={styles.optionButtonText}>{opcion.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
       <Text>Opciones seleccionadas:</Text>
       {opcionesSeleccionadas.map((opcion) => (
         <Text key={opcion.id}>{opcion.label}</Text>
       ))}
+
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+container: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#FFFED3',
+},
+button: {
+  marginBottom: 10,
+  backgroundColor: '#703701',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 100,
+  paddingVertical: 5,
+  paddingHorizontal: 15,
+},
+buttonBack: {
+    marginRight: 'auto',
+    backgroundColor: '#703701',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+},
+ingredientesContainer: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  flex:1,
+},
+
   optionButton: {
+    flexGrow: 1,
+    flexDirection: 'row',
     backgroundColor: '#EEE',
     padding: 10,
     marginVertical: 5,
