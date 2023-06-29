@@ -1,5 +1,9 @@
 import * as React from 'react';
 import LogIn from './src/components/LogIn.js'
+
+import ejemplo from './src/components/ejemplo.js'
+import ejemplo2 from './src/components/ejemplo2.js'
+
 import BottomTab from './src/components/BottomTab.js'
 import ListaIngredientes from './src/components/ListaIngredientes.js';
 import ListaUnidades from './src/components/ListaUnidades.js';
@@ -17,10 +21,13 @@ const App = () => {
   return ( 
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="ListaIngredientes" component={ListaIngredientes} options={{ headerShown: false}}/>
+      <Stack.Screen name="ejemplo" component={ejemplo} options={{ headerShown: false}}/>
+      <Stack.Screen name="ejemplo2" component={ejemplo2} options={{ headerShown: false}}/>
+        <Stack.Screen name="RegisterStage2" component={RegisterStage2} options={{ headerShown: false}}/>
         <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false}}/>
         <Stack.Screen name="RegisterStage1" component={RegisterStage1} options={{ headerShown: false}}/>
-        <Stack.Screen name="RegisterStage2" component={RegisterStage2} options={{ headerShown: false}}/>
-        <Stack.Screen name="ListaIngredientes" component={ListaIngredientes} options={{ headerShown: false}}/>
+        
         <Stack.Screen name="ListaUnidades" component={ListaUnidades} options={{ headerShown: false}}/>
         <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
         <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false}}/>

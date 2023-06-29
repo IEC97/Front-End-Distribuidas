@@ -3,7 +3,7 @@ import { Dimensions, FlatList, Picker, ScrollView, StyleSheet, Text, TouchableOp
 import { useNavigation } from '@react-navigation/native';
 
 const categoriasIngredientes = {
-  'Verduras': ['Zanahoria', 'Cebolla', 'Tomate', 'Lechuga', 'Morron', 'Espinaca', 'Brócoli'],
+  'Verduras': ['Acelga','Zanahoria', 'Cebolla', 'Tomate', 'Lechuga', 'Morron', 'Espinaca', 'Brócoli'],
   'Carnes y pescados': ['Pollo', 'Vaca', 'Cerdo', 'Salmón', 'Merluza', 'Camarones'],
   'Lácteos y productos lácteos': ['Leche', 'Leche condensada', 'Leche de almendras', 'Leche de coco', 'Leche de soja', 'Crema de leche', 'Queso crema', 'Queso azul', 'Queso mozzarella', 'Yogurt'],
   'Huevos': ['Huevos frescos', 'Clara de huevo', 'Yema de huevo'],
@@ -150,7 +150,7 @@ const ListaIngredientes = () => {
                 </View>
             </View>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ListaUnidades')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ejemplo', { ingredientes: ingredientesSeleccionados })}>
                 <Text style={styles.buttonText}>Continuar</Text>
             </TouchableOpacity>
             <Text style={{paddingBottom: 40, fontSize: 12, fontStyle: 'italic'}}>Continuar con la seleccion de unidades por ingrediente.</Text>
