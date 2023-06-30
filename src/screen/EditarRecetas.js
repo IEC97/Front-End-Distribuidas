@@ -26,7 +26,7 @@ const EditarRecetas=({})=> {
   return (
     <View style={backgroundStyle}>
       <View>
-        <Text style={styles.textStyle}>Editar Receta</Text>
+        <Text style={styles.textStyle}>Editar Imagen</Text>
       </View>
 
       <View style={styles.imageView}>
@@ -34,7 +34,6 @@ const EditarRecetas=({})=> {
       </View>
                   
       <View >
-        <Text style={styles.textStyle}>Titulo</Text>
         <Text style={styles.textStyle}>Tortilla de Papa</Text>
       </View>
       
@@ -69,7 +68,8 @@ const EditarRecetas=({})=> {
               <Text style={styles.textButton}>Editar</Text>
             </View>
         </TouchableOpacity>
-      </View> 
+      </View>
+
     </View>
   );
 }
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       paddingHorizontal: 40,
       marginTop: 20,
+      
     },
     buttonStyle2:{
       margin: 5, 
@@ -121,6 +122,7 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       paddingHorizontal: 20,
       marginTop: 10,
+      
     },
     imageStyle:{
       width: 120, 

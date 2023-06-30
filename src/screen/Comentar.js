@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
 import { View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-import { AirbnbRating,Input} from 'react-native-elements';
+import { AirbnbRating, Input } from '@rneui/themed';
 
 
 
@@ -12,31 +12,62 @@ const Comentar=()=> {
     const[review, setReview]=useState("")
     const[errorReview, setErrorReview]=useState(null)
 
+    const addReview=()=>{
+      console.log("Hola")
+    }
 
     return (
-        <View style={styles.container}>
-            <View>
-                <View>
-                    <Text style={styles.textStyle}>Tortilla de Papa</Text>
-                </View>
-                <View style={styles.imageView}>
-                    <Image style= {styles.imageStyle} source={tortilla}/>
-                </View>
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.textStyle}>Tortilla de Papa</Text>
+        </View>
+
+        <View style={styles.imageView}>
+          <Image style= {styles.imageStyle} source={tortilla}/>
+        </View>
                     
 
-                <View>
-                    <Text style={styles.textStyle}>Titulo</Text>
-                    <Text style={styles.textStyle}>Tortilla de Papa</Text>
-                </View>
+          {/* <View>
+            <Text style={styles.textStyle}>Titulo</Text>
+            <Text style={styles.textStyle}>Tortilla de Papa</Text>
+          </View> */}
 
-                
-                <TouchableOpacity style={styles.buttonStyle}>
-                    <View>
-                        <Text style={styles.textButton}>Enviar</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
+        <View>
+          <View>
+            <AirbnbRating 
+              count={5} 
+              reviews={["Malo", "Regular","Normal", "Bueno", "Excelente"]}
+              defaultRating={0}
+              size={30}
+            />
+          </View>
         </View>
+
+        <View>
+          <Input placeholder="Titulo..."
+            containerStyle={styles.Input}
+            onChange={(e) =>setTitle(e.nativeEvent.text)}
+            errorMessage={errorTitle}
+          />
+          <Input placeholder="Comentario..."
+            containerStyle={styles.Input}
+            style={styles.textArea}
+            onChange={(e) =>setReview(e.nativeEvent.text)}
+            errorMessage={errorReview}
+          />
+        </View>
+
+        
+
+        <View style={styles.buttonStyle}>
+            <TouchableOpacity onPress={addReview}>
+              <View>
+                <Text style={styles.textButton}>Enviar</Text>
+              </View>
+            </TouchableOpacity>
+        </View>
+
+      </View>
     );
 }
 export default Comentar;
