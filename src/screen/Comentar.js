@@ -1,36 +1,45 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
-import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import { AirbnbRating,Input} from 'react-native-elements';
 
 
-const EditarRecetas=()=> {
+
+const Comentar=()=> {
+    const[rating, setRating]=useState(null)
+    const[title, setTitle]=useState("")
+    const[errorTitle, setErrorTitle]=useState(null)
+    const[review, setReview]=useState("")
+    const[errorReview, setErrorReview]=useState(null)
+
+
     return (
         <View style={styles.container}>
             <View>
-                <View style={{marginTop: 20}}>
-                    <Text style={{color: 'black', fontSize: 20}}>Editar Receta</Text>
+                <View>
+                    <Text style={styles.textStyle}>Tortilla de Papa</Text>
                 </View>
-                <View style={{marginTop: 10, alignItems:'center'}}>
-                    <Image style= {{width: 120, height: 70, resizeMode: 'center',borderRadius: 100}} source={tortilla}/>
+                <View style={styles.imageView}>
+                    <Image style= {styles.imageStyle} source={tortilla}/>
                 </View>
                     
 
-                <View style={{marginTop: 10}}>
-                     <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 17, color: 'black'}}>Titulo</Text>
-                    <Text style={{fontWeight: '300', paddingLeft: 5, fontSize: 15, color: 'black'}}>Tortilla de Papa</Text>
+                <View>
+                    <Text style={styles.textStyle}>Titulo</Text>
+                    <Text style={styles.textStyle}>Tortilla de Papa</Text>
                 </View>
 
                 
-                <TouchableOpacity style={{marginTop: 20}}>
-                    <View style={{margin: 5, backgroundColor: '#4f5898', justifyContent: 'center', alignItems: 'center', borderRadius: 100, paddingVertical: 10}}>
-                        <Text style={{color: 'white', fontSize: 17}}>Enviar</Text>
+                <TouchableOpacity style={styles.buttonStyle}>
+                    <View>
+                        <Text style={styles.textButton}>Enviar</Text>
                     </View>
                 </TouchableOpacity>
             </View>
         </View>
     );
 }
-export default EditarRecetas;
+export default Comentar;
 
 const styles = StyleSheet.create({
     container: {
@@ -39,5 +48,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 20,
         backgroundColor:'#FFFED3',
+      },
+      textStyle:{
+        fontWeight: 'Bold', 
+        paddingLeft: 5, 
+        fontSize: 18, 
+        color: 'black',
+        marginTop: 10,
+      },
+      buttonStyle:{
+        margin: 5, 
+        backgroundColor: '#703701', 
+        //justifyContent: 'space-evenly', 
+        // alignItems: 'center', 
+        borderRadius: 100, 
+        paddingVertical: 10,
+        paddingHorizontal: 40,
+        marginTop: 20,
+      },
+      textButton:{
+        color: 'white', 
+        fontSize: 17,
+      },
+      imageStyle:{
+        width: 120, 
+        height: 70, 
+        resizeMode: 'center',
+        borderRadius: 100,
+      },
+      imageView:{
+        marginTop: 10, 
+        alignItems:'center'
       },
   });
