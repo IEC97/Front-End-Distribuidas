@@ -2,11 +2,13 @@ import React, {useRef, useState} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
 import { View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 import { AirbnbRating, Input } from '@rneui/themed';
-//import { Toast } from 'react-native-easy-toast';
-
+import  Toast  from 'react-native-easy-toast';
+import {isEmpty} from 'lodash'
+import Loading from '../components/Loading';
+//{navigation, route}
 
 const Comentar=()=> {
-  
+  //const {idUsuario}=route.params
   const toastRef=useRef()
 
   const[rating, setRating]=useState(null)
@@ -14,6 +16,8 @@ const Comentar=()=> {
   const[errorTitle, setErrorTitle]=useState(null)
   const[review, setReview]=useState("")
   const[errorReview, setErrorReview]=useState(null)
+  const[loading, setLoading]=useState(false)
+  
 
   const addReview=()=>{
     if (!validForm()){
@@ -35,58 +39,55 @@ const Comentar=()=> {
     }
     if(isEmpty(review)){
       setErrorReview("Debes ingresar un comentario.")
+      isValid=false
     }
     return isValid
   }
 
   return (
     <View style={styles.container}>
-        <View>
-          <Text style={styles.textStyle}>Tortilla de Papa</Text>
-        </View>
+      <View>
+        <Text style={styles.textStyle}>Tortilla de Papa</Text>
+      </View>
 
-        <View style={styles.imageView}>
-          <Image style= {styles.imageStyle} source={tortilla}/>
-        </View>
-                    
+      <View style={styles.imageView}>
+        <Image style= {styles.imageStyle} source={tortilla}/>
+      </View>
 
-          {/* <View>
-            <Text style={styles.textStyle}>Titulo</Text>
-            <Text style={styles.textStyle}>Tortilla de Papa</Text>
-          </View> */}
-
-        <View>
-          <View style={styles.viewRating}>
-            <AirbnbRating 
-              count={5} 
-              reviews={["Malo", "Regular","Normal", "Bueno", "Excelente"]}
-              defaultRating={0}
-              size={30}
-              onFinishRating={(value)=>setRating(value)}
-            />
-          </View>
-        </View>
-
-        <View style={styles.formReview}>
-          <Input placeholder="Titulo..."
-            containerStyle={styles.input}
-            onChange={(e) =>setTitle(e.nativeEvent.text)}
-            errorMessage={errorTitle}
-          />
-          <Input placeholder="Comentario..."
-            containerStyle={styles.input}
-            style={styles.textArea}
-            multiline
-            onChange={(e) =>setReview(e.nativeEvent.text)}
-            errorMessage={errorReview}
+      <View>
+        <View style={styles.viewRating}>
+          <AirbnbRating 
+            count={5} 
+            reviews={["Malo", "Regular","Normal", "Bueno", "Excelente"]}
+            defaultRating={0}
+            size={30}
+            onFinishRating={(value)=>setRating(value)}
           />
         </View>
+      </View>
 
-        <TouchableOpacity onPress={addReview} style={styles.buttonStyle}>
-          <View>
-            <Text style={styles.textButton}>Enviar</Text>
-          </View>
-        </TouchableOpacity>
+      <View style={styles.formReview}>
+        <Input placeholder="Titulo..."
+          containerStyle={styles.input}
+          onChange={(e) =>setTitle(e.nativeEvent.text)}
+          errorMessage={errorTitle}
+        />
+        <Input placeholder="Comentario..."
+          containerStyle={styles.input}
+          style={styles.textArea}
+          multiline
+          onChange={(e) =>setReview(e.nativeEvent.text)}
+          errorMessage={errorReview}
+        />
+      </View>
+
+      <TouchableOpacity onPress={addReview} style={styles.buttonStyle}>
+        <View>
+          <Text style={styles.textButton}>Enviar</Text>
+        </View>
+      </TouchableOpacity>
+      <Toast ref={toastRef} position="center" opacity={0.9}/>
+      <Loading isVisible={loading} text="Enviando comentario..."/>
     </View>
   );
 }
