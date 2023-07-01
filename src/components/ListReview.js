@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 
-const ListReview=({})=> {
+const ListReview=({navigation, idUsuario})=> {
+  const [userLogged, setUserLogged]=useState(false)
+  
   return (
     <View>
-      <Text>ListReview</Text>
+      <Text></Text>
     </View>
-  )
+  );
 }
 export default ListReview;
 const styles = StyleSheet.create({})
