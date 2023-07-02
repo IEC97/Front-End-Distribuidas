@@ -12,7 +12,7 @@ const Login = () => {
   const navigation = useNavigation();
 
   const fetchLogin = () => {
-  //borrar este despues de descomentar el codigo
+
   navigation.navigate('BottomTab');
 
     const data = JSON.stringify({
@@ -31,10 +31,6 @@ const Login = () => {
       data: data
     };
 
-  
-
-
-    /*
     axios(config)
       .then(response => {
         console.log(JSON.stringify(response.data));
@@ -49,9 +45,6 @@ const Login = () => {
           alert('Error en el servidor');
         }
       }); 
-  
-      */
-
     };
   
   return (
