@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity, ScrollView,
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import cocina3 from '../imagen/cocina3.png';
-import { MailComposer, composeAsync } from 'expo-mail-composer';
+//import { MailComposer, composeAsync } from 'expo-mail-composer';
 
 const RegisterStage1 = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +11,7 @@ const RegisterStage1 = () => {
   const navigation = useNavigation();
   const [errorMessage, setErrorMessage] = useState('');
 
+  /*
   const sendEmail = () => {
      MailComposer.composeAsync({
       subject: 'COMPLETAR REGISTRACION',
@@ -30,7 +31,7 @@ const RegisterStage1 = () => {
         console.error('Error al enviar el correo electrónico:', error);
       });
   };
-
+*/
   const FetchRegister = () => {
     const data = JSON.stringify({
       mail: email,
