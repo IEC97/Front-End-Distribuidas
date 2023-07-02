@@ -51,6 +51,7 @@ const RegisterStage2 = () => {
     <View style={{ flex: 1 , backgroundColor: '#3f6654'}}>
         <ScrollView >
             <View style={styles.container}>
+
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Text style={styles.goBackButton}>Volver</Text>
                 </TouchableOpacity>
@@ -64,14 +65,11 @@ const RegisterStage2 = () => {
             </View>
 
             <View style={{ backgroundColor: '#489c80' }}>
-              <View style={{ justifyContent: 'center', backgroundColor: '#FFFED3', paddingHorizontal: 30, borderTopLeftRadius: 35,borderTopRightRadius: 35 }}>
-                <View style={{ marginTop: 10, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#246b54', padding: 20 }}>Nombre</Text>
+              <View style={styles.formContainer}>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Nombre</Text>
                   <TextInput
-                      style={{
-                      fontSize: 20, textAlign: 'center', width: 250, height: 40, margin: 5,
-                      borderRadius: 100, color: '#244f37', backgroundColor: '#FFE5A6', padding: 10
-                      }}
+                      style={styles.input}
                       autoCapitalize='none' autoCorrect={false}
                       placeholder='Ingrese su nombre'
                       value={nombre}
@@ -79,13 +77,10 @@ const RegisterStage2 = () => {
                   />
                 </View>
 
-                <View style={{ marginTop: 10, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#246b54', padding: 20 }}>Apellido</Text>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Apellido</Text>
                   <TextInput
-                      style={{
-                      fontSize: 20, textAlign: 'center', width: 250, height: 40, margin: 5,
-                      borderRadius: 100, color: '#244f37', backgroundColor: '#FFE5A6', padding: 10
-                      }}
+                      style={styles.input}
                       autoCapitalize='none' autoCorrect={false}
                       placeholder='Ingrese su apellido'
                       value={apellido}
@@ -93,13 +88,10 @@ const RegisterStage2 = () => {
                   />
                 </View>
 
-                <View style={{ marginTop: 10, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#246b54', padding: 20 }}>Password</Text>
+                <View style={styles.inputContainer}>
+                <Text style={styles.label}>Password</Text>
                   <TextInput
-                      style={{
-                      fontSize: 20, textAlign: 'center', width: 250, height: 40, margin: 5,
-                      borderRadius: 100, color: '#244f37', backgroundColor: '#FFE5A6', padding: 10
-                      }}
+                      style={styles.input}
                       autoCapitalize='none' secureTextEntry autoCorrect={false}
                       placeholder='Ingrese su contraseña'
                       value={contrasenia}
@@ -107,11 +99,9 @@ const RegisterStage2 = () => {
                   />
                 </View>
 
-                <View style={{ display: 'flex', marginTop: 20, alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }}>
+                <View style={styles.buttonContainer}>
                   <TouchableOpacity onPress={handleRegister2}>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                      <Image style={{ width: 110, height: 60}} source={lechuga3} />
-                    </View>
+                    <Image style={styles.imagenBoton} source={lechuga3} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -138,11 +128,52 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         textAlign: 'center',
         width: 80,
-
+      },
+      formContainer: {
+        backgroundColor: '#FFFED3',
+        paddingHorizontal: 30,
+        borderTopLeftRadius: 35,
+        borderTopRightRadius: 35,
+        alignItems: 'center'
+      },
+      inputContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+      label: {
+        fontWeight: '600',
+        paddingLeft: 5,
+        fontSize: 26,
+        color: '#246b54',
+        padding: 20
       },
       image: {
         marginLeft: 10,
         width: 100,
         height: 140,
+      },
+      input: {
+        fontSize: 20,
+        textAlign: 'center',
+        width: 250,
+        height: 40,
+        margin: 5,
+        borderRadius: 100,
+        color: '#244f37',
+        backgroundColor: '#FFE5A6',
+        padding: 10
+      },
+      buttonContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 15,
+      },
+      imagenBoton: {
+        width: 110,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center' 
       },
 });

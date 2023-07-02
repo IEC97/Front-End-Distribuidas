@@ -122,7 +122,6 @@ const Login = () => {
             <View style={{ paddingVertical: 20, justifyContent: 'center', alignItems: 'center' }}>
               <TouchableOpacity onPress={() => navigation.navigate('RegisterStage1')}>
                 <Text style={{ fontWeight: '300', paddingLeft: 5, fontSize: 17, color: '#713700' }}>
-                  <br />
                   No tienes una cuenta?
                 </Text>
               </TouchableOpacity>

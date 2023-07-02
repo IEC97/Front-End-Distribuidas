@@ -9,9 +9,10 @@ const RegisterStage1 = () => {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const navigation = useNavigation();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const sendEmail = () => {
-    composeAsync({
+     MailComposer.composeAsync({
       subject: 'COMPLETAR REGISTRACION',
       recipients: [email],
       body:
@@ -30,45 +31,40 @@ const RegisterStage1 = () => {
       });
   };
 
-  const registerUser = () => {
-    navigation.navigate('RegisterStage2');
-    if (email !== '' && nickname !== '') {
-      const data = JSON.stringify({
-        mail: email,
-        nickname: nickname
+  const FetchRegister = () => {
+    const data = JSON.stringify({
+      mail: email,
+      nickname: nickname
+    });
+
+    const config = {
+      method: 'post',
+      url: 'http://localhost:8080/usuarios/nuevousuario',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+      .then(response => {
+        console.log(JSON.stringify(response.data));
+        navigation.navigate('RegisterStage2');
+        console.log('PASE LA 1ER ETAPA DE REGISTRACION!');
+        //sendEmail();
+      })
+      .catch(error => {
+        console.log(error.response);
+        if (email === '' || nickname === '') {
+          setErrorMessage('Debes completar los campos!');
+        }
+        else if (error.response.status === 409) {
+          setErrorMessage('Ya existe una cuenta registrada con ese email.');
+        } else {
+          setErrorMessage('Error en el servidor');
+        }
       });
-
-      const config = {
-        method: 'post',
-        url: 'http://localhost:8080/usuarios/nuevousuario',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: data
-      };
-
-      axios(config)
-        .then(response => {
-          console.log(JSON.stringify(response.data));
-          navigation.navigate('RegisterStage2');
-          sendEmail();
-          console.log('PASE LA 1ER ETAPA DE REGISTRACION!');
-        })
-        .catch(error => {
-          console.log(error.response);
-          if (email === '' || nickname === '') {
-            Alert.alert('Debes completar los campos!');
-          } else if (!email.includes('@')) {
-            Alert.alert('El email ingresado es incorrecto. ¡Debes ingresar una dirección de correo válida!');
-          } else if (error.response && error.response.status === 409) {
-            Alert.alert('Ya existe una cuenta registrada con ese email.');
-          } else {
-            Alert.alert('Error en el servidor');
-          }
-        });
-    } else {
-      Alert.alert('Debes completar los campos!');
-    }
+    
   };
 
   return (
@@ -108,8 +104,14 @@ const RegisterStage1 = () => {
               />
             </View>
 
+            {errorMessage ? (
+              <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ color: 'red', fontSize: 16 }}>{errorMessage}</Text>
+              </View>
+            ) : null}
+
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={registerUser} style={styles.button}>
+              <TouchableOpacity onPress={FetchRegister} style={styles.button}>
                 <Text style={styles.buttonText}>Continuar</Text>
               </TouchableOpacity>
             </View>
