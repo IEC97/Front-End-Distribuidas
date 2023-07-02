@@ -46,15 +46,14 @@ const Login = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={{ flexGrow: 1, backgroundColor: '#FFF0B7' }}>
+    <View style={{ flex: 1, backgroundColor: '#502f54'}}>
+      <ScrollView>
+        
         <View style={{ backgroundColor: '#9C67A2', padding: 25}}>
-
           <View style={{ flexDirection: 'row',justifyContent: 'center', alignItems: 'center' }}>
             <Image style={styles.image} source={cheff} />
-            <Text style={{ marginRight: 120, fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>
-          </View>
-          
+            <Text style={{ marginRight: 120, fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>  
+          </View> 
         </View>
 
         {/* container - login */}
