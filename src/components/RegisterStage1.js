@@ -3,22 +3,15 @@ import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity, ScrollView,
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import cocina3 from '../imagen/cocina3.png';
-import { composeAsync } from 'expo-mail-composer';
+import { MailComposer, composeAsync } from 'expo-mail-composer';
 
 const RegisterStage1 = () => {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const navigation = useNavigation();
 
-  useEffect(() => {
-    if (email !== '' && nickname !== '') {
-      sendEmail();
-      registerUser();
-    }
-  }, [email, nickname]);
-
   const sendEmail = () => {
-    MailComposer.composeAsync({
+    composeAsync({
       subject: 'COMPLETAR REGISTRACION',
       recipients: [email],
       body:
@@ -38,82 +31,94 @@ const RegisterStage1 = () => {
   };
 
   const registerUser = () => {
-    const data = JSON.stringify({
-      mail: email,
-      nickname: nickname
-    });
-
-    const config = {
-      method: 'post',
-      url: 'http://localhost:8080/usuarios/nuevousuario',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
-
-    axios(config)
-      .then(response => {
-        console.log(JSON.stringify(response.data));
-        navigation.navigate('RegisterStage2');
-        console.log('PASE LA 1ER ETAPA DE REGISTRACION!');
-      })
-      .catch(error => {
-        console.log(error.response);
-        if (email === '' || nickname === '') {
-          Alert.alert('Debes completar los campos!');
-        } else if (!email.includes('@')) {
-          Alert.alert('El email ingresado es incorrecto. ¡Debes ingresar una dirección de correo válida!');
-        } else if (error.response && error.response.status === 409) {
-          Alert.alert('Ya existe una cuenta registrada con ese email.');
-        } else {
-          Alert.alert('Error en el servidor');
-        }
+    navigation.navigate('RegisterStage2');
+    if (email !== '' && nickname !== '') {
+      const data = JSON.stringify({
+        mail: email,
+        nickname: nickname
       });
+
+      const config = {
+        method: 'post',
+        url: 'http://localhost:8080/usuarios/nuevousuario',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+
+      axios(config)
+        .then(response => {
+          console.log(JSON.stringify(response.data));
+          navigation.navigate('RegisterStage2');
+          sendEmail();
+          console.log('PASE LA 1ER ETAPA DE REGISTRACION!');
+        })
+        .catch(error => {
+          console.log(error.response);
+          if (email === '' || nickname === '') {
+            Alert.alert('Debes completar los campos!');
+          } else if (!email.includes('@')) {
+            Alert.alert('El email ingresado es incorrecto. ¡Debes ingresar una dirección de correo válida!');
+          } else if (error.response && error.response.status === 409) {
+            Alert.alert('Ya existe una cuenta registrada con ese email.');
+          } else {
+            Alert.alert('Error en el servidor');
+          }
+        });
+    } else {
+      Alert.alert('Debes completar los campos!');
+    }
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 , backgroundColor: '#3f6654'}}>
       <ScrollView>
-        <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={cocina3} />
+        <View style={styles.container}>
+
+          <View>
+            <Image style={styles.image} source={cocina3} />
+          </View> 
+          
         </View>
+        
+        <View style={{ backgroundColor: '#489c80' }}>
+          <View style={styles.formContainer}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                style={styles.input}
+                autoCapitalize="none"
+                autoCorrect={false}
+                value={email}
+                onChangeText={text => setEmail(text)}
+                placeholder="Ingrese su email"
+              />
+            </View>
 
-        <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={email}
-              onChangeText={text => setEmail(text)}
-              placeholder="Ingrese su email"
-            />
-          </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Username</Text>
+              <TextInput
+                style={styles.input}
+                autoCapitalize="none"
+                autoCorrect={false}
+                value={nickname}
+                onChangeText={text => setNickname(text)}
+                placeholder="Ingrese un nickname"
+              />
+            </View>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Username</Text>
-            <TextInput
-              style={styles.input}
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={nickname}
-              onChangeText={text => setNickname(text)}
-              placeholder="Ingrese un nickname"
-            />
-          </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={registerUser} style={styles.button}>
+                <Text style={styles.buttonText}>Continuar</Text>
+              </TouchableOpacity>
+            </View>
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={registerUser} style={styles.button}>
-              <Text style={styles.buttonText}>Continuar</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.loginContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.loginText}>Ya tienes una cuenta?</Text>
-            </TouchableOpacity>
+            <View style={styles.loginContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.loginText}>Ya tienes una cuenta?</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -123,24 +128,22 @@ const RegisterStage1 = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#3f6654'
-  },
-  logoContainer: {
-    backgroundColor: '#489c80'
-  },
-  logo: {
+    justifyContent: 'center',
+    marginRight: 1,
+    backgroundColor: '#489c80',
+    padding: 15,
+  }, 
+  image: {
     width: 280,
     height: 160,
     alignSelf: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   formContainer: {
     backgroundColor: '#FFFED3',
     paddingHorizontal: 30,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
-    marginTop: 20,
     alignItems: 'center'
   },
   inputContainer: {

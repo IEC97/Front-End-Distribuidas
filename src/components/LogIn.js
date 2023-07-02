@@ -10,17 +10,19 @@ const Login = () => {
   const [nickname, setNickname] = useState('');
   const [contrasenia, setContrasenia] = useState('');
   const navigation = useNavigation();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [capsLockEnabled, setCapsLockEnabled] = useState(false);
+
+  const handlePasswordChange = text => {
+    setContrasenia(text);
+    setCapsLockEnabled(text !== '' && text.toUpperCase() === text);
+  };
 
   const fetchLogin = () => {
-
-  navigation.navigate('BottomTab');
-
     const data = JSON.stringify({
       nickname: nickname,
       contrasenia: contrasenia
     });
-    console.log('Email:', email);
-    console.log('Nickname:', nickname);
 
     const config = {
       method: 'post',
@@ -38,44 +40,32 @@ const Login = () => {
         console.log('TERMINE EL PROCESO DE INICIO DE SESION');
       })
       .catch(error => {
-        console.log(error.response.data);
-        if (error.response && error.response.status === 401) {
-          alert('Credenciales inválidas');
-        } else {
-          alert('Error en el servidor');
-        }
-      }); 
-    };
-  
+        console.log(error);
+        setErrorMessage('Credenciales incorrectas. Verifique su usuario o su contraseña e intentelo denuevo!');
+      });
+  };
+
   return (
-
-
-    //<View style={{ flex: 1, backgroundColor: '#fcdc8d' }}>
-    //<View style={{ flex: 1, backgroundColor: '#6b4070'}}>
     <View style={{ flex: 1, backgroundColor: '#502f54'}}>
       <ScrollView>
+        
         <View style={{ backgroundColor: '#9C67A2', padding: 25}}>
-
           <View style={{ flexDirection: 'row',justifyContent: 'center', alignItems: 'center' }}>
             <Image style={styles.image} source={cheff} />
-            <Text style={{ marginRight: 120, fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>
-            
-          </View>
-  
-
+            <Text style={{ marginRight: 120, fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>  
+          </View> 
         </View>
-
 
         {/* container - login */}
         <View style={{ backgroundColor: '#9C67A2' }}>
-          <View style={{ justifyContent: 'center', backgroundColor: '#FFFED3', paddingHorizontal: 30, borderTopLeftRadius: 35, borderTopRightRadius: 35 }}>
+          <View style={{ justifyContent: 'center', backgroundColor: '#FFFED3', paddingHorizontal: 30, borderTopRightRadius: 35 }}>
             <View style={{ marginTop: 40, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#803269', padding: 20 }}>Username</Text>
               <TextInput
                 style={{
                   fontSize: 20,
                   textAlign: 'center',
-                  width: 250,
+                  width: 300,
                   height: 40,
                   margin: 5,
                   borderRadius: 100,
@@ -97,7 +87,7 @@ const Login = () => {
                 style={{
                   fontSize: 20,
                   textAlign: 'center',
-                  width: 250,
+                  width: 300,
                   height: 40,
                   margin: 5,
                   borderRadius: 100,
@@ -110,16 +100,25 @@ const Login = () => {
                 autoCorrect={false}
                 placeholder="Ingrese su contraseña"
                 value={contrasenia}
-                onChangeText={text => setContrasenia(text)}
+                onChangeText={handlePasswordChange}
               />
+              {capsLockEnabled && (
+                <Text style={{ color: 'red', fontSize: 12 }}>Mayúsculas activadas</Text>
+              )}
             </View>
+
+            {errorMessage ? (
+              <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ color: 'red', fontSize: 16 }}>{errorMessage}</Text>
+              </View>
+            ) : null}
 
             <View style={{ display: 'flex', marginTop: 35, alignItems: 'center', justifyContent: 'center' }}>
               <TouchableOpacity onPress={fetchLogin}>
                 <Image style={{ width: 180, height: 35 }} source={rodillo} />
               </TouchableOpacity>
             </View>
-    
+
             <View style={{ paddingVertical: 20, justifyContent: 'center', alignItems: 'center' }}>
               <TouchableOpacity onPress={() => navigation.navigate('RegisterStage1')}>
                 <Text style={{ fontWeight: '300', paddingLeft: 5, fontSize: 17, color: '#713700' }}>
@@ -131,7 +130,7 @@ const Login = () => {
           </View>
         </View>
       </ScrollView>
-      </View>
+    </View>
   );
 };
 
