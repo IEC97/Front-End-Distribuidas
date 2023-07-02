@@ -1,43 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import cocina3 from '../imagen/cocina3.png';
-//import { MailComposer, composeAsync } from 'expo-mail-composer';
+
 
 const RegisterStage1 = () => {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const navigation = useNavigation();
   const [errorMessage, setErrorMessage] = useState('');
-
-  /*
-  const sendEmail = () => {
-     MailComposer.composeAsync({
-      subject: 'COMPLETAR REGISTRACION',
-      recipients: [email],
-      body:
-        'Gracias por registrarte en nuestra aplicación. Estamos encantados de tenerte como parte de nuestra comunidad. ¡Comienza a explorar y disfrutar de todas las características y funcionalidades que ofrecemos! Saludos, El equipo de nuestra aplicación',
-      isHTML: true
-    })
-      .then(result => {
-        if (result.status === 'sent') {
-          console.log('Correo electrónico enviado con éxito');
-        } else {
-          console.error('Error al enviar el correo electrónico:', result.error);
-        }
-      })
-      .catch(error => {
-        console.error('Error al enviar el correo electrónico:', error);
-      });
-  };
-*/
-  const FetchRegister = () => {
+  
+  const fetchRegister = () => {
+    // Validar el formato del email
+    if (!email.includes('@')) {
+      setErrorMessage('Ingrese un email válido');
+      return;
+    }
+  
     const data = JSON.stringify({
       mail: email,
       nickname: nickname
     });
-
+  
     const config = {
       method: 'post',
       url: 'http://localhost:8080/usuarios/nuevousuario',
@@ -46,28 +31,23 @@ const RegisterStage1 = () => {
       },
       data: data
     };
-
+  
     axios(config)
       .then(response => {
         console.log(JSON.stringify(response.data));
         navigation.navigate('RegisterStage2');
         console.log('PASE LA 1ER ETAPA DE REGISTRACION!');
-        //sendEmail();
       })
       .catch(error => {
         console.log(error.response);
-        if (email === '' || nickname === '') {
-          setErrorMessage('Debes completar los campos!');
-        }
-        else if (error.response.status === 409) {
+        if (error.response && error.response.status === 409) {
           setErrorMessage('Ya existe una cuenta registrada con ese email.');
         } else {
           setErrorMessage('Error en el servidor');
         }
       });
-    
   };
-
+  
   return (
     <View style={{ flex: 1 , backgroundColor: '#3f6654'}}>
       <ScrollView>
@@ -112,7 +92,7 @@ const RegisterStage1 = () => {
             ) : null}
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={FetchRegister} style={styles.button}>
+              <TouchableOpacity onPress={fetchRegister} style={styles.button}>
                 <Text style={styles.buttonText}>Continuar</Text>
               </TouchableOpacity>
             </View>
