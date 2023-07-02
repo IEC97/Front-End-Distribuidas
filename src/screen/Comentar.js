@@ -21,6 +21,8 @@ const Comentar=()=> {
     if (!validForm()){
       return
     }
+    setLoading(true)
+    setLoading(false)
   }
   const validForm=()=>{
     setErrorReview(null)

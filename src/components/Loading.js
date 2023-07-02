@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Overlay } from '@rneui/base';
-import { ActivityIndicator } from 'react-native-web';
+import { ActivityIndicator } from 'react-native';
 
 const Loading=({isVisible, text})=> {
   return (
@@ -11,10 +11,13 @@ const Loading=({isVisible, text})=> {
         overlayBackgroundColor="transparent"
         overlayStyle={styles.overlay}
     >
-        <View>
-            <ActivityIndicator/>
+        <View styles={styles.view}>
+            <ActivityIndicator 
+                size="large"
+                color="#442484"
+            />
             {
-                text && <Text>{text}</Text>
+                text && <Text style={styles.text}>{text}</Text>
             }
         </View>
     </Overlay>
@@ -24,13 +27,20 @@ export default Loading;
 const styles = StyleSheet.create({
     overlay:{
         height: 100,
-        width: 100,
+        width: 150,
         backgroundColor: "#fff",
         borderColor: "#442484",
         borderWidth:2,
         borderRadius:10,
     },
-    // view:{
-
-    // },
+    view:{
+        flex:1,
+        alignItems:"center",
+        justifyContent:"center",
+    },
+    text:{
+        color:"black",
+        marginTop:10,
+        textAlign:"center",
+    },
 })
