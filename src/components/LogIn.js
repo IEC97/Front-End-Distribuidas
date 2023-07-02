@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity,
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import rodillo from '../imagen/rodillo.png';
+import cheff from '../imagen/cheff.png';
 import axios from 'axios';
 
 const Login = () => {
@@ -47,19 +48,13 @@ const Login = () => {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flexGrow: 1, backgroundColor: '#FFF0B7' }}>
-        {/* container - logo */}
-        <View style={{ backgroundColor: '#FFFDC3' }}>
-          <View style={{ backgroundColor: '#9C67A2', padding: 65, borderBottomLeftRadius: 35 }}>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Image style={{ width: 100, height: 100, resizeMode: 'contain' }} />
-            </View>
+        <View style={{ backgroundColor: '#9C67A2', padding: 25}}>
 
-            <View style={{ flexDirection: 'row',justifyContent: 'center', alignItems: 'center' }}>
-              <Image style={styles.image} source={cheff} />
-              <Text style={{ marginRight: 120, fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>
-            
-            </View>
+          <View style={{ flexDirection: 'row',justifyContent: 'center', alignItems: 'center' }}>
+            <Image style={styles.image} source={cheff} />
+            <Text style={{ marginRight: 120, fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>
           </View>
+          
         </View>
 
         {/* container - login */}
@@ -141,3 +136,11 @@ const Login = () => {
 };
 
 export default Login;
+
+const styles = StyleSheet.create({
+  image: {
+    marginRight: 20,
+    width: 120,
+    height: 140,
+  },
+})
