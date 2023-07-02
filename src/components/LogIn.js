@@ -54,9 +54,10 @@ const Login = () => {
               <Image style={{ width: 100, height: 100, resizeMode: 'contain' }} />
             </View>
 
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>
-              <Text style={{ fontWeight: '400', fontSize: 20, color: '#ffffff' }}>Student</Text>
+            <View style={{ flexDirection: 'row',justifyContent: 'center', alignItems: 'center' }}>
+              <Image style={styles.image} source={cheff} />
+              <Text style={{ marginRight: 120, fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>
+            
             </View>
           </View>
         </View>
