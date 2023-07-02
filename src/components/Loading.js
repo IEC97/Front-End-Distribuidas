@@ -5,11 +5,12 @@ import { ActivityIndicator } from 'react-native-web';
 
 const Loading=({isVisible, text})=> {
   return (
-    <Overlay>
+    <Overlay
         isVisible={isVisible}
         windowBackgroundColor="rgba(0,0,0,0.5)"
         overlayBackgroundColor="transparent"
         overlayStyle={styles.overlay}
+    >
         <View>
             <ActivityIndicator/>
             {
@@ -28,5 +29,8 @@ const styles = StyleSheet.create({
         borderColor: "#442484",
         borderWidth:2,
         borderRadius:10,
-    }
+    },
+    // view:{
+
+    // },
 })

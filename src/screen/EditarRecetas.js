@@ -11,8 +11,6 @@ const EditarRecetas=({})=> {
 
   const backgroundStyle = {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     paddingVertical: 20,
     textAlign: 'center',
     backgroundColor: isModalOpen
@@ -110,7 +108,6 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       paddingHorizontal: 40,
       marginTop: 20,
-      
     },
     buttonStyle2:{
       margin: 5, 

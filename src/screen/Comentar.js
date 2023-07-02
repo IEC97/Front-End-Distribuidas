@@ -12,8 +12,6 @@ const Comentar=()=> {
   const toastRef=useRef()
 
   const[rating, setRating]=useState(null)
-  const[title, setTitle]=useState("")
-  const[errorTitle, setErrorTitle]=useState(null)
   const[review, setReview]=useState("")
   const[errorReview, setErrorReview]=useState(null)
   const[loading, setLoading]=useState(false)
@@ -25,16 +23,11 @@ const Comentar=()=> {
     }
   }
   const validForm=()=>{
-    setErrorTitle(null)
     setErrorReview(null)
     let isValid=true
 
     if(!rating){
       toastRef.current.show("Debes darle una puntuacion a la receta.", 3000)
-      isValid=false
-    }
-    if(isEmpty(title)){
-      setErrorTitle("Debes imgresar un titulo a tu comentario.")
       isValid=false
     }
     if(isEmpty(review)){
@@ -67,17 +60,13 @@ const Comentar=()=> {
       </View>
 
       <View style={styles.formReview}>
-        <Input placeholder="Titulo..."
-          containerStyle={styles.input}
-          onChange={(e) =>setTitle(e.nativeEvent.text)}
-          errorMessage={errorTitle}
-        />
         <Input placeholder="Comentario..."
           containerStyle={styles.input}
           style={styles.textArea}
           multiline
           onChange={(e) =>setReview(e.nativeEvent.text)}
           errorMessage={errorReview}
+          maxlength="10"
         />
       </View>
 
@@ -103,7 +92,7 @@ const styles = StyleSheet.create({
       },
       viewRating:{
         height:50,
-        backgroundColor:"#f2f2f2",
+        backgroundColor:"#FFFED3",
       },
       textStyle:{
         fontWeight: 'Bold',
@@ -135,10 +124,9 @@ const styles = StyleSheet.create({
         alignItems:'center',
       },
       formReview:{
-        flex: 1,
         alignItems:'center',
         margin:10,
-        marginTop:20,
+        marginTop:50,
       },
       input:{
         marginBottom:20,
