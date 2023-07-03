@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity,
 import { useNavigation } from '@react-navigation/native';
 import lechuga3 from '../imagen/lechuga3.png';
 import cheff3 from '../imagen/cheff3.png';
+import axios from 'axios';
 
 const RegisterStage2 = () => {
   const [nombre, setNombre] = useState('');
@@ -11,42 +12,42 @@ const RegisterStage2 = () => {
   const navigation = useNavigation();
 
   const handleRegister2 = async () => {
-    // Realizar solicitud al backend para verificar disponibilidad de email y alias
     try {
-        console.log('ENTRE A LA FUNCION')
-      const response = await fetch('/usuarios/terminaralta', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nombre, apellido, contrasenia }),
-        
+      const response = await axios.post('http://localhost:8080/usuarios/terminaralta', {
+        mail,
+        nickname,
+        nombre,
+        avatar: null,
+        apellido,
+        contrasenia,
+        clavederecu: null,
       });
+
       console.log('Nombre:', nombre);
       console.log('Apellido:', apellido);
       console.log('Contraseña:', contrasenia);
-      const data = await response.json();
 
-      
-
-      if (data.success) {
+      if (response.data.success) {
         Alert.alert('Muchas gracias por registrarte!');
-      } else if (data.error) {
-        Alert.alert('Error de registro', data.error);
+      } else if (response.data.error) {
+        Alert.alert('Error de registro', response.data.error);
       } else {
-        // Otro error
-        Alert.alert('Error', 'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.');
+        Alert.alert(
+          'Error',
+          'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.'
+        );
       }
-      
-      
     } catch (error) {
       console.log(error);
-      Alert.alert('Error', 'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.');
+      Alert.alert(
+        'Error',
+        'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.'
+      );
     }
-    navigation.navigate('Login')
-    console.log('TERMINE EL PROCESO DE REGISTRACION')
-  };
 
+    navigation.navigate('Login');
+    console.log('TERMINE EL PROCESO DE REGISTRACION');
+  };
     return (
     <View style={{ flex: 1 , backgroundColor: '#3f6654'}}>
         <ScrollView >
