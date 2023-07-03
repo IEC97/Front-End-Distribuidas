@@ -1,28 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
-
-// Datos de ejemplo para la receta
-const recipe = {
-  name: 'Receta de ejemplo',
-  servings: 4,
-  image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  ingredients: [
-    'Ingrediente 1',
-    'Ingrediente 2',
-    'Ingrediente 3',
-    'Ingrediente 4',
-    'Ingrediente 5',
-  ],
-  steps: [
-    'Paso 1',
-    'Paso 2',
-    'Paso 3',
-    'Paso 4',
-    'Paso 5',
-  ],
-};
+import axios from 'axios';
 
 const RecipeScreen = () => {
+  const [recipe, setRecipe] = useState(null);
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/recetas/4');
+        const data = response.data;
+        setRecipe(data);
+      } catch (error) {
+        console.error('Error al obtener la receta:', error);
+      }
+    };
+
+    fetchRecipe();
+  }, []);
+
   const renderIngredient = ({ item }) => (
     <Text style={styles.ingredient}>{item}</Text>
   );
@@ -31,23 +27,37 @@ const RecipeScreen = () => {
     <Text style={styles.step}>{`${index + 1}. ${item}`}</Text>
   );
 
+  if (!recipe) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Cargando receta...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>{recipe.name}</Text>
-      <Text style={styles.servings}>{`Para ${recipe.servings} personas`}</Text>
-      <Image source={recipe.image} style={styles.image} />
+      <Text style={styles.name}>{recipe.nombre}</Text>
+      <Text style={styles.servings}>{`Para ${recipe.cantidadPersonas} personas`}</Text>
+      <Image source={{ uri: recipe.urlfotounica }} style={styles.image} />
       <Text style={styles.sectionTitle}>Ingredientes:</Text>
       <FlatList
-        data={recipe.ingredients}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderIngredient}
-      />
+  data={recipe.utilizados}
+  keyExtractor={(item, index) => index.toString()}
+  renderItem={({ item }) => (
+    <Text style={styles.ingredient}>
+      {`${item.idIngrediente.nombre}: ${item.cantidad}`}
+    </Text>
+  )}
+/>
       <Text style={styles.sectionTitle}>Pasos de la preparación:</Text>
-      <FlatList
-        data={recipe.steps}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderStep}
-      />
+<FlatList
+  data={recipe.pasos}
+  keyExtractor={(item, index) => index.toString()}
+  renderItem={({ item, index }) => (
+    <Text style={styles.step}>{`${index + 1}. ${item.texto}`}</Text>
+  )}
+/>
     </View>
   );
 };
@@ -57,6 +67,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#FFFED3'
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   name: {
     fontSize: 24,

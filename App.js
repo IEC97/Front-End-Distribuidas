@@ -6,6 +6,7 @@ import RegisterStage2 from './src/components/RegisterStage2.js';
 import Perfil from './src/screen/Perfil.js';
 import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import RecipeScreen from './src/screen/Receta.js';
 
 
 
@@ -22,6 +23,7 @@ const App = () => {
         <Stack.Screen name="RegisterStage2" component={RegisterStage2} options={{ headerShown: false}}/>
         <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
         <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false}}/>
+        <Stack.Screen name="RecipeScreen" component={RecipeScreen} options={{ headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

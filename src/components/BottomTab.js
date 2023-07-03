@@ -7,6 +7,8 @@ import Cargar from '../screen/Cargar';
 import Details from '../screen/Details';
 import Notificaciones from '../screen/Notificaciones';
 import Perfil from '../screen/Perfil';
+import RecipeScreen from '../screen/Receta';
+import HomeScreen from '../screen/Home';
 
 const homeName='Home';
 const detailsName='Details';
@@ -45,7 +47,7 @@ const BottomTab=()=>{
                 labelStyle: {paddingBottom: 10, fontSize: 10},
                 style: {padding: 10, height: 70}
             }}>
-            <Tab.Screen name={homeName} component={Home}/>
+            <Tab.Screen name={homeName} component={HomeScreen}/>
             <Tab.Screen name={detailsName} component={Details}/>
             <Tab.Screen name={cargarName} component={Cargar} />
             <Tab.Screen name={notificacionesName} component={Notificaciones}/>

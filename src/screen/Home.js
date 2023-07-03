@@ -1,107 +1,134 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { TouchableOpacity, View, Text, TextInput, Image, StyleSheet } from 'react-native';
 
-// Datos de ejemplo para las tarjetas de recetas
-const data = [
-  {
-    id: '1',
-    title: 'Receta 1',
-    description: 'Descripción de la receta 1',
-    image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  {
-    id: '2',
-    title: 'Receta 2',
-    description: 'Descripción de la receta 2',
-    image: require('../imagen/tortilla.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  {
-    id: '3',
-    title: 'Receta 3',
-    description: 'Descripción de la receta 3',
-    image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  // Agrega más recetas aquí
-];
+
+
 
 const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredData, setFilteredData] = useState(data);
+  const [searchResults, setSearchResults] = useState([]);
+  const navigation = useNavigation();
 
-  const handleSearch = (text) => {
-    setSearchQuery(text);
-    const filtered = data.filter((recipe) =>
-      recipe.title.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredData(filtered);
+
+  const handleSearch = async () => {
+
+    try {
+      const response = await axios.get('http://localhost:8080/recetas/todas');
+      const results = response.data;
+      console.log(results);
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Error al realizar la búsqueda:', error);
+    }
   };
 
-  const renderRecipeCard = ({ item }) => (
-    <TouchableOpacity style={styles.recipeCard}>
-      <Image source={item.image} style={styles.recipeImage} />
-      <View style={styles.recipeDetails}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.description}>{item.description}</Text>
-      </View>
-    </TouchableOpacity>
-  );
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Buscar recetas"
-        value={searchQuery}
-        onChangeText={handleSearch}
-      />
-      <FlatList
-        data={filteredData}
-        keyExtractor={(item) => item.id}
-        renderItem={renderRecipeCard}
-        horizontal={true} // Acomoda las tarjetas horizontalmente
-      />
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          type="text"
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+          placeholder="Buscar..."
+        />
+        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+          <Text>Buscar</Text>
+        </TouchableOpacity>
+      </View>
+
+
+
+
+      <View style={styles.resultsContainer}>
+        <View style={styles.cardList}>
+          {searchResults.map((result) => (
+            <TouchableOpacity key={result.idReceta} onPress={() => navigation.navigate('RecipeScreen')}>
+              <View style={styles.card}>
+                <Image source={{ uri: result.fotoUnica }} style={styles.cardImage} />
+                <Text style={styles.cardTitle}>{result.nombre}</Text>
+                <Text style={styles.cardDescription}>{result.descripcion}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
     </View>
   );
 };
 
+
+
+
 const styles = StyleSheet.create({
-  container: {
+
+container:{
     flex: 1,
     padding: 16,
     backgroundColor: '#FFFED3'
+},
+
+searchContainer: {
+    fleDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
   },
-  searchBar: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 10,
-  },
-  recipeCard: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 16,
-    marginRight: 16, // Espacio entre las tarjetas
-    flexDirection: 'row', // Acomoda los elementos en una fila
-  },
-  recipeImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 8,
-    marginRight: 8,
-  },
-  recipeDetails: {
+
+  searchInput: {
     flex: 1,
+    borderWidth: 1,
+    borderColor: '#999',
+    borderRadius: 5,
+    padding: 5,
+    marginRight: 10,
   },
-  title: {
+
+  searchButton: {
+    backgroundColor: '#DDD',
+    padding: 10,
+    borderRadius: 5,
+  },
+
+  resultsContainer: {
+    marginTop: 10,
+  },
+
+  cardList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+
+  card: {
+    width: '100%',
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#999',
+    borderRadius: 5,
+    padding: 10,
+  },
+
+  cardImage: {
+    width: '100%',
+    height: 200,
+    marginBottom: 10,
+  },
+
+  cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 5,
   },
-  description: {
+
+  cardDescription: {
     fontSize: 16,
-    color: 'gray',
   },
 });
+
+
+
 
 export default HomeScreen;
