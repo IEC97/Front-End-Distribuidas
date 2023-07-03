@@ -35,7 +35,7 @@ const RegisterStage1 = () => {
     axios(config)
       .then(response => {
         console.log(JSON.stringify(response.data));
-        navigation.navigate('RegisterStage2');
+        navigation.navigate('RegisterStage2', {mail: email, nickname: nickname});
         console.log('PASE LA 1ER ETAPA DE REGISTRACION!');
       })
       .catch(error => {

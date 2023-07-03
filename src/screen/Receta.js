@@ -21,6 +21,11 @@ const RecipeScreen = ({route}) => {
     fetchRecipe();
   }, []);
 
+  const continuar = () => {
+    console.log("ENTRE AL METODO--------------")
+    navigation.navigate('Comentar')
+  }
+
   const renderIngredient = ({ item }) => (
     <Text style={styles.ingredient}>{item}</Text>
   );
@@ -40,13 +45,16 @@ const RecipeScreen = ({route}) => {
   return (
     <View style={styles.container}>
       <View style={{display:'flex',width:'100%',alignItems:'flex-end',justifyContent: "space-between", flexDirection: "row"}}> 
-       <TouchableOpacity style={styles.valorarButton} onPress={() => navigation.navigate('Comentar')}>
+
+       <TouchableOpacity style={styles.valorarButton}>
           <Text>Guardar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.valorarButton}>
+
+        <TouchableOpacity style={styles.valorarButton} onPress={(continuar)}>
           <Text>Valorar</Text>
         </TouchableOpacity>
-        </View>
+
+      </View>
       <Text style={styles.name}>{recipe.nombre}</Text>
       <Text style={styles.servings}>{`Para ${recipe.cantidadPersonas} personas`}</Text>
       <Image source={{ uri: recipe.urlfotounica }} style={styles.image} />
@@ -60,7 +68,7 @@ const RecipeScreen = ({route}) => {
     </Text>
   )}
 />
-      <Text style={styles.sectionTitle}>Pasos de la preparación:</Text>
+    <Text style={styles.sectionTitle}>Pasos de la preparación:</Text>
 <FlatList
   data={recipe.pasos}
   keyExtractor={(item, index) => index.toString()}

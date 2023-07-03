@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { TouchableOpacity, View, Text, TextInput, Image, StyleSheet } from 'react-native';
 import { Picker } from 'react-native-web';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -28,6 +29,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -67,6 +69,7 @@ const HomeScreen = () => {
           ))}
         </View>
       </View>
+      </ScrollView>
     </View>
   );
 };
