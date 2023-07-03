@@ -4,55 +4,57 @@ import axios from 'axios';
 import { TouchableOpacity, View, Text, TextInput, Image, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const HomeScreen = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const navigation = useNavigation();
+const HomeScreen = ({ route }) => {
+    const { nickname } = route.params;
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const navigation = useNavigation();
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/recetas/todas');
-      const results = response.data;
-      console.log(results);
-      setSearchResults(results);
-    } catch (error) {
-      console.error('Error al realizar la búsqueda:', error);
-    }
-  };
+    const handleSearch = async () => {
+        try {
+        const response = await axios.get('http://localhost:8080/recetas/todas');
+        const results = response.data;
+        console.log(results);
+        setSearchResults(results);
+        } catch (error) {
+        console.error('Error al realizar la búsqueda:', error);
+        }
+    };
 
-  return (
+return (
     <View style={styles.container}>
     <ScrollView>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          type="text"
-          value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text)}
-          placeholder="Buscar..."
-        />
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-          <Text>Buscar</Text>
-        </TouchableOpacity>
-      </View>
+    <Text style={{ fontSize: 18, paddingVertical: 10, fontWeight: 'bold' }}>¡Bienvenido, {nickname}!</Text>
+        <View style={styles.searchContainer}>
+            <TextInput
+            style={styles.searchInput}
+            type="text"
+            value={searchQuery}
+            onChangeText={(text) => setSearchQuery(text)}
+            placeholder="Buscar..."
+            />
+            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                <Text>Buscar</Text>
+            </TouchableOpacity>
+        </View>
 
-      <View style={styles.resultsContainer}>
+    <View style={styles.resultsContainer}>
         <View style={styles.cardList}>
-          {searchResults.map((result) => (
+        {searchResults.map((result) => (
             <TouchableOpacity key={result.idReceta} onPress={() => navigation.navigate('RecipeScreen')}>
-              <View style={styles.card}>
+            <View style={styles.card}>
                 <Image source={{ uri: result.fotoUnica }} style={styles.cardImage} />
                 <Text style={styles.cardTitle}>{result.nombre}</Text>
                 <Text style={styles.cardDescription}>{result.descripcion}</Text>
-              </View>
+            </View>
             </TouchableOpacity>
-          ))}
+        ))}
         </View>
-      </View>
-      </ScrollView>
     </View>
-  );
-};
+    </ScrollView>
+    </View>
+    );
+    };
 
 const styles = StyleSheet.create({
 container:{

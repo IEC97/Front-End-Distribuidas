@@ -16,7 +16,9 @@ const perfilName='Perfil';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTab=()=>{
+const BottomTab = ({ route }) => {
+    const { nickname, mail } = route.params ?? {};
+
     return(
         <Tab.Navigator 
             initialRouteName={homeName} 
@@ -45,11 +47,11 @@ const BottomTab=()=>{
                 labelStyle: {paddingBottom: 5, fontSize: 10},
                 style: {padding: 10, height: 70}
             }}>
-            <Tab.Screen name={homeName} component={Home}/>
+            <Tab.Screen name={homeName} component={Home} initialParams={{ nickname, mail }} />
             <Tab.Screen name={detailsName} component={Details}/>
             <Tab.Screen name={cargarName} component={Cargar} />
             <Tab.Screen name={notificacionesName} component={Notificaciones}/>
-            <Tab.Screen name={perfilName} component={Perfil}/>
+            <Tab.Screen name={perfilName} component={Perfil} initialParams={{ nickname, mail }} />
 
         </Tab.Navigator>
         
