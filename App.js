@@ -20,9 +20,11 @@ const App = () => {
       <Stack.Navigator>
       <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
 
+      <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false}}/>
+
+
       <Stack.Screen name="ListaIngredientes" component={ListaIngredientes} options={{ headerShown: false}}/>
 
-      <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false}}/>
       <Stack.Screen name="ListaUnidades" component={ListaUnidades} options={{ headerShown: false}}/>
       <Stack.Screen name="Pasos" component={Pasos} options={{ headerShown: false}}/>
 

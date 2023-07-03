@@ -4,11 +4,8 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
 
+const ListaIngredientes = () => {
 
-const ListaIngredientes = ({ route }) => {
-  const { receta } = route.params;
-
-  
   const navigation = useNavigation();
   const [ingredientes, setIngredientes] = useState([]);
   const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(new Set());
