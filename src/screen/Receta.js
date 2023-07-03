@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
-const RecipeScreen = () => {
+const RecipeScreen = ({route}) => {
   const [recipe, setRecipe] = useState(null);
+
+  const { id } = route.params
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/recetas/4');
+        const response = await axios.get(`http://localhost:8080/recetas/${id}`);
         const data = response.data;
         setRecipe(data);
       } catch (error) {
@@ -37,6 +39,14 @@ const RecipeScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={{display:'flex',width:'100%',alignItems:'flex-end',justifyContent: "space-between", flexDirection: "row"}}> 
+       <TouchableOpacity style={styles.valorarButton} onPress={() => navigation.navigate('Comentar')}>
+          <Text>Guardar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.valorarButton}>
+          <Text>Valorar</Text>
+        </TouchableOpacity>
+        </View>
       <Text style={styles.name}>{recipe.nombre}</Text>
       <Text style={styles.servings}>{`Para ${recipe.cantidadPersonas} personas`}</Text>
       <Image source={{ uri: recipe.urlfotounica }} style={styles.image} />
@@ -112,6 +122,14 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textAlign: 'center',
   },
+  valorarButton: {
+    backgroundColor: '#DDD',
+    padding: 10,
+    borderRadius: 5,
+    width: 70,
+    marginBottom: 3,
+    marginTop: 3
+  }
 });
 
 export default RecipeScreen;

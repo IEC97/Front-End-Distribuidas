@@ -9,6 +9,7 @@ import Notificaciones from '../screen/Notificaciones';
 import Perfil from '../screen/Perfil';
 import RecipeScreen from '../screen/Receta';
 import HomeScreen from '../screen/Home';
+import Comentar from '../screen/comentar';
 
 const homeName='Home';
 const detailsName='Details';

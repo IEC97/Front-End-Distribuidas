@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { TouchableOpacity, View, Text, TextInput, Image, StyleSheet } from 'react-native';
+import { Picker } from 'react-native-web';
 
 
 
@@ -10,7 +11,7 @@ const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const navigation = useNavigation();
-
+  const [selectedValue, setSelectedValue] = useState("java");
 
   const handleSearch = async () => {
 
@@ -38,17 +39,27 @@ const HomeScreen = () => {
         <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
           <Text>Buscar</Text>
         </TouchableOpacity>
+      <Picker
+        selectedValue={selectedValue}
+        style={{ height: 30, width: 50 }}
+        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+      >
+        <Picker.Item label="Nombre" value="java" />
+        <Picker.Item label="Ingrediente" value="java" />
+        <Picker.Item label="Falta de ingrediente" value="js" />
+        <Picker.Item label="Usuario" value="js" />
+      </Picker>
       </View>
-
-
+      <View style={styles.filterContainer}>
+        </View>
 
 
       <View style={styles.resultsContainer}>
         <View style={styles.cardList}>
           {searchResults.map((result) => (
-            <TouchableOpacity key={result.idReceta} onPress={() => navigation.navigate('RecipeScreen')}>
+            <TouchableOpacity key={result.idReceta} onPress={() => navigation.navigate('RecipeScreen',{id:result.idReceta})}>
               <View style={styles.card}>
-                <Image source={{ uri: result.fotoUnica }} style={styles.cardImage} />
+                <Image source={{ uri: result.urlfotounica }} style={styles.cardImage} />
                 <Text style={styles.cardTitle}>{result.nombre}</Text>
                 <Text style={styles.cardDescription}>{result.descripcion}</Text>
               </View>
@@ -72,9 +83,9 @@ container:{
 },
 
 searchContainer: {
-    fleDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+    display: 'flex'
   },
 
   searchInput: {
@@ -90,10 +101,14 @@ searchContainer: {
     backgroundColor: '#DDD',
     padding: 10,
     borderRadius: 5,
+    width: 70,
+    marginBottom: 3,
+    marginTop: 3
   },
 
   resultsContainer: {
     marginTop: 10,
+    height: "100%"
   },
 
   cardList: {
@@ -109,6 +124,7 @@ searchContainer: {
     borderColor: '#999',
     borderRadius: 5,
     padding: 10,
+    backgroundColor: "white"
   },
 
   cardImage: {
