@@ -129,7 +129,6 @@ const Login = () => {
 };
 
 export default Login;
-
 const styles = StyleSheet.create({
   image: {
     marginRight: 20,
