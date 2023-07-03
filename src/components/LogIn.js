@@ -7,9 +7,9 @@ import cheff from '../imagen/cheff.png';
 import axios from 'axios';
 
 const Login = () => {
+  const navigation = useNavigation();
   const [nickname, setNickname] = useState('');
   const [contrasenia, setContrasenia] = useState('');
-  const navigation = useNavigation();
   const [errorMessage, setErrorMessage] = useState('');
   const [capsLockEnabled, setCapsLockEnabled] = useState(false);
   const handlePasswordChange = text => {
@@ -35,7 +35,7 @@ const Login = () => {
     axios(config)
       .then(response => {
         console.log(JSON.stringify(response.data));
-        navigation.navigate('BottomTab');
+        navigation.navigate('BottomTab', { nickname: nickname , mail: response.data.mail});
         console.log('TERMINE EL PROCESO DE INICIO DE SESION');
       })
       .catch(error => {
@@ -43,6 +43,7 @@ const Login = () => {
         setErrorMessage('Credenciales incorrectas. Verifique su usuario o su contraseña e intentelo denuevo!');
       });
   };
+
   return (
     <View style={{ flex: 1, backgroundColor: '#502f54'}}>
       <ScrollView>
