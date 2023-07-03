@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
       goBackButton: {
         color: '#ffffff',
         fontSize: 17,
-        backgroundColor: '#244f37',
+        backgroundColor: '#70011b',
         borderRadius: 100,
         textAlign: 'center',
         width: 80,

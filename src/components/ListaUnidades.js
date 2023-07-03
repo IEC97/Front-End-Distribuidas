@@ -50,6 +50,10 @@ const ListaUnidades = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.goBackButton}>Volver</Text>
+      </TouchableOpacity>
+
       <Text style={styles.title}>Lista de Unidades</Text>
       <FlatList
         data={ingredientes}
@@ -107,17 +111,33 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    margin: 5,
-    backgroundColor: '#244f37',
+    marginTop: 10,
+    backgroundColor: '#703701',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 100,
-    paddingVertical: 10,
-    textAlign: 'center',
-    width: 200
-  }, 
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    width: 150,
+  },
   buttonText: {
     color: 'white',
-    fontSize: 20,
-    textAlign: 'center'
+    fontSize: 15,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    margin: 10,
+  },
+  goBackButton: {
+    color: '#ffffff',
+    fontSize: 15,
+    backgroundColor: '#70011b',
+    borderRadius: 100,
+    textAlign: 'center',
+    justifyContent: 'center',
+    width: 80,
+    padding: 5,
+    marginBottom: 20,
   },
 });
 

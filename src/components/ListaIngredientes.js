@@ -56,37 +56,43 @@ const ListaIngredientes = () => {
 
   return (
     <View style={styles.container}>
+      <View style={{marginRight:'auto', paddingLeft: 20}}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.goBackButton}>Volver</Text>
+        </TouchableOpacity>
+      </View>
       
-        <Text style={styles.title}>Ingredientes:</Text>
-        <Text style={{fontSize: 15, textAlign: 'center', paddingBottom: 40}}>¡Selecciona el/los ingredientes necesarios para realizar tu receta!</Text>
-        <FlatList
-        style={styles.flatListContainer}
-          data={ingredientes}
-          keyExtractor={(item) => item.idIngrediente.toString()}
-          renderItem={renderizarIngredientes}
-          numColumns={3}
-        />
 
-        <Text style={styles.title}>Ingredientes seleccionados:</Text>
+      <Text style={styles.title}>Ingredientes:</Text>
+      <Text style={{fontSize: 15, textAlign: 'center', paddingBottom: 40}}>¡Selecciona el/los ingredientes necesarios para realizar tu receta!</Text>
+      <FlatList
+      style={styles.flatListContainer}
+        data={ingredientes}
+        keyExtractor={(item) => item.idIngrediente.toString()}
+        renderItem={renderizarIngredientes}
+        numColumns={3}
+      />
 
-        <View style={styles.ingredientesSeleccionadosContainer}>
-          {Array.from(ingredientesSeleccionados).map((ingrediente) => (
-            <TouchableOpacity
-              key={ingrediente.idIngrediente}
-              style={[styles.ingredienteButton, styles.ingredienteButtonSelected]}
-              onPress={() => seleccionarIngrediente(ingrediente)}
-            >
-              <Text style={styles.ingredienteText}>{ingrediente.nombre}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
- 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={continuar} style={styles.button}>
-            <Text style={styles.buttonText}>Continuar</Text>
+      <Text style={styles.title}>Ingredientes seleccionados:</Text>
+
+      <View style={styles.ingredientesSeleccionadosContainer}>
+        {Array.from(ingredientesSeleccionados).map((ingrediente) => (
+          <TouchableOpacity
+            key={ingrediente.idIngrediente}
+            style={[styles.ingredienteButton, styles.ingredienteButtonSelected]}
+            onPress={() => seleccionarIngrediente(ingrediente)}
+          >
+            <Text style={styles.ingredienteText}>{ingrediente.nombre}</Text>
           </TouchableOpacity>
-        </View>
-    </View>
+        ))}
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={continuar} style={styles.button}>
+          <Text style={styles.buttonText}>Continuar</Text>
+        </TouchableOpacity>
+      </View>
+  </View>
   );
 };
 
@@ -149,6 +155,21 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 15,
+  },
+  goBackButton: {
+    color: '#ffffff',
+    fontSize: 15,
+    backgroundColor: '#70011b',
+    borderRadius: 100,
+    textAlign: 'center',
+    width: 80,
+    padding: 5,
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    margin: 10,
+    flexDirection: 'row',
   },
 });
 
