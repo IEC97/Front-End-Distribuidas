@@ -1,44 +1,24 @@
 import * as React from 'react';
-import {Text, Modal, View,TouchableOpacity, Switch,StyleSheet} from 'react-native';
+import {Text,Modal,View,TouchableOpacity,StyleSheet} from 'react-native';
 
 const ModalEditar=({isModalOpen, setIsModalOpen})=>{
-  const [switch1, setSwitch1] = React.useState(false);
-
-  const modalOptions = [
-    {
-      title: '💡 Tips',
-      value: switch1,
-      setSwitch: setSwitch1,
-    },
-  ];
-
-
 
   return(
-      <Modal visible={isModalOpen} transparent={true} animationType={'slide'}>
-          <View style={styles.modalContainerStyle}>
-              <View style={styles.modalStyle}>
-                  <Text style={styles.titleStyle}>Edita Ingredientes</Text>
-                  {modalOptions.map((option, index) => {
-                  return (
-                      <View style={styles.optionContainer} key={index}>
-                      <Text style={styles.optionTextStyle}>{option.title}</Text>
-                      <Switch
-                          value={option.value}
-                          onValueChange={option.setSwitch}
-                        />
-                      </View>
-                    );
-                    })}
-                    <TouchableOpacity
-                      style={styles.buttonStyle}
-                      onPress={() => setIsModalOpen(!setIsModalOpen)}
-                    >
-                      <Text style={styles.textButton}>Cerrar</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-      </Modal> 
+    <Modal visible={isModalOpen} transparent={true} animationType={'slide'}>
+      <View style={styles.modalContainerStyle}>
+        <View style={styles.modalStyle}>
+          <Text style={styles.titleStyle}>Ingredientes</Text>
+            
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => setIsModalOpen(!setIsModalOpen)}
+            >
+            <Text style={styles.textButton}>Cerrar</Text>
+            </TouchableOpacity>
+
+        </View>
+      </View>
+    </Modal> 
     );
 };
 export default ModalEditar;
@@ -60,21 +40,21 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   }),
-  optionContainer:({
-    width: '100%',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    marginVertical: 10,
-  }),
+  // optionContainer:({
+  //   width: '100%',
+  //   justifyContent: 'space-between',
+  //   flexDirection: 'row',
+  //   marginVertical: 10,
+  // }),
   modalContainerStyle:({
     flex: 1,
     justifyContent: 'center',
   }),
-  optionTextStyle:({
-    fontSize: 18,
-    fontWeight: '500',
-    color: 'black',
-  }),
+  // optionTextStyle:({
+  //   fontSize: 18,
+  //   fontWeight: '500',
+  //   color: 'black',
+  // }),
   titleStyle:({
     color: 'black',
     fontSize: 20,

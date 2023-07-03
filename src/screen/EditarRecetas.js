@@ -1,13 +1,45 @@
-import React, {useState} from 'react';
+import React, {useRef,useState} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
 import ModalEditar from '../components/ModalEditar';
-import { FontAwesome } from '@expo/vector-icons';
+import {FontAwesome,Ionicons} from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
-import { View, StyleSheet, Text,TextInput, Image, useColorScheme, TouchableOpacity} from 'react-native';
+import Loading from '../components/Loading';
+import {isEmpty} from 'lodash'
+import {Input} from '@rneui/themed';
+import  Toast  from 'react-native-easy-toast';
+import {useNavigation} from '@react-navigation/native';
+import {View,StyleSheet,Text,Image,useColorScheme,TouchableOpacity} from 'react-native';
 
-const EditarRecetas=({navigation})=> {
-
+const EditarRecetas=()=> {
+  const toastRef=useRef()
   const[selectedImage, setSelectedImage]=useState(tortilla)
+
+  const[campos, setCampos]=useState("")
+  const[errorCampos, setErrorCampos]=useState(null)
+  const[loading, setLoading]=useState(false)
+  const navigation = useNavigation();
+
+  const editar=()=>{
+    if (!validForm()){
+      return
+    }
+    setLoading(true)
+    setLoading(false)
+  }
+
+  const validForm=()=>{
+    setErrorCampos(null)
+    let isValid=true
+    if(!campos){
+      toastRef.current.show("Debes completar el campo", 3000)
+      isValid=false
+    }
+    if(isEmpty(campos)){
+      setErrorCampos("Debes completar el campo.")
+      isValid=false
+    }
+    return isValid
+  }
 
   const handleImageSelection = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -40,8 +72,16 @@ const EditarRecetas=({navigation})=> {
   };
   return (
     <View style={backgroundStyle}>
-
       <View>
+
+        <View>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <View style={styles.viewIcono2}>
+              <Ionicons name="arrow-back-circle-sharp" size={30} color="black" />
+            </View>
+          </TouchableOpacity>
+        </View>
+
         <Text style={styles.textStyle}>Editar Imagen</Text>
         <View style={styles.iconoLapiz}>
           <TouchableOpacity onPress={handleImageSelection}>
@@ -58,21 +98,24 @@ const EditarRecetas=({navigation})=> {
                   
       <View>
         <Text style={styles.textStyle}>Editar Titulo</Text>
-        <TextInput
-          style={styles.inputStyle}
-            autoCapitalize="none"
-            autoCorrect={false}
-            placeholder="Cambie el tiutlo de su receta"
+        <Input
+          style={styles.input}
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="Cambie el tiutlo de su receta"
+          onChange={(e) =>setCampos(e.nativeEvent.text)}
+          errorMessage={errorCampos}
         />               
       </View>
       
       <View>
-        <Text style={styles.textStyle}>Ingredientes</Text>
-        <Text style={styles.textStyle2}>Editar ingredientes</Text>
+        <Text style={styles.textStyle}>Editar ingredientes</Text>
 
-        <TouchableOpacity style={styles.buttonStyle2}  onPress={() => setIsModalOpen(!isModalOpen)}>
-          <Text style={styles.textButton}>Aqui!</Text>
-        </TouchableOpacity> 
+        <View style={styles.buttonStyle2}>
+          <TouchableOpacity   onPress={() => setIsModalOpen(!isModalOpen)}>
+            <Text style={styles.textButton}>Aqui!</Text>
+          </TouchableOpacity>
+        </View>
 
         <ModalEditar  
           isModalOpen={isModalOpen}
@@ -80,17 +123,16 @@ const EditarRecetas=({navigation})=> {
       </View>
 
       <View>
-        <Text style={styles.textStyle}>Preparacion</Text>
-        <Text style={styles.textStyle2}>Presiona en un paso para verlo completo!</Text>
+        <Text style={styles.textStyle}>Editar Pasos</Text>
+        
       </View>
                   
-      <View style={styles.buttonStyle}>
-        <TouchableOpacity>
-            <View>
-              <Text style={styles.textButton}>Editar</Text>
-            </View>
-        </TouchableOpacity>
-      </View>
+      
+      <TouchableOpacity style={styles.buttonStyle} onPress={editar}>
+        <Text style={styles.textButton}>Guardar</Text>
+      </TouchableOpacity>
+      <Toast ref={toastRef} position="center" opacity={0.9}/>
+      <Loading isVisible={loading} text="Guardando..."/>
 
     </View>
   );
@@ -102,10 +144,10 @@ const styles = StyleSheet.create({
       alignItems:"center", 
       marginVertical:25,
     },
-    inputStyle:{
+    input:{
       fontSize: 15,
       textAlign: 'center',
-      width: 250,
+      width: 150,
       height: 30,
       margin: 5,
       borderRadius: 100,
@@ -121,8 +163,8 @@ const styles = StyleSheet.create({
     },
     viewIcono2:{
       position:'absolute',
-      bottom:0,
-      right:45,
+      top:7,
+      right:230,
       zIndex:9999,
     },
     textStyle:{
@@ -158,6 +200,7 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       paddingHorizontal: 20,
       marginTop: 10,
+      
     },
     imageView:{
       marginTop: 10, 

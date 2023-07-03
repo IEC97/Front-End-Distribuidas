@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
 import { View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 import { AirbnbRating, Input } from '@rneui/themed';
+import { Ionicons } from '@expo/vector-icons'; 
 import  Toast  from 'react-native-easy-toast';
 import {isEmpty} from 'lodash'
 import Loading from '../components/Loading';
@@ -42,9 +43,15 @@ const Comentar=()=> {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.textStyle}>Tortilla de Papa</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <View style={styles.viewIcono2}>
+            <Ionicons name="arrow-back-circle-sharp" size={30} color="black" />
+          </View>
+        </TouchableOpacity>
       </View>
 
+      <Text style={styles.textStyle}>Tortilla de Papa</Text>
+    
       <View style={styles.imageView}>
         <Image style= {styles.imageStyle} source={tortilla}/>
       </View>
@@ -95,6 +102,12 @@ const styles = StyleSheet.create({
       viewRating:{
         height:50,
         backgroundColor:"#FFFED3",
+      },
+      viewIcono2:{
+        position:'absolute',
+        top:7,
+        right:80,
+        zIndex:9999,
       },
       textStyle:{
         fontWeight: 'Bold',
