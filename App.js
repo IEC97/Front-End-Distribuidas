@@ -18,6 +18,9 @@ const App = () => {
   return ( 
     <NavigationContainer>
       <Stack.Navigator>
+
+      <Stack.Screen name="Pasos" component={Pasos} options={{ headerShown: false}}/>
+
       <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
 
       <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false}}/>
@@ -26,7 +29,6 @@ const App = () => {
       <Stack.Screen name="ListaIngredientes" component={ListaIngredientes} options={{ headerShown: false}}/>
 
       <Stack.Screen name="ListaUnidades" component={ListaUnidades} options={{ headerShown: false}}/>
-      <Stack.Screen name="Pasos" component={Pasos} options={{ headerShown: false}}/>
 
         <Stack.Screen name="RecipeScreen" component={RecipeScreen} options={{ headerShown: false}}/>
         <Stack.Screen name="RegisterStage1" component={RegisterStage1} options={{ headerShown: false}}/>

@@ -13,8 +13,6 @@ const Pasos = () => {
       pasos: [{ texto: '' }],
     });
 
-
-
     const agregarPaso = () => {
         setPasos([...pasos, { texto: '' }]);
     };
@@ -26,10 +24,7 @@ const Pasos = () => {
     };
 
     const finalizarCarga = () => {
-      console.log('---------INGREDIENTES:', ingredientesArray)
-      console.log('---------INGREDIENTES:', ingredientesArray)
-      console.log('---------INGREDIENTES:', ingredientesArray)
-      console.log('---------INGREDIENTES:', ingredientesArray)
+      navigation.navigate('BottomTab');
     }
 
     return (
@@ -48,12 +43,12 @@ const Pasos = () => {
                 onChangeText={(texto) => handleChangeTexto(texto, index)}
             />
             {index === pasos.length - 1 && (
-                <Button title="Agregar paso" onPress={agregarPaso} />
+                <Button style={{backgroundColor: '#3f6654'}} title="Agregar paso" onPress={agregarPaso} />
             )}
             </View>
         ))}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={finalizarCarga} style={styles.button}>
+            <TouchableOpacity onPress={finalizarCarga} style={styles.buttonFinal}>
               <Text style={styles.buttonText}>Finalizar</Text>
             </TouchableOpacity>
           </View>
@@ -76,6 +71,7 @@ const styles = StyleSheet.create({
   pasoContainer: {
     flexDirection: 'row',
     marginBottom: 10,
+    backgroundColor: '#FFE5A6',
   },
   input: {
     flex: 1,
@@ -93,6 +89,30 @@ const styles = StyleSheet.create({
     width: 80,
     padding: 5,
     marginBottom: 20,
+  },
+  agregarPaso:{
+    backgroundColor: '#3f6654',
+  },
+  buttonFinal:{
+    marginTop: 10,
+    backgroundColor: '#703701',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    width: 150,
+  },
+  buttonText:{
+    color: 'white',
+    fontSize: 15,
+  },
+  buttonContainer:{
+    alignItems: 'center',
+    alignSelf: 'center',
+    margin: 10,
+    flexDirection: 'row',
+    marginTop: 50
   },
 });
 

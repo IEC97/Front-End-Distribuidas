@@ -10,6 +10,23 @@ const ListaIngredientes = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(new Set());
 
+  const continuar = () => {
+    const ingredientesArray = Array.from(ingredientesSeleccionados);
+    console.log('---------INGREDIENTES:', ingredientesArray);
+    navigation.navigate('ListaUnidades', { ingredientes: ingredientesArray });
+  };
+
+/*
+  const continuar = async () => {
+    const datos = {
+      nombre: nombre,
+      descripcion: descripcion,
+      porciones: porciones,
+      cantidadPersonas: personas,
+      fotounica: null,
+    };
+*/
+  
   useEffect(() => {
     obtenerIngredientes();
   }, []);
@@ -45,14 +62,6 @@ const ListaIngredientes = () => {
       <Text style={styles.ingredienteText}>{item.nombre}</Text>
     </TouchableOpacity>
   );
-
-  const continuar = () => {
-    const ingredientesArray = Array.from(ingredientesSeleccionados);
-    console.log('---------INGREDIENTES:', ingredientesArray);
-    navigation.navigate('ListaUnidades', { ingredientes: ingredientesArray });
-    
-  };
-  
 
   return (
     <View style={styles.container}>
