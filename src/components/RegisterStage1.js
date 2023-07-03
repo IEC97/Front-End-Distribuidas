@@ -1,135 +1,105 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import cocina3 from '../imagen/cocina3.png';
+
 
 const RegisterStage1 = () => {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const navigation = useNavigation();
-
-  const handleRegister = async () => {
-    // Realizar solicitud al backend para verificar disponibilidad de email y alias
-    try {
-        console.log('ENTRE A LA FUNCION')
-      const response = await fetch('/usuarios/nuevousuario', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, nickname }),
-        
-      });
-      console.log('Email:', email);
-      console.log('Nickname:', nickname);
-      const data = await response.json();
-    
-
-      if (data.success) {
-        Alert.alert('Registro exitoso', 'Se envió un correo electrónico de confirmación.');
-      } else if (data.error) {
-        Alert.alert('Error de registro', data.error);
-      } else if (data.suggestedNicknames) {
-        // Nicknames sugeridos
-        // setSuggestedNicknames(data.suggestedNicknames);
-      } else {
-        // Otro error
-        Alert.alert('Error', 'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.');
-      }
-      
-
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Error', 'Ocurrió un error al procesar el registro. Inténtalo nuevamente más tarde.');
+  const [errorMessage, setErrorMessage] = useState('');
+  
+  const fetchRegister = () => {
+    // Validar el formato del email
+    if (!email.includes('@')) {
+      setErrorMessage('Ingrese un email válido');
+      return;
     }
-
-    navigation.navigate('RegisterStage2')
-    console.log('REDIRIGI')
+  
+    const data = JSON.stringify({
+      mail: email,
+      nickname: nickname
+    });
+  
+    const config = {
+      method: 'post',
+      url: 'http://localhost:8080/usuarios/nuevousuario',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+  
+    axios(config)
+      .then(response => {
+        console.log(JSON.stringify(response.data));
+        navigation.navigate('RegisterStage2');
+        console.log('PASE LA 1ER ETAPA DE REGISTRACION!');
+      })
+      .catch(error => {
+        console.log(error.response);
+        if (error.response && error.response.status === 409) {
+          setErrorMessage('Ya existe una cuenta registrada con ese email.');
+        } else {
+          setErrorMessage('Error en el servidor');
+        }
+      });
   };
-
+  
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 , backgroundColor: '#3f6654'}}>
       <ScrollView>
-        <View style={{ backgroundColor: '#ffffff' }}>
-          <View style={{ backgroundColor: '#489c80', padding: 65, borderBottomLeftRadius: 35 }}>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Image Style={{width:100, height: 100, resizeMode:'contain'}}/>
-            </View>
+        <View style={styles.container}>
 
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Registrar</Text>
-              <Text style={{ fontWeight: '400', fontSize: 20, color: '#ffffff' }}>Usuario visitante</Text>
-            </View>
-          </View>
+          <View>
+            <Image style={styles.image} source={cocina3} />
+          </View> 
+          
         </View>
-
+        
         <View style={{ backgroundColor: '#489c80' }}>
-          <View style={{ justifyContent: 'center', backgroundColor: '#ffffff', paddingHorizontal: 30, borderTopRightRadius: 35 }}>
-            <View style={{ marginTop: 40, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#246b54', padding: 20 }}>Email</Text>
+          <View style={styles.formContainer}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Email</Text>
               <TextInput
-                style={{
-                  fontSize: 20,
-                  textAlign: 'center',
-                  width: 300,
-                  height: 40,
-                  margin: 5,
-                  borderRadius: 100,
-                  color: '#244f37',
-                  backgroundColor: '#e7e7e7',
-                  padding: 10,
-                }}
+                style={styles.input}
                 autoCapitalize="none"
                 autoCorrect={false}
                 value={email}
-                onChangeText={(text) => setEmail(text)}
+                onChangeText={text => setEmail(text)}
                 placeholder="Ingrese su email"
               />
             </View>
 
-            <View style={{ marginTop: 10, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#246b54', padding: 20 }}>Username</Text>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Username</Text>
               <TextInput
-                style={{
-                  fontSize: 20,
-                  textAlign: 'center',
-                  width: 300,
-                  height: 40,
-                  margin: 5,
-                  borderRadius: 100,
-                  color: '#244f37',
-                  backgroundColor: '#e7e7e7',
-                  padding: 10,
-                }}
+                style={styles.input}
                 autoCapitalize="none"
                 autoCorrect={false}
                 value={nickname}
-                onChangeText={(text) => setNickname(text)}
+                onChangeText={text => setNickname(text)}
                 placeholder="Ingrese un nickname"
               />
             </View>
 
-            <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-              <TouchableOpacity onPress={handleRegister}>
-                <View
-                  style={{
-                    margin: 5,
-                    backgroundColor: '#244f37',
-                    borderRadius: 100,
-                    paddingVertical: 10,
-                    textAlign: 'center',
-                    width: 300,
-                  }}
-                >
-                  <Text style={{ color: 'white', fontSize: 20 }}>Continuar</Text>
-                </View>
+            {errorMessage ? (
+              <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ color: 'red', fontSize: 16 }}>{errorMessage}</Text>
+              </View>
+            ) : null}
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={fetchRegister} style={styles.button}>
+                <Text style={styles.buttonText}>Continuar</Text>
               </TouchableOpacity>
             </View>
 
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={styles.loginContainer}>
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={{ fontWeight: '300', paddingLeft: 5, fontSize: 17, color: '#0A5269', paddingTop: 10 }}>
-                  Ya tienes una cuenta?
-                </Text>
+                <Text style={styles.loginText}>Ya tienes una cuenta?</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -138,5 +108,79 @@ const RegisterStage1 = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    marginRight: 1,
+    backgroundColor: '#489c80',
+    padding: 15,
+  }, 
+  image: {
+    width: 280,
+    height: 160,
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  formContainer: {
+    backgroundColor: '#FFFED3',
+    paddingHorizontal: 30,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    alignItems: 'center'
+  },
+  inputContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  label: {
+    fontWeight: '600',
+    paddingLeft: 5,
+    fontSize: 26,
+    color: '#246b54',
+    padding: 20
+  },
+  input: {
+    fontSize: 20,
+    textAlign: 'center',
+    width: 250,
+    height: 40,
+    margin: 5,
+    borderRadius: 100,
+    color: '#244f37',
+    backgroundColor: '#FFE5A6',
+    padding: 10
+  },
+  buttonContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  button: {
+    margin: 5,
+    backgroundColor: '#244f37',
+    borderRadius: 100,
+    paddingVertical: 10,
+    textAlign: 'center',
+    width: 200
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  loginContainer: {
+    paddingVertical: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  loginText: {
+    fontWeight: '300',
+    paddingLeft: 5,
+    fontSize: 17,
+    color: '#3f6654'
+  }
+});
 
 export default RegisterStage1;

@@ -19,12 +19,14 @@ const perfilName='Perfil';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTab=()=>{
+const BottomTab = ({ route }) => {
+    const { nickname, mail } = route.params ?? {};
+
     return(
         <Tab.Navigator 
             initialRouteName={homeName} 
             screenOptions={({route}) => ({
-                tabBarStyle: { backgroundColor: '#0A5269' },
+                tabBarStyle: { backgroundColor: '#fff0b7', paddingTop: 10 },
                 tabBarIcon: ({focused, color, size}) =>{
                     let iconName;
                     let rn = route.name;
@@ -43,16 +45,16 @@ const BottomTab=()=>{
                 },
             })}
             tabBarOptions={{
-                activeTintColor: '#59AFB5',
-                inactiveTintColor: 'white',
-                labelStyle: {paddingBottom: 10, fontSize: 10},
+                activeTintColor: '#703701',
+                inactiveTintColor: '#bd732d',
+                labelStyle: {paddingBottom: 5, fontSize: 10},
                 style: {padding: 10, height: 70}
             }}>
-            <Tab.Screen name={homeName} component={HomeScreen}/>
-            <Tab.Screen name={detailsName} component={Details}/>
-            <Tab.Screen name={cargarName} component={Cargar} />
-            <Tab.Screen name={notificacionesName} component={Notificaciones}/>
-            <Tab.Screen name={perfilName} component={Perfil}/>
+            <Tab.Screen name={homeName} component={Home} initialParams={{ nickname, mail }} />
+            <Tab.Screen name={detailsName} component={Details} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={cargarName} component={Cargar} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={notificacionesName} component={Notificaciones} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={perfilName} component={Perfil} initialParams={{ nickname, mail }} />
 
         </Tab.Navigator>
         

@@ -96,7 +96,6 @@ searchContainer: {
     padding: 5,
     marginRight: 10,
   },
-
   searchButton: {
     backgroundColor: '#DDD',
     padding: 10,
@@ -116,7 +115,6 @@ searchContainer: {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
-
   card: {
     width: '100%',
     marginBottom: 10,
@@ -132,13 +130,11 @@ searchContainer: {
     height: 200,
     marginBottom: 10,
   },
-
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
   },
-
   cardDescription: {
     fontSize: 16,
   },
