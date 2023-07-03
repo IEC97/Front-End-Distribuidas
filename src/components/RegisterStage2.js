@@ -19,7 +19,7 @@ const RegisterStage2 = ({route}) => {
         nickname: nickname,
         nombre: nombre,
         avatar: "avatar5",
-        tipo_usuario: "alumno",
+        tipo_usuario: "Alumno",
         contrasenia: contrasenia,
         clavederecu: clavederecu,
       });

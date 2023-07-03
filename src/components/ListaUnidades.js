@@ -5,21 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 const unidades = ['Gramos', 'Kilos', 'Litros', 'Mililitros', 'Pieza/Unidad'];
 
 const ListaUnidades = ({ route }) => {
-  const { ingredientes } = route.params;
-
   const navigation = useNavigation();
   const [cantidades, setCantidades] = useState({});
   const [unidadesSeleccionadas, setUnidadesSeleccionadas] = useState({});
 
-  const continuar = async () => {
-    const listaIngredientes = Array.from(ingredientes);
-    const datosIngredientes = {
-      nombre: nombre,
-      descripcion: descripcion,
-      porciones: porciones,
-      cantidadPersonas: personas,
-      fotounica: null,
-    };
+  const { ingredientes } = route.params;
 
   const seleccionarCantidad = (ingrediente, cantidad) => {
     setCantidades((prevCantidades) => ({
@@ -57,7 +47,7 @@ const ListaUnidades = ({ route }) => {
       </Picker>
     </View>
   );
-}
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>

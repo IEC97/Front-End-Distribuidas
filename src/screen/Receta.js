@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 const RecipeScreen = ({route}) => {
   const [recipe, setRecipe] = useState(null);
-
+  const navigation = useNavigation();
   const { id } = route.params
 
   useEffect(() => {
@@ -44,16 +45,20 @@ const RecipeScreen = ({route}) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.goBackButton}>Volver</Text>
+      </TouchableOpacity>
       <View style={{display:'flex',width:'100%',alignItems:'flex-end',justifyContent: "space-between", flexDirection: "row"}}> 
 
        <TouchableOpacity style={styles.valorarButton}>
           <Text>Guardar</Text>
         </TouchableOpacity>
 
+        <View>
         <TouchableOpacity style={styles.valorarButton} onPress={(continuar)}>
           <Text>Valorar</Text>
         </TouchableOpacity>
-
+        </View>
       </View>
       <Text style={styles.name}>{recipe.nombre}</Text>
       <Text style={styles.servings}>{`Para ${recipe.cantidadPersonas} personas`}</Text>
@@ -81,6 +86,16 @@ const RecipeScreen = ({route}) => {
 };
 
 const styles = StyleSheet.create({
+  goBackButton: {
+    color: '#ffffff',
+    fontSize: 17,
+    backgroundColor: '#70011b',
+    borderRadius: 100,
+    textAlign: 'center',
+    width: 80,
+    padding: 5,
+    marginBottom: 20,
+  },
   container: {
     flex: 1,
     padding: 16,
