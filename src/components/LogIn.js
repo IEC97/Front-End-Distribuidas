@@ -12,7 +12,6 @@ const Login = () => {
   const navigation = useNavigation();
   const [errorMessage, setErrorMessage] = useState('');
   const [capsLockEnabled, setCapsLockEnabled] = useState(false);
-
   const handlePasswordChange = text => {
     setContrasenia(text);
     setCapsLockEnabled(text !== '' && text.toUpperCase() === text);
@@ -44,7 +43,6 @@ const Login = () => {
         setErrorMessage('Credenciales incorrectas. Verifique su usuario o su contraseña e intentelo denuevo!');
       });
   };
-
   return (
     <View style={{ flex: 1, backgroundColor: '#502f54'}}>
       <ScrollView>
@@ -55,7 +53,6 @@ const Login = () => {
             <Text style={{ marginRight: 120, fontWeight: '500', fontSize: 25, color: '#ffffff' }}>Iniciar Sesion</Text>  
           </View> 
         </View>
-
         {/* container - login */}
         <View style={{ backgroundColor: '#9C67A2' }}>
           <View style={{ justifyContent: 'center', backgroundColor: '#FFFED3', paddingHorizontal: 30, borderTopRightRadius: 35 }}>
@@ -80,7 +77,6 @@ const Login = () => {
                 placeholder="Ingrese un usuario"
               />
             </View>
-
             <View style={{ marginTop: 10, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ fontWeight: '600', paddingLeft: 5, fontSize: 26, color: '#803269', padding: 20 }}>Password</Text>
               <TextInput
@@ -106,19 +102,16 @@ const Login = () => {
                 <Text style={{ color: 'red', fontSize: 12 }}>Mayúsculas activadas</Text>
               )}
             </View>
-
             {errorMessage ? (
               <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ color: 'red', fontSize: 16 }}>{errorMessage}</Text>
               </View>
             ) : null}
-
             <View style={{ display: 'flex', marginTop: 35, alignItems: 'center', justifyContent: 'center' }}>
               <TouchableOpacity onPress={fetchLogin}>
                 <Image style={{ width: 180, height: 35 }} source={rodillo} />
               </TouchableOpacity>
             </View>
-
             <View style={{ paddingVertical: 20, justifyContent: 'center', alignItems: 'center' }}>
               <TouchableOpacity onPress={() => navigation.navigate('RegisterStage1')}>
                 <Text style={{ fontWeight: '300', paddingLeft: 5, fontSize: 17, color: '#713700' }}>
@@ -135,7 +128,6 @@ const Login = () => {
 };
 
 export default Login;
-
 const styles = StyleSheet.create({
   image: {
     marginRight: 20,
