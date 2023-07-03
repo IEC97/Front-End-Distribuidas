@@ -48,9 +48,9 @@ const BottomTab = ({ route }) => {
                 style: {padding: 10, height: 70}
             }}>
             <Tab.Screen name={homeName} component={Home} initialParams={{ nickname, mail }} />
-            <Tab.Screen name={detailsName} component={Details}/>
-            <Tab.Screen name={cargarName} component={Cargar} />
-            <Tab.Screen name={notificacionesName} component={Notificaciones}/>
+            <Tab.Screen name={detailsName} component={Details} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={cargarName} component={Cargar} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={notificacionesName} component={Notificaciones} initialParams={{ nickname, mail }}/>
             <Tab.Screen name={perfilName} component={Perfil} initialParams={{ nickname, mail }} />
 
         </Tab.Navigator>

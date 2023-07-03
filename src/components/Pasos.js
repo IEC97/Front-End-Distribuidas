@@ -5,6 +5,15 @@ import { useNavigation } from '@react-navigation/native';
 const Pasos = () => {
     const navigation = useNavigation();
     const [pasos, setPasos] = useState([{ texto: '' }]);
+    const [receta, setReceta] = useState({
+      imagen: '',
+      nombre: '',
+      cantidadPersonas: 0,
+      ingredientes: [],
+      pasos: [{ texto: '' }],
+    });
+
+
 
     const agregarPaso = () => {
         setPasos([...pasos, { texto: '' }]);
@@ -15,6 +24,13 @@ const Pasos = () => {
         nuevosPasos[index].texto = texto;
         setPasos(nuevosPasos);
     };
+
+    const finalizarCarga = () => {
+      console.log('---------INGREDIENTES:', ingredientesArray)
+      console.log('---------INGREDIENTES:', ingredientesArray)
+      console.log('---------INGREDIENTES:', ingredientesArray)
+      console.log('---------INGREDIENTES:', ingredientesArray)
+    }
 
     return (
         <View style={styles.container}>
@@ -36,6 +52,11 @@ const Pasos = () => {
             )}
             </View>
         ))}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={finalizarCarga} style={styles.button}>
+              <Text style={styles.buttonText}>Finalizar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
     );
 };

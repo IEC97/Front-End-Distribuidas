@@ -7,12 +7,20 @@ import eliminarImg from '../imagen/eliminarImg.png';
 
 export default function SubirImagenes() {
     const [imageUris, setImageUris] = useState([]);
+    const [nombre, setNombre] = useState([]);
     const [contador, setContador] = useState(1);
     const navigation = useNavigation();
 
-    const seleccionarIngredientes = () => {
-        navigation.navigate('ListaIngredientes');
-    }
+    const continuar = () => {
+      const imagenes = Array.from(imageUris);
+      const datosReceta = {
+        imagenes: imagenes,
+        nombre: nombre,
+        personas: contador};
+      console.log(datosReceta);
+      navigation.navigate('ListaIngredientes', { receta: datosReceta});
+      
+    };
 
     const incrementarContador = () => {
       setContador(prevContador => prevContador + 1);
@@ -49,6 +57,8 @@ export default function SubirImagenes() {
         });
       };
 
+    
+
     return(
         <View style={{ flex: 1 }}>
             <ScrollView contentContainerStyle={styles.container}>
@@ -82,6 +92,8 @@ export default function SubirImagenes() {
                         autoCapitalize="none"
                         autoCorrect={false}
                         placeholder="Ingrese un titulo para su receta"
+                        value={nombre}
+                        onChangeText={setNombre}
                     />
                 </View>
 
@@ -116,7 +128,7 @@ export default function SubirImagenes() {
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={seleccionarIngredientes}>
+            <TouchableOpacity style={styles.button} onPress={continuar}>
                 <Text style={styles.buttonText}>Siguiente</Text>
             </TouchableOpacity>
 

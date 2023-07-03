@@ -3,7 +3,12 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
-const ListaIngredientes = () => {
+
+
+const ListaIngredientes = ({ route }) => {
+  const { receta } = route.params;
+
+  
   const navigation = useNavigation();
   const [ingredientes, setIngredientes] = useState([]);
   const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(new Set());
@@ -24,7 +29,6 @@ const ListaIngredientes = () => {
   const seleccionarIngrediente = (ingrediente) => {
     setIngredientesSeleccionados((prevSeleccionados) => {
       const nuevosSeleccionados = new Set(prevSeleccionados);
-
       // Si el ingrediente ya está seleccionado, se deselecciona
       if (nuevosSeleccionados.has(ingrediente)) {
         nuevosSeleccionados.delete(ingrediente);
@@ -32,7 +36,6 @@ const ListaIngredientes = () => {
         // Si el ingrediente no está seleccionado, se selecciona
         nuevosSeleccionados.add(ingrediente);
       }
-
       return nuevosSeleccionados;
     });
   };
@@ -48,7 +51,7 @@ const ListaIngredientes = () => {
 
   const continuar = () => {
     const ingredientesArray = Array.from(ingredientesSeleccionados);
-    console.log('---------INGREDIENTES:', ingredientesArray)
+    console.log('---------INGREDIENTES:', ingredientesArray);
     navigation.navigate('ListaUnidades', { ingredientes: ingredientesArray });
     
   };
