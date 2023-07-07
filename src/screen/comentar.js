@@ -7,7 +7,7 @@ import  Toast  from 'react-native-easy-toast';
 import {isEmpty} from 'lodash'
 import Loading from '../components/Loading';
 import axios from 'axios';
-//import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const Comentar=()=> {
   //const {idUsuario}=route.params
@@ -18,13 +18,24 @@ const Comentar=()=> {
   const[errorReview, setErrorReview]=useState(null)
   const[loading, setLoading]=useState(false)
   const [valorar, setValorar] = useState([]);
+  const navigation = useNavigation();
   
   const addReview=async()=>{
+    const valoracion = {
+      //idUsuario: idUsuario,
+      //idReceta: idReceta,
+      calificacion: calificacion,
+      //cantidadPersonas: personas,
+      //fotounica: null,
+    };
     if (!validForm()){
       return
     }
+    
     try {
-      const response = await axios.get('http://localhost:8080/recetas/calificar');
+      const response = await axios.post('http://localhost:8080/recetas/calificar',valoracion);
+      // console.log('Receta creada:', response.data);
+      // navigation.navigate('ListaIngredientes');
       const results = response.data;
       console.log(results);
       setValorar(results);
