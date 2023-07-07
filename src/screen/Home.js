@@ -41,16 +41,16 @@ const HomeScreen = () => {
         <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
           <Text>Buscar</Text>
         </TouchableOpacity>
-      <Picker
-        selectedValue={selectedValue}
-        style={{ height: 30, width: 50 }}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-      >
-        <Picker.Item label="Nombre" value="java" />
-        <Picker.Item label="Ingrediente" value="java" />
-        <Picker.Item label="Falta de ingrediente" value="js" />
-        <Picker.Item label="Usuario" value="js" />
-      </Picker>
+        <Picker
+          selectedValue={selectedValue}
+          style={{ height: 30, width: 50 }}
+          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+        >
+          <Picker.Item label="Nombre" value="java" />
+          <Picker.Item label="Ingrediente" value="java" />
+          <Picker.Item label="Falta de ingrediente" value="js" />
+          <Picker.Item label="Usuario" value="js" />
+        </Picker>
       </View>
       <View style={styles.filterContainer}>
         </View>

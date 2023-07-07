@@ -1,12 +1,13 @@
 import React, {useRef, useState} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
-import { View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-import { AirbnbRating, Input } from '@rneui/themed';
-import { Ionicons } from '@expo/vector-icons'; 
+import {View,StyleSheet,Text,Image, TouchableOpacity} from 'react-native';
+import {AirbnbRating,Input} from '@rneui/themed';
+import {Ionicons} from '@expo/vector-icons'; 
 import  Toast  from 'react-native-easy-toast';
 import {isEmpty} from 'lodash'
 import Loading from '../components/Loading';
-import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+//import { useNavigation } from '@react-navigation/native';
 
 const Comentar=()=> {
   //const {idUsuario}=route.params
@@ -16,15 +17,23 @@ const Comentar=()=> {
   const[review, setReview]=useState("")
   const[errorReview, setErrorReview]=useState(null)
   const[loading, setLoading]=useState(false)
+  const [valorar, setValorar] = useState([]);
   
-
-  const addReview=()=>{
+  const addReview=async()=>{
     if (!validForm()){
       return
     }
+    try {
+      const response = await axios.get('http://localhost:8080/recetas/calificar');
+      const results = response.data;
+      console.log(results);
+      setValorar(results);
+    } catch (error) {
+      console.error('Error al calificar:', error);
+    }
     setLoading(true)
     setLoading(false)
-  }
+  };
   const validForm=()=>{
     setErrorReview(null)
     let isValid=true
