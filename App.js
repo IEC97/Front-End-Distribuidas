@@ -12,7 +12,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import RecipeScreen from './src/screen/Receta.js';
 import Perfil from './src/screen/Perfil.js';
-import Comentar from './src/screen/Comentar.js'
+import Comentar from './src/screen/comentar.js'
 
 const Stack = createStackNavigator();
 

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef,useState,useEffect} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
 import {View,StyleSheet,Text,Image, TouchableOpacity} from 'react-native';
 import {AirbnbRating,Input} from '@rneui/themed';
@@ -10,8 +10,9 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 
 const Comentar=()=> {
-  const {id} = route.params
+  
   const toastRef=useRef()
+  //const {id} = route.params
 
   const[rating, setRating]=useState(null)
   const[review, setReview]=useState("")
@@ -19,53 +20,96 @@ const Comentar=()=> {
   const[loading, setLoading]=useState(false)
   //const [valorar, setValorar] = useState([]);
 
-  // const [usuario, setUsuario] = useState('');
-  // const [receta, setReceta] = useState('');
-  // const [comentario, setComentario] = useState('');
+  const [usuario, setUsuario] = useState('');
+  const [receta, setReceta] = useState('');
+  const [comentario, setComentario] = useState('');
   const [calificacion, setCalificacion] = useState(null);
+  const [recipe, setRecipe] = useState(null);
   const navigation = useNavigation();
+  
+  
+  // useEffect(() => {
+  //   const fetchReview = async () => {
+  //     const data = JSON.stringify({
+  //       idusuario: usuario,
+  //       idreceta: receta,
+  //       calificacion: calificacion,
+  //       comentarios: comentario
+  //     });
+    
+  //     const config = {
+  //       method: 'post',
+  //       url: 'http://localhost:8080/recetas/calificar',
+  //       headers: { 
+  //         'Content-Type': 'application/json'
+  //       },
+  //       data : data
+  //     };
+    
+  //     axios(config)
+  //       .then((response) => {
+  //         console.log(JSON.stringify(response.data));
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+  //   fetchReview();
+  // }, []);
 
-  useEffect(() => {
-    const fetchReview = async () => {
-      try {
-        const response = await axios.post('http://localhost:8080/recetas/calificar');
-        const data = response.data;
-        setCalificacion(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchRecipe = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:8080/recetas/2');
+  //       const data = response.data;
+  //       setRecipe(data);
+  //     } catch (error) {
+  //       console.error('Error al obtener la receta:', error);
+  //     }
+  //   };
+  //   fetchRecipe();
+  // }, []);
+  const fetchRecipe = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/recetas/2');
+      const data = response.data;
+      setRecipe(data);
+    } catch (error) {
+      console.error('Error al obtener la receta:', error);
+    }
+  };
 
-    fetchReview();
-  }, []);
+
   const AddReview=async()=>{
 
     if (!validForm()){
       return
     }
-    // const data = JSON.stringify({
-    //   idusuario: usuario,
-    //   idreceta: receta,
-    //   //calificacion: 5,
-    //   comentarios: comentario
-    // });
-
-    // const config = {
-    //   method: 'post',
-    //   url: 'http://localhost:8080/recetas/calificar',
-    //   headers: { 
-    //     'Content-Type': 'application/json'
-    //   },
-    //   data : data
-    // };
-    // axios(config)
-    //   .then((response) => {
-    //   console.log(JSON.stringify(response.data));
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
+    const data = JSON.stringify({
+      idusuario: usuario,
+      idreceta: receta,
+      calificacion: calificacion,
+      comentarios: comentario
+    });
+  
+    const config = {
+      method: 'post',
+      url: 'http://localhost:8080/recetas/calificar',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+  
+    axios(config)
+      .then((response) => {
+        navigation.navigate({idusuario: usuario,idreceta: receta,calificacion: calificacion, comentarios: comentario});
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
     setLoading(true)
     setLoading(false)
   };
@@ -95,11 +139,12 @@ const Comentar=()=> {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.textStyle}>{calificacion.id_receta}</Text>
+      {/* <Text style={styles.textStyle}>{recipe.nombre}</Text> */}
       <Text style={styles.textStyle}>Tortilla de Papa</Text>
     
       <View style={styles.imageView}>
         <Image style= {styles.imageStyle} source={tortilla}/>
+        {/* <Image source={{ uri: recipe.urlfotounica }} style={styles.imageStyle} /> */}
       </View>
 
       <View>
