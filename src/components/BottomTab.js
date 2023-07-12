@@ -10,9 +10,10 @@ import Perfil from '../screen/Perfil';
 import RecipeScreen from '../screen/Receta';
 import HomeScreen from '../screen/Home';
 import Comentar from '../screen/Comentar';
+import MisRecetasScreen from '../screen/MisRecetas';
 
 const homeName='Home';
-const detailsName='Details';
+const misRecetas='Mis recetas';
 const cargarName='Cargar';
 const notificacionesName='Notificaciones';
 const perfilName='Perfil';
@@ -32,7 +33,7 @@ const BottomTab = ({ route }) => {
                     let rn = route.name;
                     if (rn===homeName){
                         iconName=focused ? 'home-sharp' : 'home-outline';
-                    } else if (rn===detailsName){
+                    } else if (rn===misRecetas){
                         iconName=focused ? 'bookmark' : 'bookmark-outline';
                     } else if(rn===cargarName){
                         iconName=focused ? 'add-circle' : 'add-circle-outline';
@@ -51,7 +52,7 @@ const BottomTab = ({ route }) => {
                 style: {padding: 10, height: 70}
             }}>
             <Tab.Screen name={homeName} component={Home} initialParams={{ nickname, mail }} />
-            <Tab.Screen name={detailsName} component={Details} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={misRecetas} component={MisRecetasScreen} initialParams={{ nickname, mail }}/>
             <Tab.Screen name={cargarName} component={Cargar} initialParams={{ nickname, mail }}/>
             <Tab.Screen name={notificacionesName} component={Comentar} initialParams={{ nickname, mail }}/>
             <Tab.Screen name={perfilName} component={Perfil} initialParams={{ nickname, mail }} />

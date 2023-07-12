@@ -36,6 +36,8 @@ const Login = () => {
       .then(response => {
         console.log(JSON.stringify(response.data));
         navigation.navigate('BottomTab', { nickname: nickname , mail: response.data.mail});
+        console.log(response.data.idUsuario);
+        localStorage.setItem("userId",response.data.idUsuario);
         console.log('TERMINE EL PROCESO DE INICIO DE SESION');
       })
       .catch(error => {

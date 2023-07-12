@@ -1,107 +1,135 @@
-import React from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
-import RecipeScreen from './Receta';
+import React, { useEffect, useState, } from 'react';
+import { useNavigation,useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
+import { TouchableOpacity, View, Text, Image, StyleSheet, Button } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
-// Datos de ejemplo para las recetas
-const recipes = [
-  {
-    id: '1',
-    title: 'Receta 1',
-    description: 'Descripción de la receta 1',
-    image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  {
-    id: '2',
-    title: 'Receta 2',
-    description: 'Descripción de la receta 2',
-    image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  {
-    id: '3',
-    title: 'Receta 3',
-    description: 'Descripción de la receta 3',
-    image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  {
-    id: '4',
-    title: 'Receta 4',
-    description: 'Descripción de la receta 4',
-    image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  {
-    id: '5',
-    title: 'Receta 5',
-    description: 'Descripción de la receta 5',
-    image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  {
-    id: '6',
-    title: 'Receta 6',
-    description: 'Descripción de la receta 6',
-    image: require('../imagen/pasta.jpg'), // Reemplaza la ruta con la imagen correspondiente
-  },
-  // Agrega más recetas aquí
-];
+let userId = localStorage.getItem("userId");
+
 
 const MisRecetasScreen = () => {
-  const renderRecipeCard = ({ item }) => (
-    <View style={styles.recipeCard}>
-      <Image source={item.image} style={styles.recipeImage} />
-      <View style={styles.recipeDetails}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.description}>{item.description}</Text>
-      </View>
-    </View>)
-  ;
+  const [searchResults, setSearchResults] = useState([]);
+  const navigation = useNavigation();
+  useFocusEffect(
+    React.useCallback(() => {
+      handleSearch()
+    }, [])
+  );
+
+  const handleSearch = async () => {
+    console.log("anda");
+    try {
+      const response = await axios.get(`http://localhost:8080/recetas/getrecetastaaintentar/${userId}`);
+      const results = response.data.recetas;
+      console.log(results);
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Error al realizar la búsqueda:', error);
+    }
+  };
+
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={recipes}
-        keyExtractor={(item) => item.id}
-        renderItem={renderRecipeCard}
-        numColumns={2} // Muestra las tarjetas en 2 columnas
-        contentContainerStyle={styles.recipeListContainer} // Ajusta el estilo del contenedor de las tarjetas
-      />
+      <ScrollView>
+      <View style={styles.searchContainer}>
+      </View>
+      <View style={styles.filterContainer}>
+        </View>
+      <View style={styles.resultsContainer}>
+        <View style={styles.cardList}>
+          {searchResults.map((result) => (
+            <TouchableOpacity key={result.idReceta} onPress={() => navigation.navigate('RecipeScreen', { id: result.idReceta })}>
+            <View style={styles.card}>
+              <Image source={{ uri: result.urlfotounica }} style={styles.cardImage} />
+              <Text style={styles.cardTitle}>{result.nombre}</Text>
+              <Text style={styles.cardDescription}>{result.descripcion}</Text>
+              <Text>Creado por: {result.nombreUsuario}</Text>
+              <Text>Fecha de Creacion: {result.fechaCreacion[2]}-{result.fechaCreacion[1]}-{result.fechaCreacion[0]}</Text>
+              <Button color='red' title="Eliminar" onPress={() => handleDelete(result.idReceta)} />
+            </View>
+          </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+      </ScrollView>
     </View>
   );
 };
 
+
+
+
 const styles = StyleSheet.create({
-  container: {
+
+container:{
     flex: 1,
     padding: 16,
     backgroundColor: '#FFFED3'
+},
+
+searchContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
+    display: 'flex'
   },
-  recipeListContainer: {
-    justifyContent: 'space-between',
-  },
-  recipeCard: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+
+  searchInput: {
     flex: 1,
-    marginHorizontal: 8,
+    borderWidth: 1,
+    borderColor: '#999',
+    borderRadius: 5,
+    padding: 5,
+    marginRight: 10,
   },
-  recipeImage: {
+  searchButton: {
+    backgroundColor: '#DDD',
+    padding: 10,
+    borderRadius: 5,
+    width: 70,
+    marginBottom: 3,
+    marginTop: 3
+  },
+
+  resultsContainer: {
+    marginTop: 10,
+    height: "100%"
+  },
+
+  cardList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  card: {
     width: '100%',
-    height: 150,
-    borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#999',
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: "white"
   },
-  recipeDetails: {
-    flex: 1,
+
+  cardImage: {
+    width: '100%',
+    height: 100,
+    marginBottom: 10,
   },
-  title: {
-    fontSize: 16,
+  cardTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 4,
+    marginBottom: 5,
   },
-  description: {
-    fontSize: 14,
-    color: 'gray',
+  cardDescription: {
+    fontSize: 16,
   },
+  deleteButton: {
+    backgroundColor: "red"
+  }
 });
+
+
+
 
 export default MisRecetasScreen;

@@ -8,6 +8,8 @@ const RecipeScreen = ({route}) => {
   const navigation = useNavigation();
   const { id } = route.params
 
+  let userId = localStorage.getItem("userId");
+
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -22,9 +24,19 @@ const RecipeScreen = ({route}) => {
     fetchRecipe();
   }, []);
 
+  const guardarReceta = async () => {
+    try {
+      const response = await axios.post(`http://localhost:8080/recetas/agregarrecetaaintentar/${userId}/${id}`);
+      const results = response.data;
+      console.log(results)
+    } catch (error) {
+      console.error('Error al realizar la búsqueda:', error);
+    }
+  };
+
   const continuar = () => {
     console.log("ENTRE AL METODO--------------")
-    navigation.navigate('Comentar')
+    navigation.navigate('Comentar') 
   }
 
   const renderIngredient = ({ item }) => (
@@ -50,7 +62,7 @@ const RecipeScreen = ({route}) => {
       </TouchableOpacity>
       <View style={{display:'flex',width:'100%',alignItems:'flex-end',justifyContent: "space-between", flexDirection: "row"}}> 
 
-       <TouchableOpacity style={styles.valorarButton}>
+       <TouchableOpacity style={styles.valorarButton} onPress={guardarReceta}>
           <Text>Guardar</Text>
         </TouchableOpacity>
 
