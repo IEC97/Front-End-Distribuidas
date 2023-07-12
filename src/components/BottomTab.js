@@ -7,9 +7,9 @@ import Cargar from '../screen/Cargar';
 import Details from '../screen/Details';
 import Notificaciones from '../screen/Notificaciones';
 import Perfil from '../screen/Perfil';
-import RecipeScreen from '../screen/Receta';
-import HomeScreen from '../screen/Home';
-import Comentar from '../screen/Comentar';
+//import RecipeScreen from '../screen/Receta';
+//import HomeScreen from '../screen/Home';
+//import Comentar from '../screen/comentar';
 
 const homeName='Home';
 const detailsName='Details';
@@ -53,7 +53,7 @@ const BottomTab = ({ route }) => {
             <Tab.Screen name={homeName} component={Home} initialParams={{ nickname, mail }} />
             <Tab.Screen name={detailsName} component={Details} initialParams={{ nickname, mail }}/>
             <Tab.Screen name={cargarName} component={Cargar} initialParams={{ nickname, mail }}/>
-            <Tab.Screen name={notificacionesName} component={Comentar} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={notificacionesName} component={Notificaciones} initialParams={{ nickname, mail }}/>
             <Tab.Screen name={perfilName} component={Perfil} initialParams={{ nickname, mail }} />
 
         </Tab.Navigator>

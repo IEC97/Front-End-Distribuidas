@@ -4,79 +4,36 @@ import {View,StyleSheet,Text,Image, TouchableOpacity} from 'react-native';
 import {AirbnbRating,Input} from '@rneui/themed';
 import {Ionicons} from '@expo/vector-icons'; 
 import  Toast  from 'react-native-easy-toast';
-import {isEmpty, result} from 'lodash'
+import {isEmpty} from 'lodash'
 import Loading from '../components/Loading';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 
 const Comentar=()=> {
   
-  const toastRef=useRef()
-  //const {id} = route.params
-
-  const[rating, setRating]=useState(null)
-  const[review, setReview]=useState("")
-  const[errorReview, setErrorReview]=useState(null)
-  const[loading, setLoading]=useState(false)
-  //const [valorar, setValorar] = useState([]);
-
-  const [usuario, setUsuario] = useState('');
-  const [receta, setReceta] = useState('');
-  const [comentario, setComentario] = useState('');
-  const [calificacion, setCalificacion] = useState(null);
-  const [recipe, setRecipe] = useState(null);
+  const toastRef=useRef();
   const navigation = useNavigation();
-  
-  
-  // useEffect(() => {
-  //   const fetchReview = async () => {
-  //     const data = JSON.stringify({
-  //       idusuario: usuario,
-  //       idreceta: receta,
-  //       calificacion: calificacion,
-  //       comentarios: comentario
-  //     });
-    
-  //     const config = {
-  //       method: 'post',
-  //       url: 'http://localhost:8080/recetas/calificar',
-  //       headers: { 
-  //         'Content-Type': 'application/json'
-  //       },
-  //       data : data
-  //     };
-    
-  //     axios(config)
-  //       .then((response) => {
-  //         console.log(JSON.stringify(response.data));
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-  //   fetchReview();
-  // }, []);
 
-  // useEffect(() => {
-  //   const fetchRecipe = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:8080/recetas/2');
-  //       const data = response.data;
-  //       setRecipe(data);
-  //     } catch (error) {
-  //       console.error('Error al obtener la receta:', error);
-  //     }
-  //   };
-  //   fetchRecipe();
-  // }, []);
+  const[errorReview, setErrorReview]=useState(null);
+  const[loading, setLoading]=useState(false);
+
+  const [usuario, setUsuario] = useState(null);
+  const [receta, setReceta] = useState(null);
+  const [calificacion, setCalificacion] = useState(null);
+  const [comentario, setComentario] = useState('');
+  
+  const [recipe, setRecipe] = useState([]);
+  
   const fetchRecipe = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/recetas/2');
-      const data = response.data;
-      setRecipe(data);
+      const response = await axios.get('http://localhost:8080/recetas/2/pollo a la portuguesa');
+      const results = response.data;
+      console.log(results);
+      setRecipe(results);
     } catch (error) {
       console.error('Error al obtener la receta:', error);
     }
+    fetchRecipe();
   };
 
 
@@ -103,8 +60,8 @@ const Comentar=()=> {
   
     axios(config)
       .then((response) => {
-        navigation.navigate({idusuario: usuario,idreceta: receta,calificacion: calificacion, comentarios: comentario});
         console.log(JSON.stringify(response.data));
+        navigation.navigate('Receta',{idusuario: usuario,idreceta: receta,calificacion: calificacion, comentarios: comentario});
       })
       .catch((error) => {
         console.log(error);
@@ -118,11 +75,11 @@ const Comentar=()=> {
     setErrorReview(null)
     let isValid=true
 
-    if(!rating){
+    if(!calificacion){
       toastRef.current.show("Debes darle una puntuacion a la receta.", 3000)
       isValid=false
     }
-    if(isEmpty(review)){
+    if(isEmpty(comentario)){
       setErrorReview("Debes ingresar un comentario.")
       isValid=false
     }
@@ -140,7 +97,8 @@ const Comentar=()=> {
       </View>
 
       {/* <Text style={styles.textStyle}>{recipe.nombre}</Text> */}
-      <Text style={styles.textStyle}>Tortilla de Papa</Text>
+            
+      <Text style={styles.cardTitle}>{recipe.receta}</Text>    
     
       <View style={styles.imageView}>
         <Image style= {styles.imageStyle} source={tortilla}/>
@@ -154,7 +112,7 @@ const Comentar=()=> {
             reviews={["Malo", "Regular","Normal", "Bueno", "Excelente"]}
             defaultRating={0}
             size={30}
-            onFinishRating={(value)=>setRating(value)}
+            onFinishRating={(value)=>setCalificacion(value)}
           />
         </View>
       </View>
@@ -164,7 +122,7 @@ const Comentar=()=> {
           containerStyle={styles.input}
           style={styles.textArea}
           multiline
-          onChange={(e) =>setReview(e.nativeEvent.text)}
+          onChange={(e) =>setComentario(e.nativeEvent.text)}
           errorMessage={errorReview}
         />
       </View>
