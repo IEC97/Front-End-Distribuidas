@@ -4,8 +4,8 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
 
-const ListaIngredientes = () => {
-
+const ListaIngredientes = ({route}) => {
+  const { idReceta } = route.params;
   const navigation = useNavigation();
   const [ingredientes, setIngredientes] = useState([]);
   const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(new Set());
@@ -13,7 +13,7 @@ const ListaIngredientes = () => {
   const continuar = () => {
     const ingredientesArray = Array.from(ingredientesSeleccionados);
     console.log('---------INGREDIENTES:', ingredientesArray);
-    navigation.navigate('ListaUnidades', { ingredientes: ingredientesArray });
+    navigation.navigate('ListaUnidades', { ingredientes: ingredientesArray, idReceta: idReceta });
   };
 
 /*

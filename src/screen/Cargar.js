@@ -57,8 +57,7 @@ export default function SubirImagenes() {
     try {
       const response = await axios.post('http://localhost:8080/recetas/2', datosReceta);
       console.log('Receta creada:', response.data);
-      navigation.navigate('ListaIngredientes');
-      // Aquí puedes realizar alguna acción después de cargar la receta exitosamente
+      navigation.navigate('ListaIngredientes', { idReceta: response.data.idReceta });
     } catch (error) {
       console.log('Error al cargar la receta:', error);
       // Manejar el error en caso de que no se pueda cargar la receta

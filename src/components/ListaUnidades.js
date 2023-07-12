@@ -9,7 +9,7 @@ export default function ListaUnidades({ route }) {
   const navigation = useNavigation();
   const [cantidades, setCantidades] = useState({});
   const [unidadesSeleccionadas, setUnidadesSeleccionadas] = useState({});
-  const { ingredientes } = route.params;
+  const { ingredientes, idReceta } = route.params;
 
   const guardarIngredientesUsados = async () => {
     const listaIngredientesUsados = [];
@@ -18,12 +18,13 @@ export default function ListaUnidades({ route }) {
       const unidad = unidadesSeleccionadas[ingrediente.idIngrediente] || '';
 
       const ingredienteUsado = {
-        idreceta: 5, // Agrega el ID de la receta correspondiente
+        idreceta: idReceta, // Agrega el ID de la receta correspondiente
         idingrediente: ingrediente.idIngrediente,
         cantidad: cantidad,
         idunidad: obtenerIdUnidad(unidad),
         observacion: 'asd',
       };
+      console.log('ID DE RECETA: ', idReceta);
       console.log('Lista de ingredientes: ', listaIngredientesUsados);
       listaIngredientesUsados.push(ingredienteUsado);
     });
@@ -31,7 +32,7 @@ export default function ListaUnidades({ route }) {
     try {
       const response = await axios.post('http://localhost:8080/utilizados/agregarlistadeingredientesusados', listaIngredientesUsados);
       console.log('---------Lista de ingredientes añadida a la receta!!!!---------', response.data);
-      navigation.navigate('Pasos');
+      navigation.navigate('Pasos', { idReceta: idReceta });
     } catch (error) {
       console.log('Error al cargar la lista de ingredientes:', error);
     }
