@@ -6,6 +6,7 @@ import { Picker } from 'react-native-web';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
+let userId = localStorage.getItem("userId");
 
 
 const HomeScreen = () => {
@@ -19,12 +20,13 @@ const HomeScreen = () => {
     try {
       const response = await axios.get('http://localhost:8080/recetas/todas');
       const results = response.data;
-      console.log(results);
       setSearchResults(results);
     } catch (error) {
       console.error('Error al realizar la búsqueda:', error);
     }
   };
+
+
 
 
   return (
@@ -64,6 +66,8 @@ const HomeScreen = () => {
                 <Image source={{ uri: result.urlfotounica }} style={styles.cardImage} />
                 <Text style={styles.cardTitle}>{result.nombre}</Text>
                 <Text style={styles.cardDescription}>{result.descripcion}</Text>
+                <Text>Creado por : {result.nombreUsuario}</Text>
+                <Text>Fecha de Creacion : {result.fechaCreacion[2]}-{result.fechaCreacion[1]}-{result.fechaCreacion[0]}</Text>
               </View>
             </TouchableOpacity>
           ))}
