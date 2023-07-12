@@ -13,9 +13,12 @@ export default function SubirImagenes() {
   const [porciones, setPorciones] = useState(1);
   const [descripcion, setDescripcion] = useState([]);
   const [idTipo, setIdTipo] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState('');
   const navigation = useNavigation();
 
   const obtenerIdTipo = (tipo) => {
+    tipo = tipo.toLowerCase(); // Convertir a minúsculas
     let idTipo = '';
     switch (tipo) {
       case 'pasta':
@@ -23,7 +26,7 @@ export default function SubirImagenes() {
         break;
       case 'carne':
         idTipo = '2';
-        break;
+        break; 
       case 'pescado':
         idTipo = '3';
         break;
@@ -31,10 +34,12 @@ export default function SubirImagenes() {
         idTipo = '4';
         break;
       default:
-        idTipo = '';
+        setErrorMessage('Verifique la categoría de su receta e inténtelo de nuevo!');
         break;
     }
-    continuar(idTipo); // Pasar idTipo como argumento a continuar
+    if (idTipo !== '') {
+      continuar(idTipo); // Pasar idTipo como argumento a continuar
+    }
     return idTipo;
   };
   
@@ -47,7 +52,7 @@ export default function SubirImagenes() {
       fotounica: imagenSeleccionada,
       idtipo: idTipo,
     };
-    console.log(datosReceta.idtipo);
+    console.log('Categoria de la receta: ',datosReceta.idtipo);
   
     try {
       const response = await axios.post('http://localhost:8080/recetas/2', datosReceta);
@@ -207,9 +212,10 @@ export default function SubirImagenes() {
 
         <View>
           <Text style={styles.titulo}>Tipo de receta</Text>
+          <Text style={{ fontSize: 12, textAlign: 'center' }}>Las categorias disponibles son: pasta, carne, pescado y vegetariano!</Text>
           <TextInput
             style={{
-              fontSize: 15, textAlign: 'center', width: 250, height: 30, margin: 5,
+              fontSize: 15, textAlign: 'center', width: 250, height: 30, margin: 5, alignSelf: 'center',
               borderRadius: 100, color: '#703701', backgroundColor: '#FFE5A6', padding: 10
             }}
             autoCapitalize="none"
@@ -220,6 +226,11 @@ export default function SubirImagenes() {
           />
         </View>
 
+        {errorMessage ? (
+              <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ color: 'red', fontSize: 16 }}>{errorMessage}</Text>
+              </View>
+            ) : null}
 
         <TouchableOpacity style={styles.button} onPress={() => obtenerIdTipo(idTipo)}>
           <Text style={styles.buttonText}>Siguiente</Text>
