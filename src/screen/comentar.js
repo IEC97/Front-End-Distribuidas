@@ -98,7 +98,7 @@ const Comentar=()=> {
 
       {/* <Text style={styles.textStyle}>{recipe.nombre}</Text> */}
             
-      <Text style={styles.cardTitle}>{recipe.receta}</Text>    
+      <Text style={styles.cardTitle}>Tortilla</Text>    
     
       <View style={styles.imageView}>
         <Image style= {styles.imageStyle} source={tortilla}/>
