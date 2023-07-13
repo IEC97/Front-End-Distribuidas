@@ -46,6 +46,7 @@ function SubirImagenes( {route} ) {
 
       console.log('SE SUBIO EXITOSAMENTE A LA NUBE! ->', respuesta);
       guardarImagen(respuesta);
+      navigation.navigate('ListaIngredientes', { idReceta: idReceta });
 
     } catch (error) {
       console.log(error);
@@ -70,7 +71,7 @@ function SubirImagenes( {route} ) {
       .then(response => {
     // Procesa la respuesta del servidor
       console.log('SE SUBIO GUARDO LA FOTO! ->', response.data);
-      navigation.navigate('ListaIngredientes', { idReceta: idReceta });
+      //navigation.navigate('ListaIngredientes', { idReceta: idReceta });
       })
     } catch (error) {
       console.log(error);

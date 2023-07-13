@@ -17,6 +17,8 @@ const RegisterStage1 = () => {
       setErrorMessage('Ingrese un email válido');
       return;
     }
+    
+    
   
     const data = JSON.stringify({
       mail: email,

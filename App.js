@@ -23,9 +23,7 @@ const App = () => {
       <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false}}/>
       <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
       <Stack.Screen name="subirImagen" component={subirImagen} options={{ headerShown: false}}/>
-
       <Stack.Screen name="Pasos" component={Pasos} options={{ headerShown: false}}/>
-
       <Stack.Screen name="ListaIngredientes" component={ListaIngredientes} options={{ headerShown: false}}/>
       <Stack.Screen name="ListaUnidades" component={ListaUnidades} options={{ headerShown: false}}/>
         <Stack.Screen name="RecipeScreen" component={RecipeScreen} options={{ headerShown: false}}/>
