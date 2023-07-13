@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import * as ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker'
 import axios from 'axios';
+import Crypto from 'crypto-js';
+
 
 const Pasos = () => {
+  var ImagePicker = require('react-native-image-picker');
   const navigation = useNavigation();
   const route = useRoute();
   const [pasos, setPasos] = useState([{ nroPaso: 1, texto: '' }]);
@@ -22,18 +25,48 @@ const Pasos = () => {
 
   const handleSeleccionarImagen = (index) => {
     const options = {
-      mediaType: 'photo',
-      quality: 1,
-      allowsEditing: true,
-      aspectRatio: [1, 1],
+      title: 'Titulo del Picker',
+      cancelButton: 'Cancelar',
+      chooseFromLibraryButtonTitle: 'Abrir Galeria',
+      noData: true,
+      quality: 0,
     };
 
+    ImagePicker.launchImageLibrary(options, (res) => {
+      console.log('Response = ', res);
+      const uri = res.uri;
+      const type = res.type;
+      const name = res.fileName || 'image.jpg';
+
+      const photo = { uri, type, name };
+      const ts = Math.round((new Date()).getTime()/1000);
+      const apiKey = '232787685252115';
+      const apiSecret = '0bLS_78HtXFvyobtQdBuC7LThHM';
+      const hash = `timestamp=${ts}${apiSecret}`;
+      const signature = Crypto.SHA1(hash).toString();
+      const url = 'https://api.cloudinary.com/v1_1/dyxacp8wi/images/upload'
+  
+      const formData = new FormData();
+      formData.append('file', photo);
+      formData.append('timestamp', ts);
+      formData.append('api_key', apiKey);
+      formData.append('signature', signature);
+
+      fetch(url, {
+        method : 'POST',
+        body : formData,
+      })
+      .then(res => res.json())
+      .then(res => console.log({ res }))
+      .catch(err => console.log({ err }))
+
+      /*
     ImagePicker.launchImageLibrary(options, response => {
       if (!response.didCancel && !response.error) {
         const nuevosPasos = [...pasos];
         nuevosPasos[index].imagen = response.assets[0].uri;
         setPasos(nuevosPasos);
-      }
+      }*/
     });
   };
 

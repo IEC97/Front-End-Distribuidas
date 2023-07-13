@@ -13,19 +13,8 @@ const ListaIngredientes = ({route}) => {
   const continuar = () => {
     const ingredientesArray = Array.from(ingredientesSeleccionados);
     console.log('---------INGREDIENTES:', ingredientesArray);
-    navigation.navigate('ListaUnidades', { ingredientes: ingredientesArray, idReceta: idReceta });
+    navigation.navigate('ImageUploader', { ingredientes: ingredientesArray, idReceta: idReceta });
   };
-
-/*
-  const continuar = async () => {
-    const datos = {
-      nombre: nombre,
-      descripcion: descripcion,
-      porciones: porciones,
-      cantidadPersonas: personas,
-      fotounica: null,
-    };
-*/
   
   useEffect(() => {
     obtenerIngredientes();

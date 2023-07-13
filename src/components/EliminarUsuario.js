@@ -28,6 +28,8 @@ const EliminarUsuario = () => {
     );
   };
 
+  //`http://localhost:8080/usuarios/${idUser}`
+
   const eliminarUsuario = () => {
     // Simulación de eliminación de usuario
     // Aquí puedes realizar una llamada a la API o ejecutar la lógica necesaria para eliminar el usuario
