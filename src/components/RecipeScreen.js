@@ -6,6 +6,7 @@ let userId = localStorage.getItem("userId");
 
 const RecipeScreen = () => {
   const [recipe, setRecipe] = useState(null);
+  const [valoraciones, setValoraciones] = useState(null);
   const navigation = useNavigation();
   const { id } = route.params
 
@@ -21,6 +22,7 @@ const RecipeScreen = () => {
     };
     fetchRecipe();
   }, []);
+
 
 
 
@@ -55,9 +57,18 @@ const RecipeScreen = () => {
       <Text style={styles.name}>{recipe.nombre}</Text>
       <Text style={styles.servings}>{`Para ${recipe.cantidadPersonas} personas`}</Text>
       <Image source={{ uri: recipe.urlfotounica }} style={styles.image} />
+      <FlatList
+        data={recipe.utilizados}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Text style={styles.ingredient}>
+            {`${item.idIngrediente.nombre}: ${item.cantidad}`}
+          </Text>
+         )}
+      />
       <Text style={styles.sectionTitle}>Ingredientes:</Text>
       <FlatList
-  data={recipe.utilizados}
+  data={valoraciones.calificacion}
   keyExtractor={(item, index) => index.toString()}
   renderItem={({ item }) => (
     <Text style={styles.ingredient}>

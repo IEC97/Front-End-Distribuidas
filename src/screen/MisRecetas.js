@@ -17,12 +17,20 @@ const MisRecetasScreen = () => {
   );
 
   const handleSearch = async () => {
-    console.log("anda");
     try {
       const response = await axios.get(`http://localhost:8080/recetas/getrecetastaaintentar/${userId}`);
       const results = response.data.recetas;
-      console.log(results);
       setSearchResults(results);
+    } catch (error) {
+      console.error('Error al realizar la búsqueda:', error);
+    }
+  };
+
+  const handleDelete = async (idReceta) => {
+    try {
+      const response = await axios.post(`http://localhost:8080/recetas/quitarrecetaaintentar/${userId}/${idReceta}`);
+      const results = response.data.recetas;
+      console.log(results);
     } catch (error) {
       console.error('Error al realizar la búsqueda:', error);
     }

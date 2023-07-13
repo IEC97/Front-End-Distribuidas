@@ -3,12 +3,26 @@ import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
+let userId = localStorage.getItem("userId");
+
 const RecipeScreen = ({route}) => {
   const [recipe, setRecipe] = useState(null);
+  const [valoraciones, setValoraciones] = useState(null);
   const navigation = useNavigation();
   const { id } = route.params
 
   let userId = localStorage.getItem("userId");
+
+  const getValoraciones = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/recetas/mostrarsuscalificaciones/${id}`);
+      const data = response.data;
+      console.log(data);
+      setValoraciones(data);
+    } catch (error) {
+      console.error('Error al obtener valoraciones:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -23,6 +37,12 @@ const RecipeScreen = ({route}) => {
 
     fetchRecipe();
   }, []);
+  
+  useEffect(() => {
+    getValoraciones();
+  }, []);
+
+  console.log(valoraciones);
 
   const guardarReceta = async () => {
     try {
@@ -33,6 +53,7 @@ const RecipeScreen = ({route}) => {
       console.error('Error al realizar la búsqueda:', error);
     }
   };
+
 
   const continuar = () => {
     console.log("ENTRE AL METODO--------------")
@@ -55,6 +76,7 @@ const RecipeScreen = ({route}) => {
     );
   }
 
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -67,7 +89,7 @@ const RecipeScreen = ({route}) => {
         </TouchableOpacity>
 
         <View>
-        <TouchableOpacity style={styles.valorarButton} onPress={(continuar)}>
+        <TouchableOpacity style={styles.valorarButton} onPress={() => navigation.navigate('Comentar',{id:id})}>
           <Text>Valorar</Text>
         </TouchableOpacity>
         </View>
@@ -75,6 +97,10 @@ const RecipeScreen = ({route}) => {
       <Text style={styles.name}>{recipe.nombre}</Text>
       <Text style={styles.servings}>{`Para ${recipe.cantidadPersonas} personas`}</Text>
       <Image source={{ uri: recipe.urlfotounica }} style={styles.image} />
+      <Text style={styles.sectionTitle}>Valoraciones</Text>
+      <View>
+      {valoraciones.map((valoracion, i)=><React.Fragment key={i}><Text>Comentario: {valoracion.comentarios}</Text><Text>Calificación: {valoracion.calificacion}</Text></React.Fragment>)}
+      </View>
       <Text style={styles.sectionTitle}>Ingredientes:</Text>
       <FlatList
   data={recipe.utilizados}
@@ -163,7 +189,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 70,
     marginBottom: 3,
-    marginTop: 3
+    marginTop: 3,
   }
 });
 

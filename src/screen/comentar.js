@@ -1,39 +1,91 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef,useState,useEffect} from 'react';
 import tortilla from '../imagen/tortilla.jpg';
-import { View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-import { AirbnbRating, Input } from '@rneui/themed';
-import { Ionicons } from '@expo/vector-icons'; 
+import {View,StyleSheet,Text,Image, TouchableOpacity} from 'react-native';
+import {AirbnbRating,Input} from '@rneui/themed';
+import {Ionicons} from '@expo/vector-icons'; 
 import  Toast  from 'react-native-easy-toast';
 import {isEmpty} from 'lodash'
 import Loading from '../components/Loading';
-import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 
-const Comentar=()=> {
-  //const {idUsuario}=route.params
-  const toastRef=useRef()
 
-  const[rating, setRating]=useState(null)
-  const[review, setReview]=useState("")
-  const[errorReview, setErrorReview]=useState(null)
-  const[loading, setLoading]=useState(false)
+let userId = localStorage.getItem("userId");
+
+const ComentarScreen=({route})=> {
+  const { id } = route.params
+
   
+  const toastRef=useRef();
+  const navigation = useNavigation();
+  const [recipe, setRecipe] = useState({});
+  const [calificacion, setCalificacion] = useState(null);
+  const [comentario, setComentario] = useState('');
 
-  const addReview=()=>{
+  const[errorReview, setErrorReview]=useState(null);
+  const[loading, setLoading]=useState(false);
+
+  useEffect(()=>
+      {fetchRecipe()}
+    , []
+    );
+  
+  const fetchRecipe = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/recetas/${id}`);
+      const results = response.data;
+      setRecipe(results);
+      console.log(results)
+      console.log(recipe)
+    } catch (error) {
+      console.error('Error al obtener la receta:', error);
+    }
+  };
+
+
+  const AddReview=async()=>{
+    console.log(calificacion,comentario)
+
     if (!validForm()){
       return
     }
+    const data = JSON.stringify({
+      idusuario: userId,
+      idreceta: id,
+      calificacion: calificacion,
+      comentarios: comentario
+    });
+  
+    const config = {
+      method: 'post',
+      url: 'http://localhost:8080/recetas/calificar',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+  
+    axios(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
     setLoading(true)
     setLoading(false)
-  }
+  };
+
   const validForm=()=>{
     setErrorReview(null)
     let isValid=true
 
-    if(!rating){
+    if(!calificacion){
       toastRef.current.show("Debes darle una puntuacion a la receta.", 3000)
       isValid=false
     }
-    if(isEmpty(review)){
+    if(isEmpty(comentario)){
       setErrorReview("Debes ingresar un comentario.")
       isValid=false
     }
@@ -50,10 +102,13 @@ const Comentar=()=> {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.textStyle}>Tortilla de Papa</Text>
+      {/* <Text style={styles.textStyle}>{recipe.nombre}</Text> */}
+            
+      <Text style={styles.cardTitle}>{recipe.nombre}</Text>    
     
       <View style={styles.imageView}>
         <Image style= {styles.imageStyle} source={tortilla}/>
+        {/* <Image source={{ uri: recipe.urlfotounica }} style={styles.imageStyle} /> */}
       </View>
 
       <View>
@@ -63,7 +118,7 @@ const Comentar=()=> {
             reviews={["Malo", "Regular","Normal", "Bueno", "Excelente"]}
             defaultRating={0}
             size={30}
-            onFinishRating={(value)=>setRating(value)}
+            onFinishRating={(value)=>setCalificacion(value)}
           />
         </View>
       </View>
@@ -73,13 +128,12 @@ const Comentar=()=> {
           containerStyle={styles.input}
           style={styles.textArea}
           multiline
-          onChange={(e) =>setReview(e.nativeEvent.text)}
+          onChange={(e) =>setComentario(e.nativeEvent.text)}
           errorMessage={errorReview}
-          maxlength="10"
         />
       </View>
 
-      <TouchableOpacity onPress={addReview} style={styles.buttonStyle}>
+      <TouchableOpacity onPress={AddReview} style={styles.buttonStyle}>
         <View>
           <Text style={styles.textButton}>Enviar</Text>
         </View>
@@ -89,7 +143,7 @@ const Comentar=()=> {
     </View>
   );
 }
-export default Comentar;
+export default ComentarScreen;
 
 const styles = StyleSheet.create({
     container: {

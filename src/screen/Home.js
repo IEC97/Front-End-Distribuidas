@@ -13,20 +13,31 @@ const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const navigation = useNavigation();
-  const [selectedValue, setSelectedValue] = useState("java");
+  const [selectedValue, setSelectedValue] = useState("Nombre");
 
-  const handleSearch = async () => {
+  let endpoint ="";
 
-    try {
-      const response = await axios.get('http://localhost:8080/recetas/todas');
-      const results = response.data;
-      setSearchResults(results);
-    } catch (error) {
-      console.error('Error al realizar la búsqueda:', error);
-    }
-  };
+  if (selectedValue=="Nombre")
+    endpoint="http://localhost:8080/recetas/buscarentodas/"
+  if (selectedValue=="Ingrediente")
+    endpoint="http://localhost:8080/recetas/filtrarportipo/CONTIENEN/"
+  if (selectedValue=="Falta de ingrediente")
+    endpoint="http://localhost:8080/recetas/filtrarportipo/NO-CONTIENEN/" 
+  if (selectedValue=="Usuario")
+    endpoint=`http://localhost:8080/recetas/${userId}/`
 
 
+    const handleSearch = async () => {
+      if (searchQuery=="")
+        endpoint="http://localhost:8080/recetas/todas"
+      try {
+        const response = await axios.get(endpoint + searchQuery);
+        const results = response.data;
+        setSearchResults(results);
+      } catch (error) {
+        console.error('Error al realizar la búsqueda:', error);
+      }
+    };
 
 
   return (
@@ -48,10 +59,11 @@ const HomeScreen = () => {
         style={{ height: 30, width: 50 }}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
       >
-        <Picker.Item label="Nombre" value="java" />
-        <Picker.Item label="Ingrediente" value="java" />
-        <Picker.Item label="Falta de ingrediente" value="js" />
-        <Picker.Item label="Usuario" value="js" />
+        <Picker.Item label="Nombre" value="Nombre" />
+        <Picker.Item label="Ingrediente" value="Ingrediente" />
+        <Picker.Item label="Falta de ingrediente" value="Falta de ingrediente" />
+        <Picker.Item label="Recetas Propias" value="Recetas Propias" />
+        <Picker.Item label="Usuario" value="Usuario" />
       </Picker>
       </View>
       <View style={styles.filterContainer}>
@@ -63,7 +75,7 @@ const HomeScreen = () => {
           {searchResults.map((result) => (
             <TouchableOpacity key={result.idReceta} onPress={() => navigation.navigate('RecipeScreen',{id:result.idReceta})}>
               <View style={styles.card}>
-                <Image source={{ uri: result.urlfotounica }} style={styles.cardImage} />
+              <Image source={{ uri: result.urlfotounica}} style={styles.cardImage} />
                 <Text style={styles.cardTitle}>{result.nombre}</Text>
                 <Text style={styles.cardDescription}>{result.descripcion}</Text>
                 <Text>Creado por : {result.nombreUsuario}</Text>

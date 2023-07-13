@@ -12,7 +12,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import RecipeScreen from './src/screen/Receta.js';
 import Perfil from './src/screen/Perfil.js';
-import Comentar from './src/screen/Comentar.js'
+import ComentarScreen from './src/screen/Comentar.js'
 
 const Stack = createStackNavigator();
 
@@ -25,7 +25,7 @@ const App = () => {
       <Stack.Screen name="Pasos" component={Pasos} options={{ headerShown: false}}/>
 
       <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
-      <Stack.Screen name="Comentar" component={Comentar} options={{ headerShown: false}}/>
+      <Stack.Screen name="Comentar" component={ComentarScreen} options={{ headerShown: false}}/>
 
       <Stack.Screen name="ListaIngredientes" component={ListaIngredientes} options={{ headerShown: false}}/>
       <Stack.Screen name="ListaUnidades" component={ListaUnidades} options={{ headerShown: false}}/>
