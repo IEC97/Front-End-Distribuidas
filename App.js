@@ -7,12 +7,13 @@ import ListaIngredientes from './src/components/ListaIngredientes.js';
 import ListaUnidades from './src/components/ListaUnidades.js';
 import RegisterStage1 from './src/components/RegisterStage1.js'
 import RegisterStage2 from './src/components/RegisterStage2.js';
+import subirImagen from './src/components/subirImagen.js';
 
 import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import RecipeScreen from './src/screen/Receta.js';
 import Perfil from './src/screen/Perfil.js';
-import ComentarScreen from './src/screen/Comentar.js'
+import ComentarScreen from './src/screen/comentar.js'
 
 const Stack = createStackNavigator();
 
@@ -21,12 +22,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
       <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false}}/>
-
-      <Stack.Screen name="Pasos" component={Pasos} options={{ headerShown: false}}/>
-
       <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
       <Stack.Screen name="Comentar" component={ComentarScreen} options={{ headerShown: false}}/>
-
+      <Stack.Screen name="subirImagen" component={subirImagen} options={{ headerShown: false}}/>
+      <Stack.Screen name="Pasos" component={Pasos} options={{ headerShown: false}}/>
       <Stack.Screen name="ListaIngredientes" component={ListaIngredientes} options={{ headerShown: false}}/>
       <Stack.Screen name="ListaUnidades" component={ListaUnidades} options={{ headerShown: false}}/>
         <Stack.Screen name="RecipeScreen" component={RecipeScreen} options={{ headerShown: false}}/>
