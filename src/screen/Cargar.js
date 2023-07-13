@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import eliminarImg from '../imagen/eliminarImg.png';
 import axios from 'axios';
 
 export default function SubirImagenes({ route }) {
   const { idUsuario } = route.params;
 
-  const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
   const [nombre, setNombre] = useState('');
   const [personas, setPersonas] = useState(1);
   const [porciones, setPorciones] = useState(1);
@@ -49,7 +47,7 @@ export default function SubirImagenes({ route }) {
       descripcion: descripcion,
       porciones: porciones,
       cantidadPersonas: personas,
-      fotounica: imagenSeleccionada,
+      fotounica: '',
       idtipo: idTipo,
     };
     console.log('Categoria de la receta: ', datosReceta.idtipo);
@@ -58,7 +56,8 @@ export default function SubirImagenes({ route }) {
       const response = await axios.post(`http://localhost:8080/recetas/${idUsuario}`, datosReceta);
       console.log('Receta creada:', response.data);
       console.log('ID DE LA RECETA: ', response.data.idReceta);
-      navigation.navigate('ImageUploader', { idReceta: response.data.idReceta });
+      navigation.navigate('subirImagen', { idReceta: response.data.idReceta });
+
     } catch (error) {
       console.log('Error al cargar la receta:', error);
       // Manejar el error en caso de que no se pueda cargar la receta

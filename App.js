@@ -7,7 +7,7 @@ import ListaIngredientes from './src/components/ListaIngredientes.js';
 import ListaUnidades from './src/components/ListaUnidades.js';
 import RegisterStage1 from './src/components/RegisterStage1.js'
 import RegisterStage2 from './src/components/RegisterStage2.js';
-import ImageUploader from './src/components/ImageUploader.js';
+import subirImagen from './src/components/subirImagen.js';
 
 import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,11 +21,8 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
       <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false}}/>
-
-      <Stack.Screen name="ImageUploader" component={ImageUploader} options={{ headerShown: false}}/>
-
       <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false}}/>
-
+      <Stack.Screen name="subirImagen" component={subirImagen} options={{ headerShown: false}}/>
 
       <Stack.Screen name="Pasos" component={Pasos} options={{ headerShown: false}}/>
 
