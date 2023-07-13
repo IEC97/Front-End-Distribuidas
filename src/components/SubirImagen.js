@@ -58,23 +58,22 @@ function SubirImagenes( {route} ) {
       console.log('SUPUESTO URL:', respuesta.data.secure_url);
 
       const formData = new FormData();
-      formData.append("idreceta", idReceta); 
       formData.append("file", respuesta.data.secure_url);
       
       console.log("URL GUARDADO:", formData.get("file"));
 
-      Axios.post('http://localhost:8080/recetas/addFOTOREAL', formData,{
+      const devuelve = await Axios.post(
+        `http://localhost:8080/recetas/addfotounica/${idReceta}`, formData,{
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      })
-      .then(response => {
-    // Procesa la respuesta del servidor
-      console.log('SE SUBIO GUARDO LA FOTO! ->', response.data);
-      //navigation.navigate('ListaIngredientes', { idReceta: idReceta });
-      })
-    } catch (error) {
-      console.log(error);
+      });
+      
+      console.log('SE SUBIO GUARDO LA FOTO! ->', devuelve.data);
+      navigation.navigate('ListaIngredientes', { idReceta: idReceta });
+    }
+    catch (error) {
+      //console.log(error);
     }
 };
 
@@ -166,3 +165,31 @@ const styles = StyleSheet.create({
 });
 
 export default SubirImagenes;
+
+/*
+2 cosas: 
+1. El codigo de RecetasControlador es el siguiente:
+public String agregarFotoUNICA(int idreceta, MultipartFile file) {
+		// TODO Auto-generated method stub
+		Optional<Recetas> buscada=recetasservice.findById(idreceta);
+		if(buscada.isPresent()) {
+			System.out.println("la receta existe");
+			//le quiero agregar la foto
+			System.out.println("cargar FOTO unica");
+			try {
+				System.out.println("  agrgando multimedia"); 
+				//AQUI!!!
+				
+				//String url =this.ADDFOTOREAL(buscada.get(), file);
+				String url =this.ADDFOTOUNICA(buscada.get(), file);
+				return url;
+			}catch (Exception e) {
+				System.out.println(" CATCH");
+				System.out.println(e.getMessage());
+			}
+		}
+		return "";
+	}
+
+2. Desarrollame el bloque catch para que funcione correctamente.
+*/
