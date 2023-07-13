@@ -5,27 +5,31 @@ import lechuga3 from '../imagen/lechuga3.png';
 import cheff3 from '../imagen/cheff3.png';
 import axios from 'axios';
 
-const RegisterStage2 = () => {
+const RegisterStage2 = ({route}) => {
+  const { nickname, mail } = route.params ?? {};
   const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
+  const [clavederecu, setClavederecu] = useState('');
   const [contrasenia, setContrasenia] = useState('');
   const navigation = useNavigation();
 
   const handleRegister2 = async () => {
     try {
       const response = await axios.post('http://localhost:8080/usuarios/terminaralta', {
-        mail,
-        nickname,
-        nombre,
-        avatar: null,
-        apellido,
-        contrasenia,
-        clavederecu: null,
+        mail: mail,
+        nickname: nickname,
+        nombre: nombre,
+        avatar: "avatar5",
+        tipo_usuario: "Alumno",
+        contrasenia: contrasenia,
+        clavederecu: clavederecu,
       });
 
+      console.log('Mail:', mail);
+      console.log('Nickname:', nickname);
       console.log('Nombre:', nombre);
-      console.log('Apellido:', apellido);
+      console.log('avatar:', "avatar5");
       console.log('Contraseña:', contrasenia);
+      console.log('Claverecu:', clavederecu);
 
       if (response.data.success) {
         Alert.alert('Muchas gracias por registrarte!');
@@ -79,13 +83,13 @@ const RegisterStage2 = () => {
                 </View>
 
                 <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Apellido</Text>
+                  <Text style={styles.label}>Codigo</Text>
                   <TextInput
                       style={styles.input}
                       autoCapitalize='none' autoCorrect={false}
-                      placeholder='Ingrese su apellido'
-                      value={apellido}
-                      onChangeText={text => setApellido(text)}
+                      placeholder='Ingrese el codigo que le llego al mail'
+                      value={clavederecu}
+                      onChangeText={text => setClavederecu(text)}
                   />
                 </View>
 
