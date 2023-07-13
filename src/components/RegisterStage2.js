@@ -5,31 +5,27 @@ import lechuga3 from '../imagen/lechuga3.png';
 import cheff3 from '../imagen/cheff3.png';
 import axios from 'axios';
 
-const RegisterStage2 = ({route}) => {
-  const { nickname, mail } = route.params ?? {};
+const RegisterStage2 = () => {
   const [nombre, setNombre] = useState('');
-  const [clavederecu, setClavederecu] = useState('');
+  const [apellido, setApellido] = useState('');
   const [contrasenia, setContrasenia] = useState('');
   const navigation = useNavigation();
 
   const handleRegister2 = async () => {
     try {
       const response = await axios.post('http://localhost:8080/usuarios/terminaralta', {
-        mail: mail,
-        nickname: nickname,
-        nombre: nombre,
-        avatar: "avatar5",
-        tipo_usuario: "Alumno",
-        contrasenia: contrasenia,
-        clavederecu: clavederecu,
+        mail,
+        nickname,
+        nombre,
+        avatar: null,
+        apellido,
+        contrasenia,
+        clavederecu: null,
       });
 
-      console.log('Mail:', mail);
-      console.log('Nickname:', nickname);
       console.log('Nombre:', nombre);
-      console.log('avatar:', "avatar5");
+      console.log('Apellido:', apellido);
       console.log('Contraseña:', contrasenia);
-      console.log('Claverecu:', clavederecu);
 
       if (response.data.success) {
         Alert.alert('Muchas gracias por registrarte!');
@@ -83,13 +79,13 @@ const RegisterStage2 = ({route}) => {
                 </View>
 
                 <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Codigo</Text>
+                  <Text style={styles.label}>Apellido</Text>
                   <TextInput
                       style={styles.input}
                       autoCapitalize='none' autoCorrect={false}
-                      placeholder='Ingrese el codigo que le llego al mail'
-                      value={clavederecu}
-                      onChangeText={text => setClavederecu(text)}
+                      placeholder='Ingrese su apellido'
+                      value={apellido}
+                      onChangeText={text => setApellido(text)}
                   />
                 </View>
 

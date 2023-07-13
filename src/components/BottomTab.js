@@ -4,18 +4,20 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screen/Home';
 import Cargar from '../screen/Cargar';
-import MisRecetasScreen from '../screen/MisRecetas';
+import Details from '../screen/Details';
+import Notificaciones from '../screen/Notificaciones';
 import Perfil from '../screen/Perfil';
 
 const homeName='Home';
-const misRecetas='Mis recetas';
+const detailsName='Details';
 const cargarName='Cargar';
+const notificacionesName='Notificaciones';
 const perfilName='Perfil';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTab = ({ route }) => {
-    const { nickname, mail, idUsuario } = route.params ?? {};
+    const { nickname, mail } = route.params ?? {};
 
     return(
         <Tab.Navigator 
@@ -27,10 +29,12 @@ const BottomTab = ({ route }) => {
                     let rn = route.name;
                     if (rn===homeName){
                         iconName=focused ? 'home-sharp' : 'home-outline';
-                    } else if (rn===misRecetas){
+                    } else if (rn===detailsName){
                         iconName=focused ? 'bookmark' : 'bookmark-outline';
                     } else if(rn===cargarName){
                         iconName=focused ? 'add-circle' : 'add-circle-outline';
+                    }else if(rn===notificacionesName){
+                        iconName=focused ? 'notifications' : 'notifications-outline';
                     }else if(rn===perfilName){
                         iconName=focused ? 'person-circle' : 'person-circle-outline';
                     }
@@ -43,10 +47,11 @@ const BottomTab = ({ route }) => {
                 labelStyle: {paddingBottom: 5, fontSize: 10},
                 style: {padding: 10, height: 70}
             }}>
-            <Tab.Screen name={homeName} component={Home} initialParams={{ nickname, mail, idUsuario }} />
-            <Tab.Screen name={misRecetas} component={MisRecetasScreen} initialParams={{ nickname, mail, idUsuario }}/>
-            <Tab.Screen name={cargarName} component={Cargar} initialParams={{ nickname, mail, idUsuario }}/>
-            <Tab.Screen name={perfilName} component={Perfil} initialParams={{ nickname, mail, idUsuario }} />
+            <Tab.Screen name={homeName} component={Home} initialParams={{ nickname, mail }} />
+            <Tab.Screen name={detailsName} component={Details} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={cargarName} component={Cargar} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={notificacionesName} component={Notificaciones} initialParams={{ nickname, mail }}/>
+            <Tab.Screen name={perfilName} component={Perfil} initialParams={{ nickname, mail }} />
 
         </Tab.Navigator>
         
