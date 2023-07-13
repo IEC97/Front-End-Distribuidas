@@ -50,7 +50,6 @@ const RecipeScreen = ({route}) => {
 
   console.log(valoraciones);
 
-
   const eliminarReceta = () => {
     try {
       axios.delete(`http://localhost:8080/recetas/eliminar/${id}/${idUsuario}`);
@@ -62,6 +61,7 @@ const RecipeScreen = ({route}) => {
 
   const guardarReceta = async () => {
     try {
+      console.log("ID USUARIO",idUsuario);
       const response = await axios.post(`http://localhost:8080/recetas/agregarrecetaaintentar/${idUsuario}/${id}`);
       const results = response.data;
       console.log(results)
