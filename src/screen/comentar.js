@@ -1,5 +1,4 @@
 import React, {useRef,useState,useEffect} from 'react';
-import tortilla from '../imagen/tortilla.jpg';
 import {View,StyleSheet,Text,Image, TouchableOpacity} from 'react-native';
 import {AirbnbRating,Input} from '@rneui/themed';
 import {Ionicons} from '@expo/vector-icons'; 
@@ -105,11 +104,6 @@ const ComentarScreen=({route})=> {
       {/* <Text style={styles.textStyle}>{recipe.nombre}</Text> */}
             
       <Text style={styles.cardTitle}>{recipe.nombre}</Text>    
-    
-      <View style={styles.imageView}>
-        <Image style= {styles.imageStyle} source={tortilla}/>
-        {/* <Image source={{ uri: recipe.urlfotounica }} style={styles.imageStyle} /> */}
-      </View>
 
       <View>
         <View style={styles.viewRating}>

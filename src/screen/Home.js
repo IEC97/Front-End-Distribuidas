@@ -9,39 +9,48 @@ import { ScrollView } from 'react-native-gesture-handler';
 let userId = localStorage.getItem("userId");
 
 
-const HomeScreen = () => {
+const HomeScreen = ({route}) => {
+  const { idUsuario, nickname } = route.params;
+  console.log('INFO USUARIO: ->',idUsuario, ':', nickname);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const navigation = useNavigation();
   const [selectedValue, setSelectedValue] = useState("Nombre");
 
-  let endpoint ="";
-
-  if (selectedValue=="Nombre")
-    endpoint="http://localhost:8080/recetas/buscarentodas/"
-  if (selectedValue=="Ingrediente")
-    endpoint="http://localhost:8080/recetas/filtrarportipo/CONTIENEN/"
-  if (selectedValue=="Falta de ingrediente")
-    endpoint="http://localhost:8080/recetas/filtrarportipo/NO-CONTIENEN/" 
-  if (selectedValue=="Usuario")
-    endpoint=`http://localhost:8080/recetas/${userId}/`
-
-
-    const handleSearch = async () => {
-      if (searchQuery=="")
-        endpoint="http://localhost:8080/recetas/todas"
-      try {
-        const response = await axios.get(endpoint + searchQuery);
-        const results = response.data;
-        setSearchResults(results);
-      } catch (error) {
-        console.error('Error al realizar la búsqueda:', error);
-      }
-    };
+  const handleSearch = async () => {
+    let endpoint = ""; // Mover la variable de endpoint aquí
+  
+    if (selectedValue === "Nombre")
+      endpoint = "http://localhost:8080/recetas/buscarentodas/";
+  
+    if (selectedValue === "Categoria")
+      endpoint = "http://localhost:8080/recetas/filtrarportipo/CONTIENEN/";
+  
+    if (selectedValue === "Falta de ingrediente")
+      endpoint = "http://localhost:8080/recetas/filtrarportipo/NO-CONTIENEN/";
+    
+    if (selectedValue === "Usuario")
+      endpoint = `http://localhost:8080/recetas/recetaspornickusuario/${nickname}`;
+  
+    if (searchQuery === "") {
+      endpoint = "http://localhost:8080/recetas/todas";
+    } else {
+      endpoint += searchQuery; // Agregar el valor de searchQuery a la URL
+    }
+  
+    try {
+      const response = await axios.get(endpoint);
+      const results = response.data;
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Error al realizar la búsqueda:', error);
+    }
+  };
 
 
   return (
     <View style={styles.container}>
+      <Text style={{paddingBottom: 20}}>Bienvenido {nickname}!</Text>
       <ScrollView>
       <View style={styles.searchContainer}>
         <TextInput
@@ -60,8 +69,8 @@ const HomeScreen = () => {
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
       >
         <Picker.Item label="Nombre" value="Nombre" />
-        <Picker.Item label="Ingrediente" value="Ingrediente" />
-        <Picker.Item label="Falta de ingrediente" value="Falta de ingrediente" />
+        <Picker.Item label="Categoria" value="Categoria" />
+        <Picker.Item label="Falta de categoria" value="Falta de categoria" />
         <Picker.Item label="Recetas Propias" value="Recetas Propias" />
         <Picker.Item label="Usuario" value="Usuario" />
       </Picker>
@@ -73,7 +82,7 @@ const HomeScreen = () => {
       <View style={styles.resultsContainer}>
         <View style={styles.cardList}>
           {searchResults.map((result) => (
-            <TouchableOpacity key={result.idReceta} onPress={() => navigation.navigate('RecipeScreen',{id:result.idReceta})}>
+            <TouchableOpacity key={result.idReceta} onPress={() => navigation.navigate('RecipeScreen',{id:result.idReceta, idUsuario: idUsuario, nickname: nickname})}>
               <View style={styles.card}>
               <Image source={{ uri: result.urlfotounica}} style={styles.cardImage} />
                 <Text style={styles.cardTitle}>{result.nombre}</Text>
@@ -114,6 +123,7 @@ searchContainer: {
     borderRadius: 5,
     padding: 5,
     marginRight: 10,
+    
   },
   searchButton: {
     backgroundColor: '#DDD',

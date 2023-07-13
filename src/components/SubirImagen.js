@@ -93,7 +93,7 @@ function SubirImagenes( {route} ) {
             </View>
             <View>
                 <TouchableOpacity style={styles.botonImagen} onPress={pickImage}>
-                    <Text style={styles.botonText}>CARGAR DESDE ORDENADOR</Text>
+                    <Text style={styles.botonText}>Cargar Imagen</Text>
                 </TouchableOpacity>
             </View>
 

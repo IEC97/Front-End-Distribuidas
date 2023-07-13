@@ -8,8 +8,9 @@ let userId = localStorage.getItem("userId");
 const RecipeScreen = ({route}) => {
   const [recipe, setRecipe] = useState(null);
   const [valoraciones, setValoraciones] = useState(null);
+  const [esMiReceta, setEsMiReceta] = useState(false);
   const navigation = useNavigation();
-  const { id } = route.params
+  const { id , idUsuario, nickname} = route.params;
 
   let userId = localStorage.getItem("userId");
 
@@ -30,6 +31,11 @@ const RecipeScreen = ({route}) => {
         const response = await axios.get(`http://localhost:8080/recetas/${id}`);
         const data = response.data;
         setRecipe(data);
+
+        // Verificar si es mi receta
+        if (data.idUsuario === userId) {
+          setEsMiReceta(true);
+        }
       } catch (error) {
         console.error('Error al obtener la receta:', error);
       }
@@ -44,9 +50,19 @@ const RecipeScreen = ({route}) => {
 
   console.log(valoraciones);
 
+
+  const eliminarReceta = () => {
+    try {
+      axios.delete(`http://localhost:8080/recetas/eliminar/${id}/${idUsuario}`);
+      navigation.navigate('BottomTab');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const guardarReceta = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/recetas/agregarrecetaaintentar/${userId}/${id}`);
+      const response = await axios.post(`http://localhost:8080/recetas/agregarrecetaaintentar/${idUsuario}/${id}`);
       const results = response.data;
       console.log(results)
     } catch (error) {
@@ -82,6 +98,13 @@ const RecipeScreen = ({route}) => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.goBackButton}>Volver</Text>
       </TouchableOpacity>
+
+      {esMiReceta && ( // Condición para renderizar el botón de eliminar
+        <TouchableOpacity style={styles.eliminarButton} onPress={eliminarReceta}>
+          <Text>Eliminar receta</Text>
+        </TouchableOpacity>
+      )}
+
       <View style={{display:'flex',width:'100%',alignItems:'flex-end',justifyContent: "space-between", flexDirection: "row"}}> 
 
        <TouchableOpacity style={styles.valorarButton} onPress={guardarReceta}>
@@ -89,7 +112,7 @@ const RecipeScreen = ({route}) => {
         </TouchableOpacity>
 
         <View>
-        <TouchableOpacity style={styles.valorarButton} onPress={() => navigation.navigate('Comentar',{id:id})}>
+        <TouchableOpacity style={styles.valorarButton} onPress={() => navigation.navigate('Comentar',{id:id, idUsuario: idUsuario})}>
           <Text>Valorar</Text>
         </TouchableOpacity>
         </View>
@@ -97,33 +120,49 @@ const RecipeScreen = ({route}) => {
       <Text style={styles.name}>{recipe.nombre}</Text>
       <Text style={styles.servings}>{`Para ${recipe.cantidadPersonas} personas`}</Text>
       <Image source={{ uri: recipe.urlfotounica }} style={styles.image} />
-      <Text style={styles.sectionTitle}>Valoraciones</Text>
-      <View>
-      {valoraciones.map((valoracion, i)=><React.Fragment key={i}><Text>Comentario: {valoracion.comentarios}</Text><Text>Calificación: {valoracion.calificacion}</Text></React.Fragment>)}
-      </View>
+
       <Text style={styles.sectionTitle}>Ingredientes:</Text>
       <FlatList
-  data={recipe.utilizados}
-  keyExtractor={(item, index) => index.toString()}
-  renderItem={({ item }) => (
-    <Text style={styles.ingredient}>
-      {`${item.idIngrediente.nombre}: ${item.cantidad}`}
-    </Text>
-  )}
-/>
-    <Text style={styles.sectionTitle}>Pasos de la preparación:</Text>
-<FlatList
-  data={recipe.pasos}
-  keyExtractor={(item, index) => index.toString()}
-  renderItem={({ item, index }) => (
-    <Text style={styles.step}>{`${index + 1}. ${item.texto}`}</Text>
-  )}
-/>
+        data={recipe.utilizados}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Text style={styles.ingredient}>
+            {`${item.idIngrediente.nombre}: ${item.cantidad}`}
+          </Text>
+        )}
+      />
+      <Text style={styles.sectionTitle}>Pasos de la preparación:</Text>
+      <FlatList
+        data={recipe.pasos}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <Text style={styles.step}>{`${index + 1}. ${item.texto}`}</Text>
+        )}
+      />
+
+      <Text style={styles.sectionTitle}>Valoraciones</Text>
+      <View style={{textAlign: 'center', paddingBottom: 40}}>
+      {valoraciones.map((valoracion, i) => (
+        <React.Fragment key={i}>
+          <Text style={{ fontWeight: '600', fontSize: 14}}>Autor: {nickname}</Text>
+          <Text style={{ fontSize: 14}}>Comentario: {valoracion.comentarios}</Text>
+          <Text style={{ fontSize: 14, paddingBottom: 10}}>Calificación: {valoracion.calificacion}</Text>
+        </React.Fragment>
+      ))}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  eliminarButton: {
+    backgroundColor: '#DDD',
+    padding: 10,
+    borderRadius: 5,
+    width: 120,
+    marginBottom: 8,
+    alignSelf: 'center',
+  },
   goBackButton: {
     color: '#ffffff',
     fontSize: 17,
