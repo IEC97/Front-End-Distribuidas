@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, Dimensions, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -8,52 +8,21 @@ import cocina3 from '../imagen/cocina3.png';
 const RegisterStage1 = () => {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
-  const [sugerencias, setSugerencias] = useState([]);
   const navigation = useNavigation();
   const [errorMessage, setErrorMessage] = useState('');
   
-  useEffect(() => {
-    if (!sugerencias.includes('puede')) {
-      const sugerenciasString = sugerencias.join(', '); // Convertir la lista de sugerencias a un string separado por comas
-      console.log(sugerenciasString)
-      //setErrorMessage('Ese username ya está en uso! Intente con alguno de los siguientes: ' + sugerenciasString);
-    }
-  }, [sugerencias]);
-  
-  const ValidarUsuario = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/usuarios/comprobarnickname/${nickname}`);
-      console.log(response.data);
-      const data = response.data;
-
-      if (Array.isArray(data)) {
-        setSugerencias(data);
-        if (!data.includes('puede')) {
-          const sugerenciasString = data.join(', ');
-          console.log(sugerenciasString);
-          setErrorMessage('Ese username ya está en uso! Intente con alguno de los siguientes: ' + sugerenciasString);
-        }
-      } else {
-        console.log(data);
-        fetchRegister();
-      }
-    } catch (error) {
-      console.error('Error al verificar el usuario:', error);
-    }
-  }
-
   const fetchRegister = () => {
     // Validar el formato del email
     if (!email.includes('@')) {
       setErrorMessage('Ingrese un email válido');
       return;
     }
-    
+  
     const data = JSON.stringify({
       mail: email,
       nickname: nickname
     });
-
+  
     const config = {
       method: 'post',
       url: 'http://localhost:8080/usuarios/nuevousuario',
@@ -66,12 +35,12 @@ const RegisterStage1 = () => {
     axios(config)
       .then(response => {
         console.log(JSON.stringify(response.data));
-        navigation.navigate('RegisterStage2', {mail: email, nickname: nickname});
+        navigation.navigate('RegisterStage2');
         console.log('PASE LA 1ER ETAPA DE REGISTRACION!');
       })
       .catch(error => {
         console.log(error.response);
-        if (error.response || error.response.status === 409) {
+        if (error.response && error.response.status === 409) {
           setErrorMessage('Ya existe una cuenta registrada con ese email.');
         } else {
           setErrorMessage('Error en el servidor');
@@ -123,7 +92,7 @@ const RegisterStage1 = () => {
             ) : null}
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={ValidarUsuario} style={styles.button}>
+              <TouchableOpacity onPress={fetchRegister} style={styles.button}>
                 <Text style={styles.buttonText}>Continuar</Text>
               </TouchableOpacity>
             </View>

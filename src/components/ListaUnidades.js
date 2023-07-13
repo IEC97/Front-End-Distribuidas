@@ -1,59 +1,25 @@
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View, Picker } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 
 const unidades = ['Gramos', 'Kilos', 'Litros', 'Mililitros', 'Pieza/Unidad'];
 
-export default function ListaUnidades({ route }) {
+const ListaUnidades = ({ route }) => {
+  const { ingredientes } = route.params;
+
   const navigation = useNavigation();
   const [cantidades, setCantidades] = useState({});
   const [unidadesSeleccionadas, setUnidadesSeleccionadas] = useState({});
-  const { ingredientes, idReceta } = route.params;
 
-  const guardarIngredientesUsados = async () => {
-    const listaIngredientesUsados = [];
-    ingredientes.forEach((ingrediente) => {
-      const cantidad = cantidades[ingrediente.idIngrediente] || 0;
-      const unidad = unidadesSeleccionadas[ingrediente.idIngrediente] || '';
-
-      const ingredienteUsado = {
-        idreceta: idReceta, // Agrega el ID de la receta correspondiente
-        idingrediente: ingrediente.idIngrediente,
-        cantidad: cantidad,
-        idunidad: obtenerIdUnidad(unidad),
-        observacion: 'asd',
-      };
-      console.log('ID DE RECETA: ', idReceta);
-      console.log('Lista de ingredientes: ', listaIngredientesUsados);
-      listaIngredientesUsados.push(ingredienteUsado);
-    });
-
-    try {
-      const response = await axios.post('http://localhost:8080/utilizados/agregarlistadeingredientesusados', listaIngredientesUsados);
-      console.log('---------Lista de ingredientes añadida a la receta!!!!---------', response.data);
-      navigation.navigate('Pasos', { idReceta: idReceta });
-    } catch (error) {
-      console.log('Error al cargar la lista de ingredientes:', error);
-    }
-  };
-
-  const obtenerIdUnidad = (unidad) => {
-    switch (unidad) {
-      case 'Gramos':
-        return '1';
-      case 'Kilos':
-        return '2';
-      case 'Litros':
-        return '3';
-      case 'Mililitros':
-        return '4';
-      case 'Pieza/Unidad':
-        return '4';
-      default:
-        return '';
-    }
-  };
+  const continuar = async () => {
+    const listaIngredientes = Array.from(ingredientes);
+    const datosIngredientes = {
+      nombre: nombre,
+      descripcion: descripcion,
+      porciones: porciones,
+      cantidadPersonas: personas,
+      fotounica: null,
+    };
 
   const seleccionarCantidad = (ingrediente, cantidad) => {
     setCantidades((prevCantidades) => ({
@@ -91,7 +57,7 @@ export default function ListaUnidades({ route }) {
       </Picker>
     </View>
   );
-
+}
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -104,15 +70,14 @@ export default function ListaUnidades({ route }) {
         keyExtractor={(item) => item.idIngrediente.toString()}
         renderItem={renderizarIngredientes}
       />
-
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={guardarIngredientesUsados}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Pasos')}>
           <Text style={styles.buttonText}>Continuar</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -185,3 +150,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
+export default ListaUnidades;
